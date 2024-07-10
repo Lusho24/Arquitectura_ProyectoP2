@@ -26,7 +26,7 @@ CREATE TABLE usuario
    TELFUSUARIO          VARCHAR(16)                     NULL,
    PRIMARY KEY (IDUSUARIO),
    CONSTRAINT FK_USUARIO_TIENDA FOREIGN KEY (IDTIENDA)
-      REFERENCES TIENDA (IDTIENDA)
+      REFERENCES tienda (IDTIENDA)
 );
 
 /*==============================================================*/
@@ -48,9 +48,9 @@ CREATE TABLE usuario_rol
    IDROL                INT                             NOT NULL,
    PRIMARY KEY (IDUSUARIO, IDROL),
    CONSTRAINT FK_USUARIO_ROL_USUARIO FOREIGN KEY (IDUSUARIO)
-      REFERENCES USUARIO (IDUSUARIO),
+      REFERENCES usuario (IDUSUARIO),
    CONSTRAINT FK_USUARIO_ROL_ROL FOREIGN KEY (IDROL)
-      REFERENCES ROL (IDROL)
+      REFERENCES rol (IDROL)
 );
 
 /*==============================================================*/
@@ -77,9 +77,8 @@ CREATE TABLE producto
    STOCKPRODUCTO        INT                             NULL,
    PRIMARY KEY (IDPRODUCTO),
    CONSTRAINT FK_PRODUCTO_CATEGORIA FOREIGN KEY (IDCATEGORIA)
-      REFERENCES CATEGORIA_PRODUCTO (IDCATEGORIA)
+      REFERENCES categoria_producto (IDCATEGORIA)
 );
-
 
 /*==============================================================*/
 /* Table: CARRITO                                               */
@@ -92,9 +91,8 @@ CREATE TABLE carrito
    TOTALCARRITO         DECIMAL(10,2)                   NULL,
    PRIMARY KEY (IDCARRITO),
    CONSTRAINT FK_CARRITO_USUARIO_C_USUARIO FOREIGN KEY (IDUSUARIO)
-      REFERENCES USUARIO (IDUSUARIO)
+      REFERENCES usuario (IDUSUARIO)
 );
-
 
 /*==============================================================*/
 /* Table: DETALLE_CARRITO                                       */
@@ -107,9 +105,9 @@ CREATE TABLE detalle_carrito
    CANTIDADPRODUCTOCARRITO INT                          NULL,
    PRIMARY KEY (IDDETALLE),
    CONSTRAINT FK_DETALLE_CARRITO_CARRITO FOREIGN KEY (IDCARRITO)
-      REFERENCES CARRITO (IDCARRITO),
+      REFERENCES carrito (IDCARRITO),
    CONSTRAINT FK_DETALLE_PRODUCTO_PRODUCTO FOREIGN KEY (IDPRODUCTO)
-      REFERENCES PRODUCTO (IDPRODUCTO)
+      REFERENCES producto (IDPRODUCTO)
 );
 
 /*==============================================================*/
@@ -134,7 +132,7 @@ CREATE TABLE notificacion
    FECHAENVIONOTIFICACION TIMESTAMP                     NULL,
    PRIMARY KEY (IDNOTIFICACION),
    CONSTRAINT FK_NOTIFICACION_USUARIO FOREIGN KEY (IDUSUARIO)
-      REFERENCES USUARIO (IDUSUARIO)
+      REFERENCES usuario (IDUSUARIO)
 );
 
 /*==============================================================*/
@@ -150,9 +148,9 @@ CREATE TABLE orden_pago
    TOTALPAGO            DECIMAL(10,2)                   NULL,
    PRIMARY KEY (IDPAGO),
    CONSTRAINT FK_ORDEN_PAGO_ENVIO FOREIGN KEY (IDENVIO)
-      REFERENCES ENVIO (IDENVIO),
+      REFERENCES envio (IDENVIO),
    CONSTRAINT FK_ORDEN_PAGO_CARRITO FOREIGN KEY (IDCARRITO)
-      REFERENCES CARRITO (IDCARRITO)
+      REFERENCES carrito (IDCARRITO)
 );
 
 /*==============================================================*/
@@ -166,7 +164,7 @@ CREATE TABLE orden_pedido
    ESTADOORDPEDIDO      VARCHAR(8)                      NULL,
    PRIMARY KEY (IDORDPEDIDO),
    CONSTRAINT FK_ORDEN_PEDIDO_PAGO FOREIGN KEY (IDPAGO)
-      REFERENCES ORDEN_PAGO (IDPAGO)
+      REFERENCES orden_pago (IDPAGO)
 );
 
 /*==============================================================*/
@@ -182,6 +180,5 @@ CREATE TABLE ticket
    FECHACREACION        TIMESTAMP                       NULL,
    PRIMARY KEY (IDTICKET),
    CONSTRAINT FK_TICKET_USUARIO FOREIGN KEY (IDUSUARIO)
-      REFERENCES USUARIO (IDUSUARIO)
+      REFERENCES usuario (IDUSUARIO)
 );
-
