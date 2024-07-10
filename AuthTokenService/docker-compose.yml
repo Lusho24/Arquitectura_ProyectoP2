@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.4.0
+    container_name: bdd_arquitecturas
+    environment:
+      - MYSQL_DATABASE=bdd_ecommerce
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./script_ecovida.sql:/docker-entrypoint-initdb.d/script_ecovida.sql
