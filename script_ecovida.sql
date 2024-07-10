@@ -1,7 +1,90 @@
 /*==============================================================*/
+/* Table: TIENDA                                                */
+/*==============================================================*/
+CREATE TABLE tienda
+(
+   IDTIENDA             INT                             NOT NULL,
+   NOMBRETIENDA         VARCHAR(32)                     NULL,
+   DIRECCIONTIENDA      VARCHAR(64)                     NULL,
+   TELFTIENDA           VARCHAR(16)                     NULL,
+   DESCRIPCIONTIENDA    VARCHAR(128)                    NULL,
+   LOGOTIENDA       	LONG VARCHAR                    NULL,
+   PRIMARY KEY (IDTIENDA)
+);
+
+/*==============================================================*/
+/* Table: USUARIO                                               */
+/*==============================================================*/
+CREATE TABLE usuario
+(
+   IDUSUARIO            VARCHAR(16)                     NOT NULL,
+   IDTIENDA             INT                             NULL,
+   NOMBREUSUARIO        VARCHAR(32)                     NULL,
+   EMAILUSUARIO         VARCHAR(32)                     NULL,
+   PASSWORDUSUARIO      VARCHAR(16)                     NULL,
+   DIRECCIONUSUARIO     VARCHAR(128)                    NULL,
+   TELFUSUARIO          VARCHAR(16)                     NULL,
+   PRIMARY KEY (IDUSUARIO),
+   CONSTRAINT FK_USUARIO_TIENDA FOREIGN KEY (IDTIENDA)
+      REFERENCES TIENDA (IDTIENDA)
+);
+
+/*==============================================================*/
+/* Table: ROL                                                   */
+/*==============================================================*/
+CREATE TABLE rol
+(
+   IDROL                INT                             NOT NULL,
+   NOMBREROL            VARCHAR(16)                     NULL,
+   PRIMARY KEY (IDROL)
+);
+
+/*==============================================================*/
+/* Table: USUARIO_ROL                                           */
+/*==============================================================*/
+CREATE TABLE usuario_rol 
+(
+   IDUSUARIO            VARCHAR(16)                     NOT NULL,
+   IDROL                INT                             NOT NULL,
+   PRIMARY KEY (IDUSUARIO, IDROL),
+   CONSTRAINT FK_USUARIO_ROL_USUARIO FOREIGN KEY (IDUSUARIO)
+      REFERENCES USUARIO (IDUSUARIO),
+   CONSTRAINT FK_USUARIO_ROL_ROL FOREIGN KEY (IDROL)
+      REFERENCES ROL (IDROL)
+);
+
+/*==============================================================*/
+/* Table: CATEGORIA_PRODUCTO                                    */
+/*==============================================================*/
+CREATE TABLE categoria_producto 
+(
+   IDCATEGORIA          INT                             NOT NULL,
+   NOMBRECATEGORIA      VARCHAR(32)                     NULL,
+   PRIMARY KEY (IDCATEGORIA)
+);
+
+/*==============================================================*/
+/* Table: PRODUCTO                                              */
+/*==============================================================*/
+CREATE TABLE producto
+(
+   IDPRODUCTO           INT                             NOT NULL,
+   IDCATEGORIA          INT                             NOT NULL,
+   NOMBREPRODUCTO       VARCHAR(32)                     NULL,
+   DESCRIPCIONPRODUCTO  VARCHAR(64)                     NULL,
+   IMAGENPRODUCTO       LONG VARCHAR                    NULL,
+   PRECIOPRODUCTO       DECIMAL(10,2)                   NULL,
+   STOCKPRODUCTO        INT                             NULL,
+   PRIMARY KEY (IDPRODUCTO),
+   CONSTRAINT FK_PRODUCTO_CATEGORIA FOREIGN KEY (IDCATEGORIA)
+      REFERENCES CATEGORIA_PRODUCTO (IDCATEGORIA)
+);
+
+
+/*==============================================================*/
 /* Table: CARRITO                                               */
 /*==============================================================*/
-CREATE TABLE CARRITO 
+CREATE TABLE carrito
 (
    IDCARRITO            INT                             NOT NULL,
    IDUSUARIO            VARCHAR(16)                     NOT NULL,
@@ -12,20 +95,11 @@ CREATE TABLE CARRITO
       REFERENCES USUARIO (IDUSUARIO)
 );
 
-/*==============================================================*/
-/* Table: CATEGORIA_PRODUCTO                                    */
-/*==============================================================*/
-CREATE TABLE CATEGORIA_PRODUCTO 
-(
-   IDCATEGORIA          INT                             NOT NULL,
-   NOMBRECATEGORIA      VARCHAR(32)                     NULL,
-   PRIMARY KEY (IDCATEGORIA)
-);
 
 /*==============================================================*/
 /* Table: DETALLE_CARRITO                                       */
 /*==============================================================*/
-CREATE TABLE DETALLE_CARRITO 
+CREATE TABLE detalle_carrito
 (
    IDDETALLE            INT                             NOT NULL,
    IDPRODUCTO           INT                             NOT NULL,
@@ -41,7 +115,7 @@ CREATE TABLE DETALLE_CARRITO
 /*==============================================================*/
 /* Table: ENVIO                                                 */
 /*==============================================================*/
-CREATE TABLE ENVIO 
+CREATE TABLE envio
 (
    IDENVIO              INT                             NOT NULL,
    NOMBREENVIO          VARCHAR(32)                     NULL,
@@ -52,7 +126,7 @@ CREATE TABLE ENVIO
 /*==============================================================*/
 /* Table: NOTIFICACION                                          */
 /*==============================================================*/
-CREATE TABLE NOTIFICACION 
+CREATE TABLE notificacion
 (
    IDNOTIFICACION       INT                             NOT NULL,
    IDUSUARIO            VARCHAR(16)                     NOT NULL,
@@ -66,7 +140,7 @@ CREATE TABLE NOTIFICACION
 /*==============================================================*/
 /* Table: ORDEN_PAGO                                            */
 /*==============================================================*/
-CREATE TABLE ORDEN_PAGO 
+CREATE TABLE orden_pago
 (
    IDPAGO               INT                             NOT NULL,
    IDCARRITO            INT                             NOT NULL,
@@ -84,7 +158,7 @@ CREATE TABLE ORDEN_PAGO
 /*==============================================================*/
 /* Table: ORDEN_PEDIDO                                          */
 /*==============================================================*/
-CREATE TABLE ORDEN_PEDIDO 
+CREATE TABLE orden_pedido
 (
    IDORDPEDIDO          INT                             NOT NULL,
    IDPAGO               INT                             NOT NULL,
@@ -96,36 +170,9 @@ CREATE TABLE ORDEN_PEDIDO
 );
 
 /*==============================================================*/
-/* Table: PRODUCTO                                              */
-/*==============================================================*/
-CREATE TABLE PRODUCTO 
-(
-   IDPRODUCTO           INT                             NOT NULL,
-   IDCATEGORIA          INT                             NOT NULL,
-   NOMBREPRODUCTO       VARCHAR(32)                     NULL,
-   DESCRIPCIONPRODUCTO  VARCHAR(64)                     NULL,
-   IMAGENPRODUCTO       LONG VARCHAR                    NULL,
-   PRECIOPRODUCTO       DECIMAL(10,2)                   NULL,
-   STOCKPRODUCTO        INT                             NULL,
-   PRIMARY KEY (IDPRODUCTO),
-   CONSTRAINT FK_PRODUCTO_CATEGORIA FOREIGN KEY (IDCATEGORIA)
-      REFERENCES CATEGORIA_PRODUCTO (IDCATEGORIA)
-);
-
-/*==============================================================*/
-/* Table: ROL                                                   */
-/*==============================================================*/
-CREATE TABLE ROL 
-(
-   IDROL                INT                             NOT NULL,
-   NOMBREROL            VARCHAR(16)                     NULL,
-   PRIMARY KEY (IDROL)
-);
-
-/*==============================================================*/
 /* Table: TICKET                                                */
 /*==============================================================*/
-CREATE TABLE TICKET 
+CREATE TABLE ticket
 (
    IDTICKET             INT                             NOT NULL,
    IDUSUARIO            VARCHAR(16)                     NOT NULL,
@@ -138,47 +185,3 @@ CREATE TABLE TICKET
       REFERENCES USUARIO (IDUSUARIO)
 );
 
-/*==============================================================*/
-/* Table: TIENDA                                                */
-/*==============================================================*/
-CREATE TABLE TIENDA 
-(
-   IDTIENDA             INT                             NOT NULL,
-   NOMBRETIENDA         VARCHAR(32)                     NULL,
-   DIRECCIONTIENDA      VARCHAR(64)                     NULL,
-   TELFTIENDA           VARCHAR(16)                     NULL,
-   DESCRIPCIONTIENDA    VARCHAR(128)                    NULL,
-   LOGOTIENDA       	LONG VARCHAR                    NULL,
-   PRIMARY KEY (IDTIENDA)
-);
-
-/*==============================================================*/
-/* Table: USUARIO                                               */
-/*==============================================================*/
-CREATE TABLE USUARIO 
-(
-   IDUSUARIO            VARCHAR(16)                     NOT NULL,
-   IDTIENDA             INT                             NULL,
-   NOMBREUSUARIO        VARCHAR(32)                     NULL,
-   EMAILUSUARIO         VARCHAR(32)                     NULL,
-   PASSWORDUSUARIO      VARCHAR(16)                     NULL,
-   DIRECCIONUSUARIO     VARCHAR(128)                    NULL,
-   TELFUSUARIO          VARCHAR(16)                     NULL,
-   PRIMARY KEY (IDUSUARIO),
-   CONSTRAINT FK_USUARIO_TIENDA FOREIGN KEY (IDTIENDA)
-      REFERENCES TIENDA (IDTIENDA)
-);
-
-/*==============================================================*/
-/* Table: USUARIO_ROL                                           */
-/*==============================================================*/
-CREATE TABLE USUARIO_ROL 
-(
-   IDUSUARIO            VARCHAR(16)                     NOT NULL,
-   IDROL                INT                             NOT NULL,
-   PRIMARY KEY (IDUSUARIO, IDROL),
-   CONSTRAINT FK_USUARIO_ROL_USUARIO FOREIGN KEY (IDUSUARIO)
-      REFERENCES USUARIO (IDUSUARIO),
-   CONSTRAINT FK_USUARIO_ROL_ROL FOREIGN KEY (IDROL)
-      REFERENCES ROL (IDROL)
-);
