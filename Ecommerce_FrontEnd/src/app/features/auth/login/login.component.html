@@ -9,35 +9,32 @@
     <li></li>
     <li></li>
     <li></li>
- </ul>
-<div class="signup">
+  </ul>
+  <div class="signup">
     <h2>Sign In</h2>
     <form class="form" [formGroup]="signInForm">
-        <div class="textbox">
-            <input type="text" formControlName="email" required />
-            <label>Correo</label>
-            <span class="material-icons">
-                email
-            </span>
-        </div>
-        <div class="textbox">
-            <input type="password" formControlName="password" required />
-            <label>Password</label>
-            <span class="material-icons">
-                lock
-            </span>
-        </div>
-        <button class="boton-signin" type="submit">
-            Sign In
-            <span class="material-icons">
-                arrow_forward
-            </span>
-        </button>
+      <div class="textbox">
+        <mat-form-field appearance="fill" class="custom-input">
+          <mat-label>Correo</mat-label>
+          <input matInput type="text" formControlName="email" required />
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+      </div>
+      <br>  
+      <div class="textbox">
+        <mat-form-field appearance="fill" class="custom-input">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required />
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button class="boton-signin" type="submit">
+        Sign In
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
     </form>
     <br>
-    <button class="boton-signup">
-        ¿No tienes cuenta? Registrate!
-        <span class="material-icons">  
-        </span>
+    <button mat-button class="boton-signup" >
+      ¿No tienes cuenta? Registrate!
     </button>
-</div>
+  </div>
