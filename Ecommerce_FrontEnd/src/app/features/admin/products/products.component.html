@@ -4,25 +4,46 @@
     Productos de administrador
     <button mat-raised-button color="primary" (click)="openAddModal()">Añadir</button>
   </h3>
-  <ngx-datatable class="material" [rows]="rows" [columns]="columns" [columnMode]="ColumnMode.force" [headerHeight]="50"
-    [footerHeight]="50" rowHeight="auto">
-    <ngx-datatable-column name="Imagen del Producto" prop="image">
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        <img [src]="row.image" style="width: 50px; height: 50px;" />
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Nombre del Producto" prop="name"></ngx-datatable-column>
-    <ngx-datatable-column name="Precio del Producto" prop="price"></ngx-datatable-column>
-    <ngx-datatable-column name="Stock del Producto" prop="stock"></ngx-datatable-column>
-    <ngx-datatable-column name="Acciones">
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        <button mat-icon-button color="primary" (click)="editProduct(row)">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Imagen del Producto Column -->
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef> Imagen del Producto </th>
+      <td mat-cell *matCellDef="let element"> <img [src]="element.image" style="width: 50px; height: 50px;"/> </td>
+    </ng-container>
+
+    <!-- Nombre del Producto Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nombre del Producto </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Precio del Producto Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Precio del Producto </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+
+    <!-- Stock del Producto Column -->
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef> Stock del Producto </th>
+      <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
+    </ng-container>
+
+    <!-- Acciones Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="editProduct(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteProduct(row)">
+        <button mat-icon-button color="warn" (click)="deleteProduct(element)">
           <mat-icon>delete</mat-icon>
         </button>
-      </ng-template>
-    </ngx-datatable-column>
-  </ngx-datatable>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>
