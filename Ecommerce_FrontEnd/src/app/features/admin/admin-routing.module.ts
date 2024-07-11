@@ -5,6 +5,7 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrdersDetailsComponent } from './orders-details/orders-details.component';
 import { ProductsComponent } from './products/products.component';
+//import { AddProductComponent } from './add-product/add-product.component';
 
 const routes: Routes = [
   { path: '', component: HomeAdminComponent },
