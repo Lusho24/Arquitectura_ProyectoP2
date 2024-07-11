@@ -1,9 +1,6 @@
 package com.api.auth.application.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,7 @@ public class CreateUserDTO {
     @Size(max = 10)
     private String id;
 
-    @NotBlank
+    @NotNull
     private Integer idTienda;
 
     @NotBlank
@@ -28,15 +25,18 @@ public class CreateUserDTO {
 
     @NotBlank
     @Email
+    @Size(max = 32)
     private String email;
 
     @NotBlank
     private String password;
 
     @NotBlank
+    @Size(max = 128)
     private String address;
 
     @NotBlank
+    @Size(max = 16)
     private String phone;
 
     @NotNull
