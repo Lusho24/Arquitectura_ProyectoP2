@@ -11,6 +11,8 @@ import { ShippingComponent } from './shipping/shipping.component';
 import { EditShippingComponent } from './edit-shipping/edit-shipping.component';
 import { AddShippingComponent } from './add-shipping/add-shipping.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -19,25 +21,34 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+
+
+
 
 @NgModule({
   declarations: [
     HomeAdminComponent,
     ProductsComponent,
-    AddProductComponent,
     EditProductComponent,
+    
     OrdersComponent,
     OrdersDetailsComponent,
     ShippingComponent,
     AddShippingComponent,
     EditShippingComponent,
     AddShippingComponent,
+    AddProductComponent,
     HomeAdminComponent
+    
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
 
     HttpClientModule,
     MatCardModule,
@@ -45,7 +56,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     MatInputModule,
     MatIconModule,
     MatFormFieldModule,
+    MatDialogModule,
     NgxDatatableModule
-  ]
+  ],
+
 })
 export class AdminModule { }

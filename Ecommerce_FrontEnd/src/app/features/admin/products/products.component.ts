@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 
 import { ColumnMode } from '@swimlane/ngx-datatable';
 
+import { MatDialog } from '@angular/material/dialog';
+
+import { AddProductComponent } from '../add-product/add-product.component';
+
 
 
 @Component({
@@ -9,6 +13,7 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
+
 export class ProductsComponent 
 {
   mode = 'page'; 
@@ -41,9 +46,21 @@ export class ProductsComponent
     { name: 'Acciones', prop: 'acciones' }
   ]; // Columnas definidas
 
-  constructor() {}
+
+
+  constructor(public dialog: MatDialog) {}
+
   openAddModal(): void {
-    console.log('Abrir modal para añadir producto');
+    const dialogRef = this.dialog.open(AddProductComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.rows.push(result);
+        this.rows = [...this.rows]; // Para actualizar la tabla
+      }
+    });
   }
 
   editProduct(row: any): void {
