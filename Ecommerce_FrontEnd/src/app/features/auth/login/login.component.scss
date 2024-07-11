@@ -7,15 +7,8 @@ body {
     background-color: #1d7251; /* Fondo */
 }
 
-button,
-input {
-    border: 0;
-    width: 100%;
-    height: 50px;
-    background: transparent;
-    font-family: inherit;
-    font-size: 16px;
-    outline: none;
+.icon{
+    color: #ffffff;
 }
 
 .signup {
@@ -36,67 +29,74 @@ input {
     margin: 0 0 6px;
     color: white;
     font-size: 24px;
-    text-align: center;
-}
-
-.signup > h3 {
-    margin: 0 0 20px;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
+    text-align: start;
 }
 
 .form {
     margin: 0;
     display: grid;
-    gap: 3px;
+    gap: 15px;
 }
 
 .textbox {
     position: relative;
     margin-bottom: 12px;
+    height: 56px;
+    
+
+}
+.custom-input {
     width: 100%;
+    height: 100%;
+    border: none !important; /* Elimina el borde */
+    outline: none !important; /* Elimina el contorno al enfocar */
 }
 
-.textbox span {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    font-size: 22px;
-    pointer-events: none;
-    color: rgba(255, 255, 255, 0.7);
-    transform: translateY(-50%);
+
+.boton-signin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    border-radius: 6px;
+    background: white;
+    color: #737373;
+    height: 50px;
+    font-size: 16px;
+    border: 0;
+    cursor: pointer;
 }
 
-.textbox input {
-    padding: 0 16px 0 40px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+ .signup > h2 {
+    margin: 0 0 6px;
+    color: rgb(255 255 255 / 100%);
+  }
+  
+  .signup > h3 {
+    margin: 0 0 30px;
+    color: rgb(255 255 255 / 40%);
+  }
+
+    .textbox input {
+    border-bottom: 2px solid rgb(255 255 255 / 5%);
+    color: rgb(255 255 255 / 96%);
+  }
+
+.boton-signup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 5px;
+    border-radius: 6px;
+    background: transparent;
     color: white;
-    height: 18px;
-    width: 90%;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    transition: border-color 0.3s;
+    border: 1px solid white;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.textbox input:focus {
-    border-color: rgba(255, 255, 255, 0.7);
-}
 
-.textbox label {
-    position: absolute;
-    top: 50%;
-    left: 40px;
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.7);
-    pointer-events: none;
-    transition: 0.3s;
-}
-
-input:focus ~ label,
-input:not(:placeholder-shown) ~ label {
-    transform: translateY(-150%) scale(0.8);
-    color: rgba(255, 255, 255, 0.9);
-}
 
 .boton-signin {
     display: flex;
@@ -117,23 +117,17 @@ input:not(:placeholder-shown) ~ label {
     align-items: center;
     justify-content: center;
     height: 40px;
+    width: 100%;
     padding: 0 5px;
-    border-radius: 6px;
     background: transparent;
-    color: white;
-    border: 1px solid white;
+    border: none;
     font-size: 14px;
-    cursor: pointer;
+    color: #ffffff !important;
+
 }
 
-.signup p {
-    color: rgba(255, 255, 255, 0.5);
-}
 
-.signup p > a {
-    color: white;
-}
-
+/// FONDO
 @keyframes move {
     100% {
         transform: translate3d(0, 0, 1px) rotate(360deg);
@@ -152,6 +146,7 @@ input:not(:placeholder-shown) ~ label {
         border-radius: 50%;
     }
 }
+
 
 .background {
     position: fixed;
@@ -255,6 +250,6 @@ input:not(:placeholder-shown) ~ label {
     animation-delay: 10s;
 }
 
-.custom-input {
-    width: 100%; /* Ajusta el tamaño a tu gusto */
-}
+
+//
+
