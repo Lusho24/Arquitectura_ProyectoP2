@@ -1,4 +1,4 @@
-package com.api.auth.adapter.controller.role;
+package com.api.auth.adapter.controller.user;
 
 import com.api.auth.application.dto.CreateUserDTO;
 import com.api.auth.application.service.role.IRoleService;
