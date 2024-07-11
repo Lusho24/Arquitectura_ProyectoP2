@@ -13,18 +13,20 @@ body {
 
 .signup {
     position: fixed;
-
     z-index: 10;
-    top: 0;
-
-    height: 100%;
-    width: 50%;
-    max-width: 400px;
-    padding: 150px 30px;
-    background: rgba(68, 65, 70, 0.45);
-    backdrop-filter: blur(50px);
-    border-radius: 10px;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    height: auto; 
+    width: 50%; 
+    max-width: 400px; 
+    padding: 100px 30px 190px; 
+    background: rgba(68, 65, 70, 0.45); 
+    backdrop-filter: blur(50px); 
+    border-radius: 10px; 
+    max-height: 200px; 
 }
+
 
 .signup > h2 {
     margin: 0 0 6px;

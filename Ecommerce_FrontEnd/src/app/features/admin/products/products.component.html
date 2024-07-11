@@ -1,34 +1,28 @@
 <p>products works!</p>
 <div class="">
-    <h3 class="table">
-      Productos de administrador
-      <button mat-raised-button color="primary" (click)="openAddModal()">Añadir</button>
-    </h3>
-    <ngx-datatable
-      class="material"
-      [rows]="rows"
-      [columns]="columns"
-      [columnMode]="ColumnMode.force"
-      [headerHeight]="50"
-      [footerHeight]="50"
-      rowHeight="auto">
-      <ngx-datatable-column name="Imagen del Producto" prop="image">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <img [src]="row.image" style="width: 50px; height: 50px;"/>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Nombre del Producto" prop="name"></ngx-datatable-column>
-      <ngx-datatable-column name="Precio del Producto" prop="price"></ngx-datatable-column>
-      <ngx-datatable-column name="Stock del Producto" prop="stock"></ngx-datatable-column>
-      <ngx-datatable-column name="Acciones">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <button mat-icon-button color="primary" (click)="editProduct(row)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteProduct(row)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </ng-template>
-      </ngx-datatable-column>
-    </ngx-datatable>
-  </div>
+  <h3 class="table">
+    Productos de administrador
+    <button mat-raised-button color="primary" (click)="openAddModal()">Añadir</button>
+  </h3>
+  <ngx-datatable class="material" [rows]="rows" [columns]="columns" [columnMode]="ColumnMode.force" [headerHeight]="50"
+    [footerHeight]="50" rowHeight="auto">
+    <ngx-datatable-column name="Imagen del Producto" prop="image">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <img [src]="row.image" style="width: 50px; height: 50px;" />
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Nombre del Producto" prop="name"></ngx-datatable-column>
+    <ngx-datatable-column name="Precio del Producto" prop="price"></ngx-datatable-column>
+    <ngx-datatable-column name="Stock del Producto" prop="stock"></ngx-datatable-column>
+    <ngx-datatable-column name="Acciones">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <button mat-icon-button color="primary" (click)="editProduct(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteProduct(row)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>
