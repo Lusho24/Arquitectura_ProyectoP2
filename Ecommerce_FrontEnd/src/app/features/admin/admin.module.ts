@@ -13,6 +13,14 @@ import { AddShippingComponent } from './add-shipping/add-shipping.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 
 
+import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 @NgModule({
   declarations: [
     HomeAdminComponent,
@@ -29,7 +37,15 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+
+    HttpClientModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
+    NgxDatatableModule
   ]
 })
 export class AdminModule { }

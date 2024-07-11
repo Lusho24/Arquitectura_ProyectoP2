@@ -8,6 +8,8 @@ import { ProductComponent } from './product/product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
+
+
 @NgModule({
   declarations: [
     HomeComponent,

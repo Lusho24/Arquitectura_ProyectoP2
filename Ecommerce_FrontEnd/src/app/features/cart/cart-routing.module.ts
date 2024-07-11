@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CartLayoutComponent } from './cart-layout/cart-layout.component';
 
 const routes: Routes = [
-  { path: '', component: CartLayoutComponent }
+  { path: '', component: CartLayoutComponent }//se pone vacio porque redigire a la pagina por defecto 
 ];
 
 @NgModule({
