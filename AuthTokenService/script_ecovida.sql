@@ -202,7 +202,7 @@ VALUES ('EcoVida', 'Calle Principal 123', '09926145', 'Esta es una tienda de eje
 INSERT INTO usuario (IDUSUARIO, IDTIENDA, NOMBREUSUARIO, EMAILUSUARIO, PASSWORDUSUARIO, DIRECCIONUSUARIO, TELFUSUARIO)
 VALUES ('1726189754', 1, 'Francisco Suntaxi', 'stalynfran007@gmail.com', 'admin', 'Calle Principal 456', '09987654321');
 
--- INSERTAR datos iniciales de rol
+-- INSERTAR datos iniciales de role
 INSERT INTO rol (NOMBREROL)
     VALUE ('ADMIN'),
     ('USER');
