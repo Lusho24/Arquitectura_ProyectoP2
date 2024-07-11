@@ -17,30 +17,6 @@ public class RoleService implements IRoleService{
     private IRoleRepository roleRepository;
 
     @Override
-    public List<RoleEntity> findAllRoles() {
-        return (ArrayList<RoleEntity>) roleRepository.findAll();
-    }
-
-    @Override
-    public Optional<RoleEntity> findRoleById(int id) {
-        return roleRepository.findById(id);
-    }
-
-    @Override
-    public RoleEntity saveRole(RoleEntity role) {
-        return roleRepository.save(role);
-    }
-
-    @Override
-    public Boolean deteleRoleById(int id) {
-        if (roleRepository.existsById(id)){
-            roleRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public Optional<RoleEntity> findRoleByName(ERole name) {
         return roleRepository.findByName(name);
     }
