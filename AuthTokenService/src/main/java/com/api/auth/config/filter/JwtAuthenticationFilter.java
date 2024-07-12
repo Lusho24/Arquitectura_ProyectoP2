@@ -31,19 +31,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         UserEntity userEntity = null;
-        String username;
+        String email;
         String password;
 
         try {
             userEntity = new ObjectMapper().readValue(request.getInputStream(), UserEntity.class);
-            username = userEntity.getName();
+            email = userEntity.getEmail();
             password = userEntity.getPassword();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, password);
+                new UsernamePasswordAuthenticationToken(email, password);
 
         return getAuthenticationManager().authenticate(authenticationToken);
     }
@@ -61,7 +61,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", jwt);
         httpResponse.put("message", "Autenticacion correcta");
-        httpResponse.put("Username", user.getUsername());
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));
         response.setStatus(HttpStatus.OK.value());

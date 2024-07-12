@@ -21,16 +21,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private IUserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("El usuario: " + username + "no existe." ));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("El usuario con email: " + email + "no existe." ));
 
         Collection<? extends GrantedAuthority> authorities = userEntity.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role.getName().name())))
                 .collect(Collectors.toSet());
 
         return new User(
-                userEntity.getName(),
+                userEntity.getEmail(),
                 userEntity.getPassword(),
                 true,
                 true,
