@@ -17,4 +17,17 @@ $theme: mat.define-light-theme((
 
 @include mat.all-component-themes($theme);
 
-// Otras personalizaciones o estilos globales aquí
+//quitar caja debajo del input
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+//cambiar a blanco cuando selecciono en campo
+.mdc-text-field--filled {
+  background-color: white !important;
+}
+
+// el requiere * blanco
+.mdc-floating-label--required:not(.mdc-floating-label--hide-required-marker)::after {
+  color: white !important;
+}
