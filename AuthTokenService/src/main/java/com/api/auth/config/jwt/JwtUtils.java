@@ -32,7 +32,7 @@ public class JwtUtils {
     }
 
     // Obtener firma del token
-    public SecretKey getSignatureKey(){
+    private SecretKey getSignatureKey(){
         byte [] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -52,7 +52,7 @@ public class JwtUtils {
     }
 
     //Obtener claims del token
-    public Claims extractAllClaims(String token){
+    private Claims extractAllClaims(String token){
         return Jwts.parser()
                 .verifyWith(getSignatureKey())
                 .build()
@@ -61,7 +61,7 @@ public class JwtUtils {
     }
 
     //Obtener un solo claim del token
-    public <T> T getClaim(String token, Function<Claims, T> claimsTFunction){
+    private  <T> T getClaim(String token, Function<Claims, T> claimsTFunction){
         Claims claims = extractAllClaims(token);
         return claimsTFunction.apply(claims);
     }

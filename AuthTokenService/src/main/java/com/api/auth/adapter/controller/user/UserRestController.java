@@ -33,12 +33,13 @@ public class UserRestController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserEntity>> findAllUsers(){
         return ResponseEntity.ok().body(userService.findAllUsers());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Optional<UserEntity>> findUserById(@PathVariable String id){
         Optional<UserEntity> response = userService.findUserById(id);
         if (response.isPresent()){
@@ -74,7 +75,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> deleteUserById(@PathVariable String id){
         boolean isDeleted = userService.deleteUserById(id);
         if(isDeleted){
