@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +13,7 @@ export class RegisterComponent {
   passwordStrength: string = '';
   passwordMessage: string = '';
 
-  private _signUpForm: FormGroup = this._formBuilder.group({
+  private _registerForm: FormGroup = this._formBuilder.group({
     id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]*$')]],
     name: ['', [Validators.required, Validators.minLength(4)]],
     email: ['', [Validators.required, Validators.email]],
@@ -27,7 +26,6 @@ export class RegisterComponent {
     public dialogRef: MatDialogRef<RegisterComponent>,
 
     private _formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
   ) { }
 
   // ** LOGICA DEL FORMULARIO** 
@@ -130,7 +128,7 @@ export class RegisterComponent {
   }
 
 
-  public get signUpForm(): FormGroup {
-    return this._signUpForm;
+  public get registerForm(): FormGroup {
+    return this._registerForm;
   }
 }

@@ -23,17 +23,17 @@
       </div>
       <div class="textbox">
           <mat-form-field class="custom-input" appearance="outline">
-              <mat-label>Password</mat-label>
+              <mat-label class="textoImp">Password</mat-label>
               <input matInput type="password" formControlName="password" required />
               <mat-icon class="icon" matPrefix>lock</mat-icon>
           </mat-form-field>
       </div>
-      <button mat-raised-button class="boton-signin" type="submit">
+      <button mat-raised-button class="boton-signin"  type="submit">
           Sign In
           <mat-icon>arrow_forward</mat-icon>
       </button>
   </form>
-  <button mat-button class="boton-signup" >
+  <button mat-button class="boton-signup"  (click)="openSignUp()">
       ¿No tienes cuenta? Registrate!
   </button>
 </div>
