@@ -27,6 +27,10 @@ public class UserService implements IUserService{
 
     @Override
     public UserEntity saveUser(UserEntity user) {
+        Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("El email con el que intenta registrarse ya existe");
+        }
         return userRepository.save(user);
     }
 
@@ -38,4 +42,9 @@ public class UserService implements IUserService{
         }
         return false;
     }
+
+    public Optional<UserEntity> findUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
 }

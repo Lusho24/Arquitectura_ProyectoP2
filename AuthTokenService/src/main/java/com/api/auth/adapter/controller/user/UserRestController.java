@@ -70,8 +70,12 @@ public class UserRestController {
                 .roles(roles)
                 .build();
 
-        UserEntity response = userService.saveUser(userEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        try {
+            UserEntity response = userService.saveUser(userEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/delete/{id}")

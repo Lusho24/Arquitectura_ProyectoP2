@@ -30,7 +30,8 @@ CREATE TABLE usuario
     TELFUSUARIO      VARCHAR(16)  NULL,
     PRIMARY KEY (IDUSUARIO),
     CONSTRAINT FK_USUARIO_TIENDA FOREIGN KEY (IDTIENDA)
-        REFERENCES tienda (IDTIENDA)
+        REFERENCES tienda (IDTIENDA),
+        CONSTRAINT UC_EMAIL_UNIQUE UNIQUE (EMAILUSUARIO)
 );
 
 /*==============================================================*/
