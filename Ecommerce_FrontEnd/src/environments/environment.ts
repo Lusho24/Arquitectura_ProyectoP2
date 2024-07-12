@@ -1,3 +1,6 @@
 export const environment = {
-    production: false, // Establece en false para pruebas
+    apiUrl: 'http://localhost:443/api',
+    authUrl: 'http://localhost:443/login',
+    
+    production: false
 };
