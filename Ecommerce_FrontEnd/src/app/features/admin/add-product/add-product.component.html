@@ -3,23 +3,30 @@
 <h1 mat-dialog-title>Añadir Producto</h1>
 <div mat-dialog-content>
   <form [formGroup]="addProductForm">
-    <mat-form-field>
-      <mat-label>URL de la Imagen</mat-label>
-      <input matInput formControlName="image" placeholder="URL de la Imagen">
-    </mat-form-field>
-    <mat-form-field>
+    <!-- Campo para la subida de archivos -->
+    <input type="file" id="fileInput" (change)="onFileSelected($event)">
+    <label for="fileInput" class="file-label">Seleccionar Imagen</label>
+
+    <!-- Campo para el nombre del producto -->
+    <mat-form-field appearance="fill">
       <mat-label>Nombre del Producto</mat-label>
       <input matInput formControlName="name" placeholder="Nombre del Producto">
     </mat-form-field>
-    <mat-form-field>
+
+    <!-- Campo para el precio del producto -->
+    <mat-form-field appearance="fill">
       <mat-label>Precio del Producto</mat-label>
-      <input matInput formControlName="price" placeholder="Precio del Producto" type="number">
+      <input matInput formControlName="price" placeholder="Precio del Producto" type="number" class="no-spinner">
     </mat-form-field>
-    <mat-form-field>
+
+    <!-- Campo para la descripción del producto -->
+    <mat-form-field appearance="fill">
       <mat-label>Descripción del Producto</mat-label>
       <textarea matInput formControlName="description" placeholder="Descripción del Producto"></textarea>
     </mat-form-field>
-    <mat-form-field>
+
+    <!-- Campo para el stock del producto -->
+    <mat-form-field appearance="fill">
       <mat-label>Stock del Producto</mat-label>
       <input matInput formControlName="stock" placeholder="Stock del Producto" type="number">
     </mat-form-field>

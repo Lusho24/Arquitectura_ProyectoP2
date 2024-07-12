@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AddProductComponent } from '../add-product/add-product.component';
 
 export interface Product {
+  id: number;
   image: string;
   name: string;
   price: number;
@@ -10,9 +12,9 @@ export interface Product {
 }
 
 const ELEMENT_DATA: Product[] = [
-  { image: 'https://via.placeholder.com/150', name: 'Manzana', price: 1.99, stock: 100 },
-  { image: 'https://via.placeholder.com/150', name: 'Banana', price: 0.99, stock: 150 },
-  { image: 'https://via.placeholder.com/150', name: 'Fresa', price: 2.99, stock: 50 },
+  { id: 1, image: 'https://via.placeholder.com/150', name: 'Manzana', price: 1.99, stock: 100 },
+  { id: 2, image: 'https://via.placeholder.com/150', name: 'Banana', price: 0.99, stock: 150 },
+  { id: 3, image: 'https://via.placeholder.com/150', name: 'Fresa', price: 2.99, stock: 50 },
 ];
 
 @Component({
@@ -24,7 +26,7 @@ export class ProductsComponent {
   displayedColumns: string[] = ['image', 'name', 'price', 'stock', 'actions'];
   dataSource = ELEMENT_DATA;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private router: Router) {}
 
   openAddModal(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
@@ -40,10 +42,14 @@ export class ProductsComponent {
   }
 
   editProduct(row: Product): void {
-    console.log('Editar producto', row);
+    this.router.navigate(['/admin/products/edit', row.id]);
   }
 
   deleteProduct(row: Product): void {
-    console.log('Eliminar producto', row);
+    const index = this.dataSource.indexOf(row);
+    if (index !== -1) {
+      this.dataSource.splice(index, 1);
+      this.dataSource = [...this.dataSource]; // Para actualizar la tabla
+    }
   }
 }

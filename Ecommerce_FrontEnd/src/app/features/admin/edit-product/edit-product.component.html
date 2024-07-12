@@ -1,1 +1,38 @@
 <p>edit-product works!</p>
+
+<h1>Editar Producto</h1>
+<div>
+  <form [formGroup]="editProductForm">
+    <!-- Campo para la subida de archivos -->
+    <input type="file" id="fileInput" (change)="onFileSelected($event)">
+    <label for="fileInput" class="file-label">Seleccionar Imagen</label>
+
+    <!-- Campo para el nombre del producto -->
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del Producto</mat-label>
+      <input matInput formControlName="name" placeholder="Nombre del Producto">
+    </mat-form-field>
+
+    <!-- Campo para el precio del producto -->
+    <mat-form-field appearance="fill">
+      <mat-label>Precio del Producto</mat-label>
+      <input matInput formControlName="price" placeholder="Precio del Producto" type="number" class="no-spinner">
+    </mat-form-field>
+
+    <!-- Campo para la descripción del producto -->
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción del Producto</mat-label>
+      <textarea matInput formControlName="description" placeholder="Descripción del Producto"></textarea>
+    </mat-form-field>
+
+    <!-- Campo para el stock del producto -->
+    <mat-form-field appearance="fill">
+      <mat-label>Stock del Producto</mat-label>
+      <input matInput formControlName="stock" placeholder="Stock del Producto" type="number">
+    </mat-form-field>
+  </form>
+</div>
+<div>
+  <button mat-button (click)="onCancelClick()">Cancelar</button>
+  <button mat-button (click)="onSaveClick()">Guardar</button>
+</div>

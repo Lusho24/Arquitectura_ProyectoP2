@@ -7,12 +7,14 @@ import { OrdersDetailsComponent } from './orders-details/orders-details.componen
 import { ProductsComponent } from './products/products.component';
 //import { AddProductComponent } from './add-product/add-product.component';
 
+
 const routes: Routes = [
   { path: '', component: HomeAdminComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'ordersDetails', component: OrdersDetailsComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'editProduct', component: EditProductComponent },
+  { path: 'products/edit/:id', component: EditProductComponent } // Nueva ruta para editar productos
   
 ];
 

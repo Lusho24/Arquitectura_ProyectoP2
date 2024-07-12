@@ -7,9 +7,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss']
 })
-export class AddProductComponent
- {
+export class AddProductComponent {
   addProductForm: FormGroup;
+  selectedFile: File | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<AddProductComponent>,
@@ -17,11 +17,11 @@ export class AddProductComponent
     private fb: FormBuilder
   ) {
     this.addProductForm = this.fb.group({
-      image: ['', Validators.required],
-      name: ['', Validators.required],
-      price: [0, Validators.required],
-      description: ['', Validators.required],
-      stock: [0, Validators.required]
+      name: [data?.name || '', Validators.required],
+      price: [data?.price || 0, Validators.required],
+      description: [data?.description || '', Validators.required],
+      stock: [data?.stock || 0, Validators.required],
+      image: [data?.image || null]
     });
   }
 
@@ -31,8 +31,22 @@ export class AddProductComponent
 
   onAddClick(): void {
     if (this.addProductForm.valid) {
-      this.dialogRef.close(this.addProductForm.value);
+      const formData = this.addProductForm.value;
+
+      if (this.selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          formData.image = e.target.result;
+          this.dialogRef.close(formData);
+        };
+        reader.readAsDataURL(this.selectedFile);
+      } else {
+        this.dialogRef.close(formData);
+      }
     }
   }
 
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
 }
