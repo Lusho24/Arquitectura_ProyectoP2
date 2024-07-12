@@ -47,7 +47,7 @@ public class UserRestController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveUser(@Valid @RequestBody CreateUserDTO userDTO, BindingResult result){
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return this.validate(result);
         }
 
@@ -67,7 +67,8 @@ public class UserRestController {
                 .roles(roles)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userEntity));
+        UserEntity response = userService.saveUser(userEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/delete/{id}")
