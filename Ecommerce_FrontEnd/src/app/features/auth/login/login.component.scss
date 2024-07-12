@@ -4,167 +4,116 @@ body {
     height: 100vh;
     padding: 0 30px;
     margin: 0;
-}
-
-.icon{
-    color: #ffffff;
-}
-
-.signup {
-    position: fixed;
-    z-index: 10;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    height: auto; 
-    width: 50%; 
-    max-width: 400px; 
-    padding: 100px 30px 190px; 
-    background: rgba(68, 65, 70, 0.29); 
-    backdrop-filter: blur(50px); 
-    border-radius: 10px; 
-    max-height: 200px; 
-}
-
-
-.signup > h2 {
-    margin: 0 0 6px;
-    color: white;
-    font-size: 24px;
-    text-align: start;
-}
-
-.form {
-    margin: 0;
-    display: grid;
-    gap: 15px;
-}
-
-.textbox {
-    position: relative;
-    margin-bottom: 12px;
-    height: 56px;
-    
-
-}
-.custom-input {
-    width: 100%;
-    height: 100%;
-
-}
-
-
-.boton-signin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 24px;
-    border-radius: 6px;
-    background: white;
-    color: #737373;
-    height: 50px;
-    font-size: 16px;
-    border: 0;
-    cursor: pointer;
-}
-
- .signup > h2 {
-    margin: 0 0 6px;
-    color: rgb(255 255 255 / 100%);
   }
   
-  .signup > h3 {
-    margin: 0 0 30px;
-    color: rgb(255 255 255 / 40%);
-  }
-
-    .textbox input {
-    border-bottom: 2px solid rgb(255 255 255 / 5%);
-    color: rgb(255 255 255 / 96%);
-  }
-
-.boton-signup {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    padding: 0 5px;
-    border-radius: 6px;
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-
-
-.boton-signin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 24px;
-    border-radius: 6px;
-    background: white;
-    color: #737373;
-    height: 50px;
-    font-size: 16px;
-    border: 0;
-    cursor: pointer;
-}
-
-.boton-signup {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    width: 100%;
-    padding: 0 5px;
-    background: transparent;
-    border: none;
-    font-size: 14px;
-    color: #ffffff !important;
-
-}
-
-.textoImp{
+  .icon {
     color: #ffffff;
-}
-
-/// FONDO
-@keyframes move {
-    100% {
-        transform: translate3d(0, 0, 1px) rotate(360deg);
+  }
+  
+  .signup {
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 50%;
+    max-width: 400px;
+    padding: 100px 30px 190px;
+    background: rgba(68, 65, 70, 0.29);
+    backdrop-filter: blur(50px);
+    border-radius: 10px;
+    max-height: 200px;
+  
+    > h2 {
+      margin: 0 0 6px;
+      color: white;
+      font-size: 24px;
+      text-align: start;
     }
-}
-
-@keyframes animate {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-        border-radius: 0;
+  
+    > h3 {
+      margin: 0 0 30px;
+      color: rgb(255 255 255 / 40%);
     }
-    100% {
-        transform: translateY(-1000px) rotate(720deg);
-        opacity: 0;
-        border-radius: 50%;
+  
+    .form {
+      margin: 0;
+      display: grid;
+      gap: 15px;
+  
+      .textbox {
+        position: relative;
+        margin-bottom: 12px;
+        height: 56px;
+  
+        input {
+          color: rgb(255 255 255 / 96%);
+        }
+      }
+  
+      .custom-input {
+        width: 100%;
+        height: 100%;
+        
+      }
+  
+      .boton-signin {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        border-radius: 6px;
+        background: white;
+        color: #353434;
+        height: 50px;
+        font-size: 16px;
+        border: 0;
+        cursor: pointer;
+      }
     }
-}
-
-@keyframes animate {
-    0%{
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-        border-radius: 0;
+  
+    .boton-signup {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 0 5px;
+      border-radius: 6px;
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: #ffffff !important;
     }
-    100%{
-        transform: translateY(-1000px) rotate(720deg);
-        opacity: 0;
-        border-radius: 50%;
+  
+    .google-button {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #353434;
+      width: 100%;
+  
+      .google-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        padding: 0 15px;
+      }
     }
-}
-
-.background {
+  }
+  
+  .textoImp {
+    color: #ffffff;
+  }
+  
+  .background {
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -174,89 +123,114 @@ body {
     padding: 0;
     background: #44ab8c;
     overflow: hidden;
-}
-.background li {
-    position: absolute;
-    display: block;
-    list-style: none;
-    width: 20px;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    animation: animate 10s linear infinite;
-}
-
-
-
-
-.background li:nth-child(0) {
-    left: 68%;
-    width: 184px;
-    height: 184px;
-    bottom: -184px;
-    animation-delay: 1s;
-}
-.background li:nth-child(1) {
-    left: 5%;
-    width: 164px;
-    height: 164px;
-    bottom: -164px;
-    animation-delay: 1s;
-}
-.background li:nth-child(2) {
-    left: 12%;
-    width: 181px;
-    height: 181px;
-    bottom: -181px;
-    animation-delay: 5s;
-}
-.background li:nth-child(3) {
-    left: 9%;
-    width: 127px;
-    height: 127px;
-    bottom: -127px;
-    animation-delay: 5s;
-}
-.background li:nth-child(4) {
-    left: 46%;
-    width: 145px;
-    height: 145px;
-    bottom: -145px;
-    animation-delay: 9s;
-}
-.background li:nth-child(5) {
-    left: 2%;
-    width: 180px;
-    height: 180px;
-    bottom: -180px;
-    animation-delay: 5s;
-}
-.background li:nth-child(6) {
-    left: 34%;
-    width: 100px;
-    height: 100px;
-    bottom: -100px;
-    animation-delay: 14s;
-}
-.background li:nth-child(7) {
-    left: 74%;
-    width: 139px;
-    height: 139px;
-    bottom: -139px;
-    animation-delay: 22s;
-}
-.background li:nth-child(8) {
-    left: 71%;
-    width: 168px;
-    height: 168px;
-    bottom: -168px;
-    animation-delay: 23s;
-}
-.background li:nth-child(9) {
-    left: 45%;
-    width: 168px;
-    height: 168px;
-    bottom: -168px;
-    animation-delay: 44s;
-}
-
-
+  
+    li {
+      position: absolute;
+      display: block;
+      list-style: none;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      animation: animate 10s linear infinite;
+  
+      &:nth-child(0) {
+        left: 68%;
+        width: 184px;
+        height: 184px;
+        bottom: -184px;
+        animation-delay: 1s;
+      }
+  
+      &:nth-child(1) {
+        left: 5%;
+        width: 164px;
+        height: 164px;
+        bottom: -164px;
+        animation-delay: 1s;
+      }
+  
+      &:nth-child(2) {
+        left: 12%;
+        width: 181px;
+        height: 181px;
+        bottom: -181px;
+        animation-delay: 5s;
+      }
+  
+      &:nth-child(3) {
+        left: 9%;
+        width: 127px;
+        height: 127px;
+        bottom: -127px;
+        animation-delay: 5s;
+      }
+  
+      &:nth-child(4) {
+        left: 46%;
+        width: 145px;
+        height: 145px;
+        bottom: -145px;
+        animation-delay: 9s;
+      }
+  
+      &:nth-child(5) {
+        left: 2%;
+        width: 180px;
+        height: 180px;
+        bottom: -180px;
+        animation-delay: 5s;
+      }
+  
+      &:nth-child(6) {
+        left: 34%;
+        width: 100px;
+        height: 100px;
+        bottom: -100px;
+        animation-delay: 14s;
+      }
+  
+      &:nth-child(7) {
+        left: 74%;
+        width: 139px;
+        height: 139px;
+        bottom: -139px;
+        animation-delay: 22s;
+      }
+  
+      &:nth-child(8) {
+        left: 71%;
+        width: 168px;
+        height: 168px;
+        bottom: -168px;
+        animation-delay: 23s;
+      }
+  
+      &:nth-child(9) {
+        left: 45%;
+        width: 168px;
+        height: 168px;
+        bottom: -168px;
+        animation-delay: 44s;
+      }
+    }
+  }
+  
+  @keyframes move {
+    100% {
+      transform: translate3d(0, 0, 1px) rotate(360deg);
+    }
+  }
+  
+  @keyframes animate {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+      border-radius: 0;
+    }
+    100% {
+      transform: translateY(-1000px) rotate(720deg);
+      opacity: 0;
+      border-radius: 50%;
+    }
+  }
+  
