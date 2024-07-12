@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -32,6 +33,7 @@ public class UserRestController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<UserEntity>> findAllUsers(){
         return ResponseEntity.ok().body(userService.findAllUsers());
     }
@@ -72,6 +74,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUserById(@PathVariable String id){
         boolean isDeleted = userService.deleteUserById(id);
         if(isDeleted){
