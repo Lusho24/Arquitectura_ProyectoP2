@@ -1,3 +1,18 @@
 table {
   width: 100%;
 }
+.page-wrapper {
+  display: flex;
+}
+
+.content-wrapper {
+  flex-grow: 1;
+  padding: 20px; /* Ajusta el padding según sea necesario */
+  margin-left: 260px; /* Ancho del sidebar */
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Ajustes adicionales según tu diseño */

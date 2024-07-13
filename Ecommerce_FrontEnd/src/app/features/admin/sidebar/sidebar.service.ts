@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 
-interface Menu {
+export interface Menu {
   title: string;
-  type: string;
+  type: 'header' | 'dropdown' | 'simple'; // Asegúrate de tener los tipos adecuados aquí
   icon?: string;
   active?: boolean;
   badge?: {
     text: string;
     class: string;
   };
+  route?: string; // Agrega esta propiedad para las opciones de menú con ruta
   submenus?: Menu[];
 }
 
@@ -32,10 +33,13 @@ export class SidebarService {
         {
           title: 'Lista de Productos',
           type: 'simple',
+          route: '/admin/products'
         },
         {
           title: 'Agregar Producto',
           type: 'simple',
+          route: '/admin/products'
+          
         },
       ]
     },
@@ -48,6 +52,7 @@ export class SidebarService {
         {
           title: 'Lista de Pedidos',
           type: 'simple',
+          route: '/admin/orders'
         },
       ]
     },
@@ -59,7 +64,8 @@ export class SidebarService {
       submenus: [
         {
           title: 'Agregar Envio',
-          type: 'simple'
+          type: 'simple',
+          route: '/admin/shipping'
         },
       ]
     },

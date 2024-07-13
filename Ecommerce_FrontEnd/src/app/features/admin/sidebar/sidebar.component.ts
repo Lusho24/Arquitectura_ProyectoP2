@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SidebarService } from './sidebar.service';
+import { Router } from '@angular/router';
 
 interface Menu {
   title: string;
@@ -12,6 +13,7 @@ interface Menu {
     class: string;
   };
   submenus?: Menu[];
+  route?: string;
 }
 
 @Component({
@@ -30,7 +32,7 @@ export class SidebarComponent implements OnInit {
 [x: string]: any;
   menus: Menu[] = [];
 
-  constructor(public sidebarService: SidebarService) { }
+  constructor(private router: Router,public sidebarService: SidebarService) { }
 
   ngOnInit() {
     this.menus = this.sidebarService.getMenuList();
@@ -40,15 +42,11 @@ export class SidebarComponent implements OnInit {
     return this.sidebarService.getSidebarState();
   }
 
-  toggle(currentMenu: Menu) {
-    if (currentMenu.type === 'dropdown' && currentMenu.submenus) {
-      this.menus.forEach(element => {
-        if (element === currentMenu) {
-          currentMenu.active = !currentMenu.active;
-        } else {
-          element.active = false;
-        }
-      });
+  toggle(menu: Menu) {
+    if (menu.type === 'simple' && menu.route) {
+      this.router.navigateByUrl(menu.route); // Navega a la ruta definida para la opción seleccionada
+    } else if (menu.type === 'dropdown' && menu.submenus) {
+      menu.active = !menu.active; // Maneja el estado activo del menú desplegable si es necesario
     }
   }
 
@@ -62,5 +60,8 @@ export class SidebarComponent implements OnInit {
 
   hasBackgroundImage() {
     return this.sidebarService.hasBackgroundImage;
+  }
+  navigateTo(route: string) {
+    this.router.navigateByUrl(route);
   }
 }
