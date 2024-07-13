@@ -39,11 +39,8 @@ export class LoginComponent {
         console.log("ERROR: ", error)
       }
     });
-  }
 
-  testAlmecenamiento(): void {
     console.log("TOKEN ALMACENADO: ", this.authService.getToken())
-   
   }
 
   loginTest(): void {

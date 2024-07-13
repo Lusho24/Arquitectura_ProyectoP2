@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,19 +14,11 @@ export class UserService {
   constructor(private http:HttpClient) { }
 
   public findAll(): Observable<UserModel[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzdGFseW5mcmFuMDA3QGdtYWlsLmNvbSIsImlhdCI6MTcyMDgxNzMyNSwiZXhwIjoxNzIwOTAzNzI1fQ.P-xWRkZnvWxC1rimJpFljQC9ivePnske4i9v030Bz9Mr7iEKjREOuRUuvEYIjm0t`
-    });
-    return this.http.get<UserModel[]>(`${this.urlEndPoint}/all`, { headers });
+    return this.http.get<UserModel[]>(`${this.urlEndPoint}/all`);
   }
 
   public findById(id: string): Observable<UserModel> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzdGFseW5mcmFuMDA3QGdtYWlsLmNvbSIsImlhdCI6MTcyMDgxNzMyNSwiZXhwIjoxNzIwOTAzNzI1fQ.P-xWRkZnvWxC1rimJpFljQC9ivePnske4i9v030Bz9Mr7iEKjREOuRUuvEYIjm0t`
-    });
-    return this.http.get<UserModel>(`${this.urlEndPoint}/${id}`,{ headers });
+    return this.http.get<UserModel>(`${this.urlEndPoint}/${id}`);
   }
 
   public save(user: UserModel): Observable<any> {
