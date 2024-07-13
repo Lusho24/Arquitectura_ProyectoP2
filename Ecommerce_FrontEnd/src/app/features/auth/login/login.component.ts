@@ -12,17 +12,17 @@ import { UserModel } from 'src/app/core/models/userModel';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  signInForm: FormGroup;
+  private _signInForm: FormGroup;
 
   constructor(
     public dialog: MatDialog,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private userService: UserService,
     private authService: AuthService
   ) {
-    this.signInForm = this.fb.group({
+    this._signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(5)]]
     });
   }
 
@@ -30,27 +30,9 @@ export class LoginComponent {
     const dialogRef = this.dialog.open(RegisterComponent);
   }
 
-  testUsers(): void {
-    this.userService.findAll().subscribe({
-      next: (respose) => {
-        console.log("RESPUESTA: ", respose)
-      },
-      error: (error) => {
-        console.log("ERROR: ", error)
-      }
-    });
-
-    console.log("TOKEN ALMACENADO: ", this.authService.getToken())
-  }
-
-  loginTest(): void {
-
-    const user: UserModel = {
-      email: 'stalynfran007@gmail.com',
-      password: 'admin',
-    };
-
-    //console.log("LOGIN USAURIO: ", user);
+  signIn():void{
+    const user: UserModel = this._signInForm.value
+    console.log(user);
 
     this.authService.login(user).subscribe({
       next: (respose) => {
@@ -60,6 +42,12 @@ export class LoginComponent {
         console.log("ERROR: ", error)
       }
     });
-
+    
   }
+
+  
+  public get signInForm(): FormGroup {
+    return this._signInForm;
+  }
+
 }

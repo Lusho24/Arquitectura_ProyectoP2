@@ -11,7 +11,6 @@ export class AuthService {
 
   private urlEndPoint = environment.authUrl;
 
-
   constructor(private http: HttpClient) { }
 
   // Método para iniciar sesion
@@ -29,11 +28,9 @@ export class AuthService {
     return localStorage.getItem('jwt');
   }
 
-
   // Método para cerrar sesión
   public logout(): void {
     localStorage.removeItem('jwt');
   }
-
 
 }
