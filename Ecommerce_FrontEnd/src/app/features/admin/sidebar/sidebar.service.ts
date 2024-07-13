@@ -26,7 +26,7 @@ export class SidebarService {
     },
     {
       title: 'Productos',
-      icon: 'far fa-gem',
+      icon: 'fa fa-leaf',
       active: false,
       type: 'dropdown',
       submenus: [
@@ -45,7 +45,7 @@ export class SidebarService {
     },
     {
       title: 'Pedidos',
-      icon: 'fa fa-shopping-cart',
+      icon: 'fa fa-shopping-bag',
       active: false,
       type: 'dropdown',
       submenus: [
@@ -58,7 +58,7 @@ export class SidebarService {
     },
     {
       title: 'Gestión Envio',
-      icon: 'fa fa-globe',
+      icon: 'fa fa-paper-plane',
       active: false,
       type: 'dropdown',
       submenus: [
