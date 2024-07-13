@@ -41,26 +41,23 @@ export class LoginComponent {
     });
   }
 
+  testAlmecenamiento(): void {
+    console.log("TOKEN ALMACENADO: ", this.authService.getToken())
+   
+  }
+
   loginTest(): void {
-    var user: UserModel = {
-      id: '1',
-      idTienda: 1,
-      name: 'Usuario Ejemplo',
-      email: 'usuario@example.com',
-      password: 'password123',
-      address: '123 Calle Principal',
-      phone: '123456789',
-      roles: [
-        { id: 1, name: 'Rol de Ejemplo' },
-        { id: 2, name: 'Otro Rol' }
-      ]
+
+    const user: UserModel = {
+      email: 'stalynfran007@gmail.com',
+      password: 'admin',
     };
 
-    console.log("LOGIN USAURIO: ", user);
+    //console.log("LOGIN USAURIO: ", user);
 
     this.authService.login(user).subscribe({
       next: (respose) => {
-        console.log("RESPUESTA: ", respose)
+        //console.log("RESPUESTA: ", respose)
       },
       error: (error) => {
         console.log("ERROR: ", error)
