@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthModule } from './features/auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { CartModule } from './features/cart/cart.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    CartModule,
     HttpClientModule,
     SharedModule
   ],

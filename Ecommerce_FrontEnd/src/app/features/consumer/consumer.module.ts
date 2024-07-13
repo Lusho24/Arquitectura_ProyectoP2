@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthRoutingModule } from '../auth/auth-routing.module';
+import { ContactComponent } from './contact/contact.component';
 
 
 
@@ -25,7 +25,8 @@ import { AuthRoutingModule } from '../auth/auth-routing.module';
   declarations: [
     HomeComponent,
     ProductCatalogComponent,
-    ProductComponent
+    ProductComponent,
+    ContactComponent
   ],
   imports: [
     CommonModule,
