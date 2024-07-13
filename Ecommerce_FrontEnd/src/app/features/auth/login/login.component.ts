@@ -32,11 +32,10 @@ export class LoginComponent {
 
   signIn():void{
     const user: UserModel = this._signInForm.value
-    console.log(user);
 
     this.authService.login(user).subscribe({
       next: (respose) => {
-        //console.log("RESPUESTA: ", respose)
+        console.log("USUARIO ACEPTADO", respose)
       },
       error: (error) => {
         console.log("ERROR: ", error)
