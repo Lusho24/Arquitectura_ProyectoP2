@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { AuthService } from 'src/app/core/services/login/auth.service';
-import { UserService } from 'src/app/core/services/login/user.service';
 import { UserModel } from 'src/app/core/models/userModel';
 
 @Component({
@@ -17,12 +16,11 @@ export class LoginComponent {
   constructor(
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private userService: UserService,
     private authService: AuthService
   ) {
     this._signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(5)]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -44,7 +42,8 @@ export class LoginComponent {
     
   }
 
-  
+
+  // ** Getters del formulario y sus campos necesarios**
   public get signInForm(): FormGroup {
     return this._signInForm;
   }

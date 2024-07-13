@@ -18,12 +18,10 @@
             <mat-form-field class="custom-input" appearance="outline">
                 <mat-label class="textoImp">Correo</mat-label>
                 <input matInput type="email" formControlName="email" required 
-                placeholder="example@example.com"/>
+                    placeholder="Ej. example@example.com"/>
                 <mat-icon class="icon" matPrefix>email</mat-icon>
                 <div *ngIf="email?.invalid && email?.touched">
                     <mat-error *ngIf="email?.errors?.['required']">El correo es requerido</mat-error>
-                </div>
-                <div *ngIf="email?.invalid && email?.touched">
                     <mat-error *ngIf="email?.errors?.['email']">El correo no es valido</mat-error>
                 </div>
             </mat-form-field>
@@ -35,10 +33,8 @@
                 <mat-icon class="icon" matPrefix>lock</mat-icon>
                 <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
                     <mat-error *ngIf="password?.errors?.['required']">La contraseña es requerida</mat-error>
+                    <mat-error *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</mat-error>
                 </div>
-                <div *ngIf="password?.invalid && password?.touched">
-                    <mat-error *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 5 caracteres</mat-error>
-                  </div>
             </mat-form-field>
         </div>
         <button [disabled]="!signInForm.valid" mat-raised-button class="boton-signin" type="submit" type="submit">

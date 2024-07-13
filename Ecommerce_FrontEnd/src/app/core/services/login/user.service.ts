@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserModel } from '../../models/userModel';
+import { CreateUserModel } from '../../models/createUserModel';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class UserService {
     return this.http.get<UserModel>(`${this.urlEndPoint}/${id}`);
   }
 
-  public save(user: UserModel): Observable<any> {
+  public save(user: CreateUserModel): Observable<any> {
     return this.http.post<any>(`${this.urlEndPoint}/save`, user);
   }
 

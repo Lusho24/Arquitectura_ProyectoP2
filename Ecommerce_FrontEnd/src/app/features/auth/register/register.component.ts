@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CreateUserModel } from 'src/app/core/models/createUserModel';
+import { UserService } from 'src/app/core/services/login/user.service';
 
 @Component({
   selector: 'app-register',
@@ -8,101 +10,69 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  password: string = '';
-  isOpen = true;
   passwordStrength: string = '';
   passwordMessage: string = '';
 
-  private _registerForm: FormGroup = this._formBuilder.group({
-    id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]*$')]],
-    name: ['', [Validators.required, Validators.minLength(4)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
-    confirmPassword: ['', [Validators.required]],
-    role: ['', Validators.required]
-  });
+  private _registerForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
-
     private _formBuilder: FormBuilder,
-  ) { }
+    private userService: UserService
+  ) {
+    this._registerForm = this._formBuilder.group({
+      id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]*$')]],
+      name: ['', [Validators.required, Validators.minLength(4)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      address: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      //role: ['', Validators.required]
+    });
+   }
 
-  // ** LOGICA DEL FORMULARIO** 
-  /*saveUserForm(): void {
+  // ** LOGICA DEL FORMULARIO ** 
+  saveUserForm(): void {
+    const user: CreateUserModel = this._registerForm.value;
+    user.idTienda = 1;
+    user.roles = ['USER'];
 
-    if (this._signUpForm.get('role')?.value === "CREADOR_C") {
-      let creator: CreatorModel = new CreatorModel;
-      creator.id = this._signUpForm.get('id')?.value;
-      creator.name = this._signUpForm.get('name')?.value;
-      creator.email = this._signUpForm.get('email')?.value;
-      creator.password = this.password;
-      creator.role = this._signUpForm.get('role')?.value;
+    this.userService.save(user).subscribe({
+      next: () =>{
+        console.log("USUARIO A REGISTRADO: ", user);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
 
-      this.creatorService.save(creator).subscribe({
-        next: () => {
-          this.snackBar.open("✅ Creador de contenido registrado correctamente", "Cerrar", {
-            duration: 2500
-          });
-          this.dialogRef.close();
-        },
-        error: (error) => {
-          this.snackBar.open("⛔ Ocurrió un error al registrarse como creador de contenido", "Cerrar", {
-            duration: 2500
-          });
-          console.log(error);
-        }
-      });
-    } else if (this._signUpForm.get('role')?.value === "CONSUMIDOR_C") {
-      let user: UserModel = new UserModel;
-      user.id = this._signUpForm.get('id')?.value;
-      user.name = this._signUpForm.get('name')?.value;
-      user.email = this._signUpForm.get('email')?.value;
-      user.password = this.password;
-      user.role = this._signUpForm.get('role')?.value;
-
-      this.userService.save(user).subscribe({
-        next: () => {
-          this.snackBar.open("✅ Estudiante registrado correctamente", "Cerrar", {
-            duration: 2500
-          });
-          this.dialogRef.close();
-        },
-        error: (error) => {
-          this.snackBar.open("⛔ Ocurrió un error al registrarse como estudiante", "Cerrar", {
-            duration: 2500
-          });
-          console.log(error);
-        }
-      });
-
-    }
-
-  }*/
-
+  }
 
 
   // ** VALIDACIONES DEL FORMULARIO **
 
   //Control de Seguridad de Contraseña
   checkPasswordStrength(): void {
+    const passwordValue = this._registerForm.get('password')?.value;
+
     let regExpWeak = /^[a-z]+$/;
     let regExpMedium = /^(?=.*\d)(?=.*[a-zA-Z])/;
     let regExpStrong = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*?-~])/;
 
-    if (this.password.length < 8 || regExpWeak.test(this.password)) {
+    if (passwordValue.length < 8 || regExpWeak.test(passwordValue)) {
       this.passwordStrength = 'weak';
       this.passwordMessage = 'Clave Débil';
-    } else if (this.password.length >= 8 && this.password.length <= 12 && regExpMedium.test(this.password)) {
+    } else if (passwordValue.length >= 8 && passwordValue.length <= 12 && regExpMedium.test(passwordValue)) {
       this.passwordStrength = 'medium';
       this.passwordMessage = 'Clave Media';
-    } else if (this.password.length > 12 && regExpStrong.test(this.password)) {
+    } else if (passwordValue.length > 12 && regExpStrong.test(passwordValue)) {
       this.passwordStrength = 'strong';
       this.passwordMessage = 'Clave Fuerte';
     } else {
       this.passwordStrength = '';
       this.passwordMessage = '';
     }
+
   }
 
   // Desactivación de las teclas especiales mencionadas abajo
@@ -128,7 +98,17 @@ export class RegisterComponent {
   }
 
 
+  // ** Getters del formulario y sus campos necesarios**
   public get registerForm(): FormGroup {
     return this._registerForm;
   }
+
+  public get id() { return this._registerForm.get('id'); }
+  public get name() { return this._registerForm.get('name'); }
+  public get email() { return this._registerForm.get('email'); }
+  public get address() { return this._registerForm.get('address'); }
+  public get phone() { return this._registerForm.get('phone'); }
+  public get password() { return this._registerForm.get('password'); }
+  //public get role() { return this._registerForm.get('role'); }
+
 }

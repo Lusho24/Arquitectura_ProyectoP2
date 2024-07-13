@@ -3,41 +3,67 @@
     <form class="form" [formGroup]="registerForm">
         <mat-form-field class="input">
             <mat-label>Cédula</mat-label>
-            <input matInput  name="id" required maxlength="10" />
+            <input matInput formControlName="id" name="id" required maxlength="10" 
+                placeholder="Ej. 1716189721"/><br>
+                <div *ngIf="id?.invalid && id?.touched">
+                    <mat-error *ngIf="id?.errors?.['required']">La cédula es requerida</mat-error>
+                    <mat-error *ngIf="id?.errors?.['maxlength']">La cédula no puede tener más de 10 caracteres</mat-error>
+                    <mat-error *ngIf="id?.errors?.['pattern']">La cédula solo puede contener números</mat-error>
+                </div>
         </mat-form-field>
         <mat-form-field class="input">
             <mat-label>Nombre y Apellido</mat-label>
             <input matInput formControlName="name" name="name" required maxlength="64"
-                (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" />
+                (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. Jhon Doe"/>
+                <div *ngIf="name?.invalid && name?.touched">
+                    <mat-error *ngIf="name?.errors?.['required']">El nombre y apellido es requerida</mat-error>
+                </div>
         </mat-form-field>
         <mat-form-field class="input">
             <mat-label>E-mail</mat-label>
             <input matInput formControlName="email" name="email" type="email" required maxlength="32"
-                (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" />
-        </mat-form-field>
-        <mat-form-field class="input">
-            <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="telf" name="telf" type="tel" required 
-            (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)"/>
+                (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. example@example.com"/>
+                <div *ngIf="email?.invalid && email?.touched">
+                    <mat-error *ngIf="email?.errors?.['required']">El correo es requerido</mat-error>
+                    <mat-error *ngIf="email?.errors?.['email']">El correo no es valido</mat-error>
+                </div>
         </mat-form-field>
         <mat-form-field class="input">
             <mat-label>Dirección</mat-label>
-            <input matInput formControlName="dir" name="dir" type="text" required 
-            (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)"/>
+            <input matInput formControlName="address" name="address" type="text" required 
+            (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. Av. General rumiñahui, esquina 1"/>
+            <div *ngIf="address?.invalid && address?.touched">
+                <mat-error *ngIf="address?.errors?.['required']">El correo es requerido</mat-error>
+            </div>
+        </mat-form-field>
+        <mat-form-field class="input">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="phone" name="phone" type="tel" required 
+            (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. 0981614801"/>
+            <div *ngIf="phone?.invalid && phone?.touched">
+                <mat-error *ngIf="phone?.errors?.['required']">El teléfono es requerido</mat-error>
+            </div>
         </mat-form-field>
         <mat-form-field class="input">
             <mat-label>Password</mat-label>
             <input matInput formControlName="password" id="password" name="password" type="password" required
                 (keyup)="checkPasswordStrength()" maxlength="16" />
+                <div *ngIf="password?.invalid && password?.touched">
+                    <mat-error *ngIf="password?.errors?.['required']">La contraseña es requerida</mat-error>
+                    <mat-error *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</mat-error>
+                </div>
         </mat-form-field>
 
-        <mat-form-field class="input">
+        <!--<mat-form-field class="input">
             <mat-label>Tipo de Cuenta</mat-label>
             <mat-select formControlName="role" name="role" required>
                 <mat-option value="ADMIN">Administrador</mat-option>
-                <mat-option value="CONSUMIDOR">Consumidor</mat-option>
+                <mat-option value="USER">Usuario Casual</mat-option>
             </mat-select>
-        </mat-form-field>
-        <button mat-raised-button color="primary" class="login-button">Sign Up</button>
+            <div *ngIf="role?.invalid && role?.touched">
+                <mat-error *ngIf="role?.errors?.['required']">Seleccione un rol</mat-error>
+            </div>
+        </mat-form-field>-->
+        <button mat-raised-button color="primary" class="login-button" [disabled]="!registerForm.valid" (click)="saveUserForm()">Sign Up</button>
     </form>
 </div>
