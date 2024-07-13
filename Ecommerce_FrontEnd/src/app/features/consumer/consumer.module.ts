@@ -6,6 +6,8 @@ import { HomeComponent } from './home/home.component';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
 import { ProductComponent } from './product/product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from 'src/app/shared/header/header.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -21,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ConsumerRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
 
   ]
 })

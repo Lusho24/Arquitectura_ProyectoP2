@@ -1,0 +1,374 @@
+.surface-900 {
+    background-color: #212121; // O cualquier color oscuro que desees
+    color: #ffffff; // Texto en blanco
+}
+
+.text-0 {
+    color: #ffffff; // Texto en blanco
+}
+
+.surface-overlay {
+    background-color: #f5f5f5; // O cualquier color claro que desees
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.lg\:px-8 {
+    @media (min-width: 1024px) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.lg\:py-3 {
+    @media (min-width: 1024px) {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.sm\:flex-row {
+    @media (min-width: 640px) {
+        flex-direction: row;
+    }
+}
+
+.w-full {
+    width: 100%;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.inline-flex {
+    display: inline-flex;
+}
+
+.mt-3 {
+    margin-top: 0.75rem;
+}
+
+.sm\:mt-0 {
+    @media (min-width: 640px) {
+        margin-top: 0;
+    }
+}
+
+.md\:py-0 {
+    @media (min-width: 768px) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.text-700 {
+    color: #374151; // O cualquier color de texto que desees
+}
+
+.text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.lg\:flex {
+    @media (min-width: 1024px) {
+        display: flex;
+    }
+}
+
+.absolute {
+    position: absolute;
+}
+
+.lg\:static {
+    @media (min-width: 1024px) {
+        position: static;
+    }
+}
+
+.left-0 {
+    left: 0;
+}
+
+.top-100 {
+    top: 100%;
+}
+
+.z-1 {
+    z-index: 1;
+}
+
+.shadow-2 {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lg\:shadow-none {
+    @media (min-width: 1024px) {
+        box-shadow: none;
+    }
+}
+
+.w-full {
+    width: 100%;
+}
+
+.lg\:w-auto {
+    @media (min-width: 1024px) {
+        width: auto;
+    }
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.lg\:py-0 {
+    @media (min-width: 1024px) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.list-none {
+    list-style: none;
+}
+
+.p-0 {
+    padding: 0;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.lg\:flex-row {
+    @media (min-width: 1024px) {
+        flex-direction: row;
+    }
+}
+
+.border-left-2 {
+    border-left-width: 2px;
+}
+
+.lg\:border-left-none {
+    @media (min-width: 1024px) {
+        border-left-width: 0;
+    }
+}
+
+.lg\:border-bottom-2 {
+    @media (min-width: 1024px) {
+        border-bottom-width: 2px;
+    }
+}
+
+.border-transparent {
+    border-color: transparent;
+}
+
+.hover\:border-primary:hover {
+    border-color: #007bff; // O cualquier color de borde que desees para hover
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.lg\:py-0 {
+    @media (min-width: 1024px) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.lg\:px-3 {
+    @media (min-width: 1024px) {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+.text-700 {
+    color: #374151; // O cualquier color de texto que desees
+}
+
+.select-none {
+    user-select: none;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.lg\:text-base {
+    @media (min-width: 1024px) {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+.lg\:font-base {
+    @media (min-width: 1024px) {
+        font-weight: 400;
+    }
+}
+
+.w-full {
+    width: 100%;
+}
+
+.lg\:w-auto {
+    @media (min-width: 1024px) {
+        width: auto;
+    }
+}
+
+.text-900 {
+    color: #111827; // O cualquier color oscuro que desees
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.inline-flex {
+    display: inline-flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.border-left-2 {
+    border-left-width: 2px;
+}
+
+.lg\:border-left-none {
+    @media (min-width: 1024px) {
+        border-left-width: 0;
+    }
+}
+
+.lg\:border-bottom-2 {
+    @media (min-width: 1024px) {
+        border-bottom-width: 2px;
+    }
+}
+
+.border-transparent {
+    border-color: transparent;
+}
+
+.hover\:border-primary:hover {
+    border-color: #007bff; // O cualquier color de borde que desees para hover
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.lg\:py-0 {
+    @media (min-width: 1024px) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.lg\:px-3 {
+    @media (min-width: 1024px) {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+.text-700 {
+    color: #374151; // O cualquier color de texto que desees
+}
+
+.select-none {
+    user-select: none;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.lg\:text-base {
+    @media (min-width: 1024px) {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+.lg\:font-base {
+    @media (min-width: 1024px) {
+        font-weight: 400;
+    }
+}
+
+.w-full {
+    width: 100%;
+}
+
+.lg\:w-auto {
+    @media (min-width: 1024px) {
+        width: auto;
+    }
+}

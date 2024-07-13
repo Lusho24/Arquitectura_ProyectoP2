@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthModule } from './features/auth/auth.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AuthModule } from './features/auth/auth.module';
     MatButtonModule,
     MatIconModule,
     HttpClientModule,
+    SharedModule
   ],
   bootstrap: [AppComponent]
 })

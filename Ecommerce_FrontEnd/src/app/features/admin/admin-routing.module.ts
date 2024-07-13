@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'ordersDetails', component: OrdersDetailsComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'shipping', component: ShippingComponent },
-  { path: 'editProduct', component: EditProductComponent },
   { path: 'products/edit/:id', component: EditProductComponent } // Nueva ruta para editar productos
   
 ];
