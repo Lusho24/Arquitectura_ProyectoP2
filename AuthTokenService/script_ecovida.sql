@@ -201,7 +201,7 @@ VALUES ('EcoVida', 'Calle Principal 123', '09926145', 'Esta es una tienda de eje
 
 -- INSERTAR datos iniciales de usuario
 INSERT INTO usuario (IDUSUARIO, IDTIENDA, NOMBREUSUARIO, EMAILUSUARIO, PASSWORDUSUARIO, DIRECCIONUSUARIO, TELFUSUARIO)
-VALUES ('1726189754', 1, 'Francisco Suntaxi', 'stalynfran007@gmail.com', '$2a$10$zueRIsWPeExEwEk14ARFBuorhC2SsM/ezh5lfcflcYBeDes6RnVL6', 'Calle Principal 456', '09987654321');
+VALUES ('1726189754', 1, 'Francisco Suntaxi', 'stalynfran007@gmail.com', '$2a$10$3MPdW/Smy64P8Re0Cn.QP.D6Wl2jlFZ7un0zUbsrwYZ5tb7pggGxy', 'Calle Principal 456', '09987654321');
 
 -- INSERTAR datos iniciales de rol
 INSERT INTO rol (NOMBREROL)

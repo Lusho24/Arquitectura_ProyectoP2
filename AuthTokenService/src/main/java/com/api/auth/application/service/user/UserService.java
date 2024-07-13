@@ -27,9 +27,14 @@ public class UserService implements IUserService{
 
     @Override
     public UserEntity saveUser(UserEntity user) {
-        Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser.isPresent()) {
-            throw new RuntimeException("El email con el que intenta registrarse ya existe");
+        Optional<UserEntity> existingUserId = userRepository.findById(user.getId());
+        Optional<UserEntity> existingUserEmail = userRepository.findByEmail(user.getEmail());
+        System.out.println("USUARIO EXISTENTE: "+ existingUserId);
+        if (existingUserId.isPresent()){
+            throw new RuntimeException("El usuario ya se encuentra registrado.");
+        }
+        if (existingUserEmail.isPresent()) {
+            throw new RuntimeException("El email con el que intenta registrarse ya existe.");
         }
         return userRepository.save(user);
     }
