@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AddProductComponent } from '../add-product/add-product.component';
+import { SidebarService } from '../sidebar/sidebar.service';
 
 export interface Product {
   id: number;
@@ -26,7 +27,9 @@ export class ProductsComponent {
   displayedColumns: string[] = ['image', 'name', 'price', 'stock', 'actions'];
   dataSource = ELEMENT_DATA;
 
-  constructor(public dialog: MatDialog, private router: Router) {}
+  constructor(public dialog: MatDialog, private router: Router,
+    public sidebarservice: SidebarService,
+  ) {}
 
   openAddModal(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
@@ -51,5 +54,19 @@ export class ProductsComponent {
       this.dataSource.splice(index, 1);
       this.dataSource = [...this.dataSource]; // Para actualizar la tabla
     }
+  }
+
+  toggleSidebar() {
+    this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
+  }
+  toggleBackgroundImage() {
+    this.sidebarservice.hasBackgroundImage = !this.sidebarservice.hasBackgroundImage;
+  }
+  getSideBarState() {
+    return this.sidebarservice.getSidebarState();
+  }
+
+  hideSidebar() {
+    this.sidebarservice.setSidebarState(true);
   }
 }

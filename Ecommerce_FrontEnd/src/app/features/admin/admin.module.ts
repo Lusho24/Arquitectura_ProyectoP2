@@ -18,8 +18,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table'; // Importa MatTableModule
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MatTableModule } from '@angular/material/table'; 
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     ShippingComponent,
     AddShippingComponent,
     EditShippingComponent,
+    SidebarComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     MatFormFieldModule,
     MatDialogModule,
     MatTableModule, 
-    NgxDatatableModule
-  ]
+    MatChipsModule,
+    MatListModule
+  ],
 })
 export class AdminModule { }

@@ -14,11 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthModule } from './features/auth/auth.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -33,9 +31,8 @@ import { AuthModule } from './features/auth/auth.module';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
