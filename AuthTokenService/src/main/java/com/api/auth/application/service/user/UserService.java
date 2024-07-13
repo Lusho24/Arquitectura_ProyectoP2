@@ -29,7 +29,7 @@ public class UserService implements IUserService{
     public UserEntity saveUser(UserEntity user) {
         Optional<UserEntity> existingUserId = userRepository.findById(user.getId());
         Optional<UserEntity> existingUserEmail = userRepository.findByEmail(user.getEmail());
-        System.out.println("USUARIO EXISTENTE: "+ existingUserId);
+
         if (existingUserId.isPresent()){
             throw new RuntimeException("El usuario ya se encuentra registrado.");
         }
