@@ -13,6 +13,7 @@ Tienda e-commerce EcoVida, para lo cual se esta usando la arquitectura **clean a
 Dentro de esta carpeta se encuentra los siguientes archivos:
 
 **docker-compose** en donde se encuentra la configuracion de la base de datos y el archivo **script_ecovida.sql** que contiene el script de la base de datos en MySQL de todo el proyecto.
+
 **Herramientas y tecnologias:**
 - JDK 21.0.2 
 - Spring Boot 3.3.1
