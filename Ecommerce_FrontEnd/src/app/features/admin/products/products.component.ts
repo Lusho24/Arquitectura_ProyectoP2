@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AddProductComponent } from '../add-product/add-product.component';
+import { EditProductComponent } from '../edit-product/edit-product.component';
 import { SidebarService } from '../sidebar/sidebar.service';
+import { AddProductComponent } from '../add-product/add-product.component';
 
 export interface Product {
   id: number;
@@ -27,9 +28,7 @@ export class ProductsComponent {
   displayedColumns: string[] = ['image', 'name', 'price', 'stock', 'actions'];
   dataSource = ELEMENT_DATA;
 
-  constructor(public dialog: MatDialog, private router: Router,
-    public sidebarservice: SidebarService,
-  ) {}
+  constructor(public dialog: MatDialog, private router: Router, public sidebarservice: SidebarService) {}
 
   openAddModal(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
@@ -45,7 +44,20 @@ export class ProductsComponent {
   }
 
   editProduct(row: Product): void {
-    this.router.navigate(['/admin/products/edit', row.id]);
+    const dialogRef = this.dialog.open(EditProductComponent, {
+      width: '400px',
+      data: row
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const index = this.dataSource.findIndex(p => p.id === result.id);
+        if (index !== -1) {
+          this.dataSource[index] = result;
+          this.dataSource = [...this.dataSource]; // Para actualizar la tabla
+        }
+      }
+    });
   }
 
   deleteProduct(row: Product): void {
@@ -59,9 +71,11 @@ export class ProductsComponent {
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
+
   toggleBackgroundImage() {
     this.sidebarservice.hasBackgroundImage = !this.sidebarservice.hasBackgroundImage;
   }
+
   getSideBarState() {
     return this.sidebarservice.getSidebarState();
   }
