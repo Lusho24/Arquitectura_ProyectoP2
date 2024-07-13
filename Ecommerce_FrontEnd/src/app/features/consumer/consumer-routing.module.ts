@@ -6,7 +6,7 @@ import { ProductCatalogComponent } from './product-catalog/product-catalog.compo
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/ecovida' },
   { path: 'ecovida', component: HomeComponent },
-  { path: 'productCatalog', component: ProductCatalogComponent },
+  { path: 'ecovida/shop', component: ProductCatalogComponent },
   
 ];
 
