@@ -50,4 +50,7 @@ export class LoginComponent {
     return this._signInForm;
   }
 
+  public get email() { return this._signInForm.get('email'); }
+  public get password() { return this._signInForm.get('password'); }
+
 }
