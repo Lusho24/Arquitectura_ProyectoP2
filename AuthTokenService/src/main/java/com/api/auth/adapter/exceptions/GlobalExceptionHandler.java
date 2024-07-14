@@ -16,13 +16,13 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(UserRestController.class);
     @ExceptionHandler(UserIdAlreadyExistsException.class)
-    public ResponseEntity<ExceptionDetailsDTO> userIdAlreadyExistsExceptionHandler(UserIdAlreadyExistsException ex){
+    public ResponseEntity<ExceptionDetailsDTO> handleUserIdAlreadyExistsException(UserIdAlreadyExistsException ex){
         logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
         return  new ResponseEntity<>(ex.getExceptionDetailsDTO(),HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserEmailAlreadyExistsException.class)
-    public ResponseEntity<ExceptionDetailsDTO> userEmailAlreadyExistsExceptionHandler(UserEmailAlreadyExistsException ex){
+    public ResponseEntity<ExceptionDetailsDTO> handleUserEmailAlreadyExistsExceptionHandler(UserEmailAlreadyExistsException ex){
         logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
         return  new ResponseEntity<>(ex.getExceptionDetailsDTO(),HttpStatus.CONFLICT);
     }
