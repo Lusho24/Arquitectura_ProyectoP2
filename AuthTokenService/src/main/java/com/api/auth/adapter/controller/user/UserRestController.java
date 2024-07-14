@@ -1,14 +1,13 @@
 package com.api.auth.adapter.controller.user;
 
 import com.api.auth.application.dto.CreateUserDTO;
+import com.api.auth.application.dto.ExceptionDetailsDTO;
 import com.api.auth.application.service.role.IRoleService;
 import com.api.auth.application.service.user.IUserService;
 import com.api.auth.domain.model.role.ERole;
 import com.api.auth.domain.model.role.RoleEntity;
 import com.api.auth.domain.model.user.UserEntity;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +23,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserRestController.class);
 
     @Autowired
     private IUserService userService;
@@ -44,12 +41,14 @@ public class UserRestController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Optional<UserEntity>> findUserById(@PathVariable String id){
+    public ResponseEntity<?> findUserById(@PathVariable String id){
         Optional<UserEntity> response = userService.findUserById(id);
         if (response.isPresent()){
             return ResponseEntity.ok().body(response);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                ExceptionDetailsDTO.builder().statusCode(404).message("Usuario no encontrado.").build()
+        );
     }
 
     @PostMapping("/save")
@@ -74,14 +73,7 @@ public class UserRestController {
                 .roles(roles)
                 .build();
 
-        try {
-            UserEntity response = userService.saveUser(userEntity);
-            logger.info("El usuario se registro correctamente.");
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (RuntimeException e){
-            logger.error("ERROR: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userEntity));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -91,7 +83,9 @@ public class UserRestController {
         if(isDeleted){
             return ResponseEntity.noContent().build();
         }
-        return  ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                ExceptionDetailsDTO.builder().statusCode(404).message("Usuario no encontrado.").build()
+        );
     }
 
     private ResponseEntity<?> validate(BindingResult result) {
