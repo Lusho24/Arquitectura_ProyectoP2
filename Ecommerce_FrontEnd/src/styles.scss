@@ -27,10 +27,7 @@ $theme: mat.define-light-theme((
   background-color: white !important;
 }
 
-// el requiere * blanco
-.mdc-floating-label--required:not(.mdc-floating-label--hide-required-marker)::after {
-  color: white !important;
-}
+
 
 * {
   margin: 0;
