@@ -7,6 +7,8 @@ import com.api.auth.domain.model.role.ERole;
 import com.api.auth.domain.model.role.RoleEntity;
 import com.api.auth.domain.model.user.UserEntity;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserRestController.class);
 
     @Autowired
     private IUserService userService;
@@ -72,8 +76,10 @@ public class UserRestController {
 
         try {
             UserEntity response = userService.saveUser(userEntity);
+            logger.info("El usuario se registro correctamente.");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e){
+            logger.error("ERROR: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

@@ -67,6 +67,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().flush();
 
+        logger.info("El usuario: " + user.getUsername() + " inicio sesión.");
+
         super.successfulAuthentication(request, response, chain, authResult);
     }
 }
