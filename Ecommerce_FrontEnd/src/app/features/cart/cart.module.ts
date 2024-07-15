@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -22,7 +23,8 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatCardModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
+    FormsModule 
   ]
 })
 export class CartModule { }
