@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { SidebarService } from '../sidebar/sidebar.service';
+
+export interface Order {
+  id: number;
+  fechaOrden: string;
+  estado: string;
+  total: number;
+}
 
 @Component({
   selector: 'app-orders',
@@ -8,23 +13,16 @@ import { SidebarService } from '../sidebar/sidebar.service';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent {
-  constructor( private router: Router,
-    public sidebarservice: SidebarService,
-  ) {}
+  dataSource: Order[] = [
+    { id: 1, fechaOrden: '2024-07-15', estado: 'Procesado', total: 150 },
+    { id: 2, fechaOrden: '2024-07-14', estado: 'En Espera', total: 200 },
+    { id: 3, fechaOrden: '2024-07-13', estado: 'Cancelado', total: 100 }
+    // Puedes cargar los datos dinámicamente desde tu servicio o backend aquí
+  ];
 
-  toggleSidebar() {
-    this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
-  }
-  toggleBackgroundImage() {
-    this.sidebarservice.hasBackgroundImage = !this.sidebarservice.hasBackgroundImage;
-  }
-  getSideBarState() {
-    return this.sidebarservice.getSidebarState();
-  }
+  displayedColumns: string[] = ['id', 'fechaOrden', 'estado', 'total'];
 
-  hideSidebar() {
-    this.sidebarservice.setSidebarState(true);
-  }
+  estadosPedidos: string[] = ['Procesado', 'En Espera', 'Cancelado'];
+
+  constructor() {}
 }
-
-

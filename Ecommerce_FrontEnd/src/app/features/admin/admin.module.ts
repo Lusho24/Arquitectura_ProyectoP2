@@ -22,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatListModule } from '@angular/material/list';
     AddShippingComponent,
     EditShippingComponent,
     SidebarComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,15 @@ import { MatListModule } from '@angular/material/list';
     MatDialogModule,
     MatTableModule, 
     MatChipsModule,
-    MatListModule
+    MatListModule,
+
+
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule
+
   ],
 })
 export class AdminModule { }
+export class OrdersModule { }
