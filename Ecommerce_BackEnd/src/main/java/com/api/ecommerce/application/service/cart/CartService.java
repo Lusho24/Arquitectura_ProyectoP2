@@ -43,7 +43,7 @@ public class CartService implements ICartService{
             throw new CartAlreadyExistsException(
                     ExceptionDetailsDTO.builder()
                             .statusCode(409)
-                            .message("El carrito ya existe.")
+                            .message("El usuario ya tiene un carrito.")
                             .build()
             );
         }
