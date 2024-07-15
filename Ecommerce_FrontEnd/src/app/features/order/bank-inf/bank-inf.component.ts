@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bank-inf',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class BankInfComponent {
 
+  constructor(public dialogRef: MatDialogRef<BankInfComponent>, private router: Router) {}
+
+  goHome(): void {
+    this.dialogRef.close();
+    this.router.navigate(['']);
+  }
 }

@@ -1,45 +1,47 @@
 <app-header></app-header>
 <div class="container py-5">
-    <h2 class="h2">Carrito de Compras</h2>
+  <h2 class="h2">Carrito de Compras</h2>
 
-    <!-- Productos en Carrito -->
-    <div class="row">
-        <div class="col-md-8">
-            <div class="product-wap card mb-4">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="../../../../assets/img/product.jpg" class="img-fluid" alt="Producto">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h3 class="h3">Nombre del Producto</h3>
-                            <p class="text-muted">Descripción del producto.</p>
-                            <p class="text-success">$Precio</p>
-                            <div class="quantity-control">
-                                <input type="number" class="form-control d-inline-block" style="width: 60px; text-align: center;" value="1" min="1" />
-                            </div>
-                            <button class="btn btn-success mt-3">Quitar producto</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Productos en Carrito -->
+  <div class="row">
+    <div class="col-md-8">
+      <mat-card class="product-wap mb-4">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="../../../../assets/img/product.jpg" class="img-fluid" alt="Producto">
+          </div>
+          <div class="col-md-8">
+            <mat-card-content>
+              <h3 class="h3">Nombre del Producto</h3>
+              <p class="text-muted">Descripción del producto.</p>
+              <p class="text-success">$Precio</p>
+              <div class="quantity-control">
+                <mat-form-field appearance="fill">
+                  <mat-label>Cantidad</mat-label>
+                  <input matInput type="number" value="1" min="1">
+                </mat-form-field>
+              </div>
+              <button mat-raised-button color="primary" class="mt-3">Quitar producto</button>
+            </mat-card-content>
+          </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="h3">Resumen del Pedido</h3>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Producto 1: $Precio</li>
-                        <li class="list-group-item">Producto 2: $Precio</li>
-                        <!-- Más productos -->
-                        <li class="list-group-item text-success">Total: $Total</li>
-                    </ul>
-                    <button class="btn btn-success mt-3">Proceder al Pago</button>
-                </div>
-            </div>
-        </div>
+      </mat-card>
     </div>
-</div>
 
+    <div class="col-md-4">
+      <mat-card>
+        <mat-card-content>
+          <h3 class="h3">Resumen del Pedido</h3>
+          <mat-list>
+            <mat-list-item>Producto 1: $Precio</mat-list-item>
+            <mat-list-item>Producto 2: $Precio</mat-list-item>
+            <!-- Más productos -->
+            <mat-list-item class="text-success">Total: $Total</mat-list-item>
+          </mat-list>
+          <button mat-raised-button color="primary" class="mt-3" (click)="procederAlPago()">Proceder al Pago</button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>

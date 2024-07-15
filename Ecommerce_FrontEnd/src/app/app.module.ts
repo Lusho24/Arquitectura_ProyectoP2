@@ -17,7 +17,6 @@ import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { CartModule } from './features/cart/cart.module';
 import { OrderModule } from './features/order/order.module';
-import { AdminModule } from './features/admin/admin.module';
 
 @NgModule({
   declarations: [

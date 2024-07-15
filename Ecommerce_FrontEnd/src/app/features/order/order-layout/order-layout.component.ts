@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { BankInfComponent } from '../bank-inf/bank-inf.component';
 
 @Component({
   selector: 'app-order-layout',
@@ -17,7 +19,7 @@ export class OrderLayoutComponent {
   private clientSecret: string;
   private apiUrl: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public dialog: MatDialog) {
     this.clientId = 'tu-client-id';
     this.clientSecret = 'tu-client-secret';
     this.apiUrl = 'https://sandbox.dlocal.com';
@@ -27,13 +29,19 @@ export class OrderLayoutComponent {
   realizarPedido(): void {
     if (this.termsAccepted) {
       if (this.metodoPago === 'bankTransfer') {
-        // Redirección a otra página para transferencia bancaria
-        this.router.navigate(['/bankInf']);
+        this.openBankInfoModal();
       } else if (this.metodoPago === 'creditCard') {
-        // Integación con la pasarela de pagos de dLocalGo
         this.integrarPasarelaPago();
       }
     }
+  }
+
+  openBankInfoModal(): void {
+    const dialogRef = this.dialog.open(BankInfComponent);
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.router.navigate(['/home']);
+    });
   }
 
   // Simulación de integración con pasarela de pagos de dLocalGo
@@ -54,6 +62,4 @@ export class OrderLayoutComponent {
   updateTotal() {
     this.total = 80 + this.envio;
   }
-  
-  
 }
