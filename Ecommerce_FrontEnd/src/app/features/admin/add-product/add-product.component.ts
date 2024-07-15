@@ -1,24 +1,24 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss']
 })
-export class AddProductComponent 
-{
-
+export class AddProductComponent {
   addProductForm: FormGroup;
   selectedFile: File | null = null;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private productService: ProductService
   ) {
     this.addProductForm = this.fb.group({
+      categoryId: [0, Validators.required],
       name: ['', Validators.required],
       price: [0, Validators.required],
       description: ['', Validators.required],
@@ -35,15 +35,29 @@ export class AddProductComponent
         const reader = new FileReader();
         reader.onload = (e: any) => {
           formData.image = e.target.result;
-          // Aquí puedes hacer una solicitud para guardar el producto, redirigir, etc.
-          console.log(formData);
-          this.router.navigate(['/admin/products']);
+          // Llamar al servicio SOAP para agregar el producto
+          this.productService.addProduct(formData.categoryId, formData.name, formData.description, formData.price, formData.stock)
+            .subscribe(response => {
+              console.log('Response from AddProduct:', response);
+              // Manejar la respuesta según sea necesario
+              this.router.navigate(['/admin/products']);
+            }, error => {
+              console.error('Error:', error);
+              // Manejar errores aquí
+            });
         };
         reader.readAsDataURL(this.selectedFile);
       } else {
-        // Aquí puedes hacer una solicitud para guardar el producto, redirigir, etc.
-        console.log(formData);
-        this.router.navigate(['/admin/products']);
+        // Llamar al servicio SOAP para agregar el producto
+        this.productService.addProduct(formData.categoryId, formData.name, formData.description, formData.price, formData.stock)
+          .subscribe(response => {
+            console.log('Response from AddProduct:', response);
+            // Manejar la respuesta según sea necesario
+            this.router.navigate(['/admin/products']);
+          }, error => {
+            console.error('Error:', error);
+            // Manejar errores aquí
+          });
       }
     }
   }
@@ -55,5 +69,4 @@ export class AddProductComponent
   onCancelClick(): void {
     this.router.navigate(['/admin/products']);
   }
-  
 }

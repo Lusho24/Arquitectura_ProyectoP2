@@ -33,7 +33,7 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss",
               "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"   
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },
@@ -78,6 +78,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "Ecommerce_FrontEnd:build:production"
@@ -118,5 +121,9 @@
         }
       }
     }
+  },
+  
+  "cli": {
+    "analytics": "2399d588-dc96-46c0-91bc-b06898ce0d91"
   }
 }

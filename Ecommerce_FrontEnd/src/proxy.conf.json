@@ -1,0 +1,9 @@
+{
+    "/ProductService": {
+      "target": "https://localhost:44392",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  
