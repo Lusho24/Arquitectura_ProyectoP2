@@ -38,7 +38,8 @@ export class SidebarService {
         {
           title: 'Agregar Producto',
           type: 'simple',
-          route: '/admin/products'
+          route: '/admin/products/add'
+          //poner la ruta de agregar producto
           
         },
       ]
