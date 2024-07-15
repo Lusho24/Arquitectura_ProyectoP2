@@ -42,13 +42,7 @@ public class UserRestController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> findUserById(@PathVariable String id){
-        Optional<UserEntity> response = userService.findUserById(id);
-        if (response.isPresent()){
-            return ResponseEntity.ok().body(response);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                ExceptionDetailsDTO.builder().statusCode(404).message("Usuario no encontrado.").build()
-        );
+        return ResponseEntity.ok().body(userService.findUserById(id));
     }
 
     @PostMapping("/save")
@@ -79,12 +73,9 @@ public class UserRestController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> deleteUserById(@PathVariable String id){
-        boolean isDeleted = userService.deleteUserById(id);
-        if(isDeleted){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                ExceptionDetailsDTO.builder().statusCode(404).message("Usuario no encontrado.").build()
+        userService.deleteUserById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ExceptionDetailsDTO.builder().statusCode(200).message("Usuario eliminado exitosamente.").build()
         );
     }
 

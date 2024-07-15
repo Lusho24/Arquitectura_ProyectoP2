@@ -2,17 +2,15 @@ package com.api.auth.application.exceptions;
 
 import com.api.auth.application.dto.ExceptionDetailsDTO;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class UserEmailAlreadyExistsException extends RuntimeException {
     private ExceptionDetailsDTO exceptionDetailsDTO;
 
-    public UserEmailAlreadyExistsException(ExceptionDetailsDTO exceptionDetailsDTO, String message) {
-        super(message);
-        this.exceptionDetailsDTO = exceptionDetailsDTO;
-    }
-
     public UserEmailAlreadyExistsException(ExceptionDetailsDTO exceptionDetailsDTO) {
+        super(exceptionDetailsDTO.getMessage());
         this.exceptionDetailsDTO = exceptionDetailsDTO;
     }
 
@@ -20,8 +18,4 @@ public class UserEmailAlreadyExistsException extends RuntimeException {
         super(message);
     }
 
-
-    public void setExceptionDetailsDTO(ExceptionDetailsDTO exceptionDetailsDTO) {
-        this.exceptionDetailsDTO = exceptionDetailsDTO;
-    }
 }

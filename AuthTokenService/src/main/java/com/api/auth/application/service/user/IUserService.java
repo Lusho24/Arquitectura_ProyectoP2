@@ -10,7 +10,7 @@ public interface IUserService {
     public List<UserEntity> findAllUsers();
     public Optional<UserEntity> findUserById(String id);
     public UserEntity saveUser(UserEntity user);
-    public Boolean deleteUserById(String id);
+    public void deleteUserById(String id);
     public Optional<UserEntity> findUserByEmail(String email);
 
 }

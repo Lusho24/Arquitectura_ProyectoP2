@@ -4,6 +4,7 @@ import com.api.auth.adapter.controller.user.UserRestController;
 import com.api.auth.application.dto.ExceptionDetailsDTO;
 import com.api.auth.application.exceptions.UserEmailAlreadyExistsException;
 import com.api.auth.application.exceptions.UserIdAlreadyExistsException;
+import com.api.auth.application.exceptions.UserNotFoundException;
 import com.api.auth.domain.model.user.UserEntity;
 import com.api.auth.domain.repository.user.IUserRepository;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserRestController.class);
 
@@ -25,12 +26,20 @@ public class UserService implements IUserService{
 
     @Override
     public List<UserEntity> findAllUsers() {
-        return (ArrayList<UserEntity>)userRepository.findAll();
+        return (ArrayList<UserEntity>) userRepository.findAll();
     }
 
     @Override
     public Optional<UserEntity> findUserById(String id) {
-        return userRepository.findById(id);
+        if (userRepository.existsById(id)) {
+            return userRepository.findById(id);
+        }
+        throw new UserNotFoundException(
+                ExceptionDetailsDTO.builder()
+                        .statusCode(404)
+                        .message("El usuario que esta buscando no existe.")
+                        .build()
+        );
     }
 
     @Override
@@ -38,7 +47,7 @@ public class UserService implements IUserService{
         Optional<UserEntity> existingUserId = userRepository.findById(user.getId());
         Optional<UserEntity> existingUserEmail = userRepository.findByEmail(user.getEmail());
 
-        if (existingUserId.isPresent()){
+        if (existingUserId.isPresent()) {
             throw new UserIdAlreadyExistsException(
                     ExceptionDetailsDTO.builder()
                             .statusCode(409)
@@ -59,16 +68,31 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Boolean deleteUserById(String id) {
-        if (userRepository.existsById(id)){
+    public void deleteUserById(String id) {
+        if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
-            return true;
+        } else {
+            throw new UserNotFoundException(
+                    ExceptionDetailsDTO.builder()
+                            .statusCode(404)
+                            .message("El usuario ya no existe.")
+                            .build()
+            );
         }
-        return false;
     }
 
-    public Optional<UserEntity> findUserByEmail(String email){
-        return userRepository.findByEmail(email);
+    public Optional<UserEntity> findUserByEmail(String email) {
+        Optional<UserEntity> existUser = userRepository.findByEmail(email);
+        if (existUser.isPresent()) {
+            return existUser;
+        }
+        throw new UserNotFoundException(
+                ExceptionDetailsDTO.builder()
+                        .statusCode(404)
+                        .message("El usuario que esta buscando no existe.")
+                        .build()
+        );
+
     }
 
 }
