@@ -1,10 +1,9 @@
-
 <div class="page-wrapper" [ngClass]="{'toggled' : getSideBarState()}">
   <app-sidebar></app-sidebar>
   <div class="content-wrapper">
     <h3 class="table">
       Productos de administrador
-      <button mat-raised-button color="primary" (click)="openAddModal()">Añadir</button>
+  
     </h3>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
