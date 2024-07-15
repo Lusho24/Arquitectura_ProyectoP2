@@ -1,40 +1,35 @@
 <app-sidebar></app-sidebar>
-<div class="content-wrapper">
-    <div class="content-wrapper">
-        <h1>Añadir Producto</h1>
-        <form [formGroup]="addProductForm">
-          <!-- Campo para la subida de archivos -->
-          <input type="file" id="fileInput" (change)="onFileSelected($event)">
-          <label for="fileInput" class="file-label">Seleccionar Imagen</label>
-    
-          <!-- Campo para el nombre del producto --> 
-          <mat-form-field appearance="fill">
-            <mat-label>Nombre del Producto</mat-label>
-            <input matInput formControlName="name" placeholder="Nombre del Producto">
-          </mat-form-field>
-    
-          <!-- Campo para el precio del producto -->
-          <mat-form-field appearance="fill">
-            <mat-label>Precio del Producto</mat-label>
-            <input matInput formControlName="price" placeholder="Precio del Producto" type="number" class="no-spinner">
-          </mat-form-field>
-    
-          <!-- Campo para la descripción del producto -->
-          <mat-form-field appearance="fill">
-            <mat-label>Descripción del Producto</mat-label>
-            <textarea matInput formControlName="description" placeholder="Descripción del Producto"></textarea>
-          </mat-form-field>
-    
-          <!-- Campo para el stock del producto -->
-          <mat-form-field appearance="fill">
-            <mat-label>Stock del Producto</mat-label>
-            <input matInput formControlName="stock" placeholder="Stock del Producto" type="number">
-          </mat-form-field>
-    
-          <div class="actions">
-            <button mat-button (click)="onCancelClick()">Cancelar</button>
-            <button mat-button (click)="onAddClick()">Añadir</button>
-          </div>
-        </form>
+
+  <div class="content-wrapper">
+    <h1>Añadir Producto</h1>
+    <form [formGroup]="addProductForm" class="add-product-form">
+      <input type="file" id="fileInput" (change)="onFileSelected($event)">
+      <label for="fileInput" class="file-label">Seleccionar Imagen</label>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre del Producto</mat-label>
+        <input matInput formControlName="name" placeholder="Nombre del Producto" class="form-control">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Precio del Producto</mat-label>
+        <input matInput formControlName="price" placeholder="Precio del Producto" type="number" class="form-control no-spinner">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Descripción del Producto</mat-label>
+        <textarea matInput formControlName="description" placeholder="Descripción del Producto" class="form-control"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Stock del Producto</mat-label>
+        <input matInput formControlName="stock" placeholder="Stock del Producto" type="number" class="form-control">
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-button (click)="onCancelClick()" class="btn btn-cancel">Cancelar</button>
+        <button mat-button (click)="onAddClick()" class="btn btn-add">Añadir</button>
       </div>
-</div>
+    </form>
+  </div>
+
