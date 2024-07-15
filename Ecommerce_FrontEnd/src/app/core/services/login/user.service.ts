@@ -10,7 +10,7 @@ import { CreateUserModel } from '../../models/createUserModel';
 })
 export class UserService {
 
-  private urlEndPoint = `${environment.apiUrl}/users`;
+  private urlEndPoint = `${environment.userUrl}/users`;
 
   constructor(private http:HttpClient) { }
 
@@ -29,4 +29,5 @@ export class UserService {
   public delete(id: string): Observable<any> {
     return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
   }
+  
 }
