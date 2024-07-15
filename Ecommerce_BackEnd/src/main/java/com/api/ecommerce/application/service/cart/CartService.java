@@ -1,6 +1,7 @@
 package com.api.ecommerce.application.service.cart;
 
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
+import com.api.ecommerce.application.exceptions.CartAlreadyExistsException;
 import com.api.ecommerce.application.exceptions.CartNotFoundException;
 import com.api.ecommerce.domain.model.cart.CartEntity;
 import com.api.ecommerce.domain.repository.cart.ICartRepository;
@@ -37,6 +38,15 @@ public class CartService implements ICartService{
 
     @Override
     public CartEntity saveCart(CartEntity cart) {
+        Optional<CartEntity> existingCart = cartRepository.findByUserId(cart.getUserId());
+        if (existingCart.isPresent()){
+            throw new CartAlreadyExistsException(
+                    ExceptionDetailsDTO.builder()
+                            .statusCode(409)
+                            .message("El carrito ya existe.")
+                            .build()
+            );
+        }
         return cartRepository.save(cart);
     }
 
