@@ -57,16 +57,15 @@ public class CartService implements ICartService{
     @Override
     public Optional<CartEntity> findCartByUserId(String userId) {
         Optional<CartEntity> existCar = cartRepository.findByUserId(userId);
-        System.out.println("CARRRO EXISTENTE: " + existCar);
-        //if (existCar.isPresent()){
+        if (existCar.isPresent()){
             return existCar;
-        //}
-        /*throw new CartNotFoundException(
+        }
+        throw new CartNotFoundException(
                 ExceptionDetailsDTO.builder()
                         .statusCode(404)
                         .message("El carrito que esta buscando no existe.")
                         .build()
-        );*/
+        );
     }
 
 }
