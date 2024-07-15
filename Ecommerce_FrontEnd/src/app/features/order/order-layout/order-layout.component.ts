@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import axios from 'axios';
 
 @Component({
   selector: 'app-order-layout',
@@ -54,4 +55,6 @@ export class OrderLayoutComponent {
   updateTotal() {
     this.total = 80 + this.envio;
   }
+  
+  
 }

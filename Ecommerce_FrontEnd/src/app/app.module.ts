@@ -38,7 +38,8 @@ import { OrderModule } from './features/order/order.module';
     CartModule,
     OrderModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    OrderModule
   ],
   bootstrap: [AppComponent],
   providers: [

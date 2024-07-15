@@ -5,8 +5,21 @@
         </div>
         <div class="col-lg-8">
             <h2 class="product-name">Nombre del Producto</h2>
-            <p class="product-price">$250.00</p>
-            <p class="product-description">Descripcion de producto.</p>
+            <p class="product-price">{{ price | currency }}</p>
+            <p class="product-description">Descripción de producto.</p>
+            
+            <!-- Contador -->
+            <div class="quantity-control">
+                <button mat-raised-button color="accent" (click)="decreaseQuantity()">-</button>
+                <span id="quantity">{{ quantity }}</span>
+                <button mat-raised-button color="accent" (click)="increaseQuantity()">+</button>
+            </div>
+            
+            <!-- Total -->
+            <p class="total-price">Total: {{ total | currency }}</p>
+
+            <!-- Añadir al Carrito -->
+            <button mat-raised-button color="primary" class="add-to-cart">Añadir al carrito</button>
         </div>
     </div>
 </div>

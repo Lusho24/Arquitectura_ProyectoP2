@@ -104,68 +104,8 @@ body, ul, li, p, a, label, input, div {
     font-size: 15px;
     margin-top: 20px;
   }
-  /* Brand */
-  .brand-img {
-    filter: grayscale(100%);
-    opacity: 0.5;
-    transition: .5s;
-  }
-  .brand-img:hover {
-    filter: grayscale(0%);
-    opacity: 1;
-  }
-  /* Carousel Hero */
-  #template-mo-zay-hero-carousel .carousel-indicators li {
-    margin-top: -50px;
-    background-color: #59ab6e;
-  }
-  #template-mo-zay-hero-carousel .carousel-control-next i,
-  #template-mo-zay-hero-carousel .carousel-control-prev i {
-    color: #59ab6e !important;
-    font-size: 2.8em !important;
-  }
-  /* Carousel Brand */
-  .tempaltemo-carousel .h1 {
-    font-size: .5em !important;
-    color: #000 !important;
-  }
-  /* Services */
-  .services-icon-wap {transition: .3s;}
-  .services-icon-wap:hover, .services-icon-wap:hover i {color: #fff;}
-  .services-icon-wap:hover {background: #69bb7e;}
-  /* Contact map */
-  .leaflet-control a, .leaflet-control { font-size: 10px !important;}
-  .form-control { border: 1px solid #e8e8e8;}
-  /* Footer */
-  #tempaltemo_footer a { color: #dcdde1;}
-  #tempaltemo_footer a:hover { color: #68bb7d;}
-  #tempaltemo_footer ul.footer-link-list li { padding-top: 10px;}
-  #tempaltemo_footer ul.footer-icons li {
-    width: 2.6em;
-    height: 2.6em;
-    line-height: 2.6em;
-  }
-  #tempaltemo_footer ul.footer-icons li:hover {
-    background-color: #cfd6e1;
-    transition: .5s;
-  }
-  #tempaltemo_footer ul.footer-icons li:hover i {
-    color: #212934;
-    transition: .5s;
-  }
-  #tempaltemo_footer .border-light { border-color: #2d343f !important;}
-  /*
-  // Extra small devices (portrait phones, less than 576px)
-  // No media query since this is the default in Bootstrap
-  */
-  /* Small devices (landscape phones, 576px and up)*/
-  .product-wap .h3, .product-wap li, .product-wap i, .product-wap p {
-    font-size: 12px !important;
-  }
-  .product-wap .product-color-dot {
-    width: 6px;
-    height: 6px;
-  }
+ 
+
   
   @media (min-width: 576px) {
     .tempaltemo-carousel .h1 { font-size: 1em !important;}
