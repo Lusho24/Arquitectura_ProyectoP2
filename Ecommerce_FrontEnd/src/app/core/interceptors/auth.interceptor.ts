@@ -5,9 +5,11 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private urlUsers: string = environment.apiUrl;
+  private urlUsers: string = environment.userUrl;
+  private urlEcommerce: string = environment.ecommerceUrl;
   private tokenRequiredUrls: string[] = [
-    this.urlUsers
+    this.urlUsers,
+    this.urlEcommerce
   ];
 
   constructor() { }
