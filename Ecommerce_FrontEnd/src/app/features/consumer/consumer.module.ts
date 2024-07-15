@@ -17,7 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ContactComponent } from './contact/contact.component';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -43,6 +44,8 @@ import { ContactComponent } from './contact/contact.component';
     MatDialogModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatPaginatorModule,
+    MatListModule
 
   ]
 })
