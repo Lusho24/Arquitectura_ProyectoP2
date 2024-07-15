@@ -85,7 +85,7 @@ public class JwtUtils {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    // Obtener el atributo "address" del token
+    // Obtener el atributo "id" del token
     public String getNameFromToken(String token) {
         return getClaimFromToken(token, claims -> claims.get("id", String.class));
     }
