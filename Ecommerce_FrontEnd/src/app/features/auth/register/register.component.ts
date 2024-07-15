@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateUserModel } from 'src/app/core/models/createUserModel';
 import { UserService } from 'src/app/core/services/login/user.service';
 
@@ -18,7 +19,8 @@ export class RegisterComponent {
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
     private _formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar,
   ) {
     this._registerForm = this._formBuilder.group({
       id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]*$')]],
@@ -39,9 +41,15 @@ export class RegisterComponent {
 
     this.userService.save(user).subscribe({
       next: () =>{
-        console.log("USUARIO A REGISTRADO: ", user);
+        this.snackBar.open("✅ Usuario registrado correctamente", "Cerrar", {
+          duration: 3000
+        });
+        this.dialogRef.close();
       },
       error: (error) => {
+        this.snackBar.open(`⛔ ${error.error.message}`, "Cerrar", {
+          duration: 3000
+        });
         console.log(error);
       }
     });

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { UserModel } from 'src/app/core/models/userModel';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent {
   constructor(
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
   ) {
     this._signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,11 +34,16 @@ export class LoginComponent {
     const user: UserModel = this._signInForm.value
 
     this.authService.login(user).subscribe({
-      next: (respose) => {
-        console.log("USUARIO ACEPTADO", respose)
+      next: () => {
+        this.snackBar.open("✅ Usuario aceptado ", "Cerrar", {
+          duration: 2500
+        });
       },
       error: (error) => {
-        console.log("ERROR: ", error)
+        this.snackBar.open("❌ Error al iniciar sesión", "Cerrar", {
+          duration: 2500
+        });
+        console.log("ERROR: ", error);
       }
     });
     
