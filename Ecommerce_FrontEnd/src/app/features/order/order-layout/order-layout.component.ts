@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import axios from 'axios';
 
 @Component({
   selector: 'app-order-layout',
