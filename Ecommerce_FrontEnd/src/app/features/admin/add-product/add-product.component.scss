@@ -4,24 +4,6 @@ form {
   flex-direction: column;
 }
 
-/* Estilo para los campos de formulario */
-mat-form-field {
-  margin-bottom: 16px;
-}
-
-/* Estilo para el contenido del modal */
-.mat-dialog-content {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Estilo para las acciones del modal */
-.mat-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
 /* Botones de acción */
 button {
   margin-left: 8px;
@@ -88,13 +70,25 @@ button {
 
 /* Estilo para el botón de Cancelar */
 .btn-cancel {
-  background-color: #9f2020; /* Color de fondo rojo */
+  border-radius: 5px;
+  border: 1px solid #0000007b; 
+}
+
+
+.btn-cancel:hover{
+  background-color: #073a9150; 
 }
 
 /* Estilo para el botón de Añadir */
 .btn-add {
-  background-color: #204f9f; /* Color de fondo verde */
+  border-radius: 5px;
+  border: 1px solid #0000007b; 
 }
+
+.btn-add:hover {
+  background-color: #073a9150; 
+}
+
 
 /* Cambios de color al pasar el mouse sobre los botones */
 button:hover {
