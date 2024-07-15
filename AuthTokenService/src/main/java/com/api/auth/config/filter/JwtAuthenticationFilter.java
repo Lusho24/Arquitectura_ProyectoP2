@@ -1,6 +1,7 @@
 package com.api.auth.config.filter;
 
 import com.api.auth.config.jwt.JwtUtils;
+import com.api.auth.domain.model.user.CustomUser;
 import com.api.auth.domain.model.user.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -54,8 +55,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        User user = (User) authResult.getPrincipal();
-        String jwt = jwtUtils.generateAccessToken(user.getUsername());
+        CustomUser user = (CustomUser) authResult.getPrincipal();
+        String jwt = jwtUtils.generateAccessToken(user);
 
         response.addHeader("Authorization", jwt);
         Map<String, Object> httpResponse = new HashMap<>();

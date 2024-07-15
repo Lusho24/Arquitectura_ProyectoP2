@@ -1,5 +1,6 @@
 package com.api.auth.application.service.user;
 
+import com.api.auth.domain.model.user.CustomUser;
 import com.api.auth.domain.model.user.UserEntity;
 import com.api.auth.domain.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role.getName().name())))
                 .collect(Collectors.toSet());
 
-        return new User(
+        return new CustomUser(
                 userEntity.getEmail(),
                 userEntity.getPassword(),
                 true,
                 true,
                 true,
                 true,
-                authorities
-
+                authorities,
+                userEntity.getId(),
+                userEntity.getName(),
+                userEntity.getAddress(),
+                userEntity.getPhone()
         );
     }
 }

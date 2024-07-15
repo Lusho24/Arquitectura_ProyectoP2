@@ -1,5 +1,6 @@
 package com.api.auth.config.jwt;
 
+import com.api.auth.domain.model.user.CustomUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 @Component
@@ -22,9 +25,16 @@ public class JwtUtils {
     private String timeExpiration;
 
     // Generar token de acceso
-    public String generateAccessToken(String email) {
+    public String generateAccessToken(CustomUser user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id",user.getId());
+        claims.put("name",user.getName());
+        claims.put("address",user.getAddress());
+        claims.put("phone",user.getPhone());
+
         return Jwts.builder()
-                .subject(email)
+                .subject(user.getUsername())
+                .claims(claims)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + Long.parseLong(timeExpiration)))
                 .signWith(getSignatureKey())
@@ -67,7 +77,7 @@ public class JwtUtils {
     }
 
     //Obtener un solo claim del token
-    public String getUsername(String token){
+    public String getEmail(String token){
         return getClaim(token, Claims::getSubject);
     }
 
