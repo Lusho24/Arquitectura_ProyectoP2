@@ -6,6 +6,8 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,8 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -53,10 +57,10 @@ public class JwtUtils {
             Jwts.parser()
                     .verifyWith(getSignatureKey())
                     .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+                    .parseSignedClaims(token);
             return true;
         }catch (JwtException e){
+            logger.error("ERROR: JWT Inválido.", e);
             return false;
         }
     }
@@ -71,14 +75,19 @@ public class JwtUtils {
     }
 
     //Obtener un solo claim del token
-    private  <T> T getClaim(String token, Function<Claims, T> claimsTFunction){
+    private  <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver){
         Claims claims = extractAllClaims(token);
-        return claimsTFunction.apply(claims);
+        return claimsResolver.apply(claims);
     }
 
     //Obtener un solo claim del token
     public String getEmail(String token){
-        return getClaim(token, Claims::getSubject);
+        return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    // Obtener el atributo "address" del token
+    public String getNameFromToken(String token) {
+        return getClaimFromToken(token, claims -> claims.get("id", String.class));
     }
 
 }
