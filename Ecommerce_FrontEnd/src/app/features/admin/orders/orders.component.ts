@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Producto } from '../orders-details/orders-details.component';
+import { SidebarService } from '../sidebar/sidebar.service';
 
-export interface Order {
+export interface Pedido {
   id: number;
   fechaOrden: string;
   estado: string;
   total: number;
 }
+
+const ELEMENT_DATA: Pedido[] = [
+  { id: 1, fechaOrden: '2023-07-10', estado: 'Procesado', total: 100 },
+  { id: 2, fechaOrden: '2023-07-11', estado: 'En Espera', total: 150 },
+  { id: 3, fechaOrden: '2023-07-12', estado: 'Cancelado', total: 50 },
+];
 
 @Component({
   selector: 'app-orders',
@@ -16,22 +21,30 @@ export interface Order {
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent {
-  dataSource: Order[] = [
-    { id: 1, fechaOrden: '2024-07-15', estado: 'Procesado', total: 150 },
-    { id: 2, fechaOrden: '2024-07-14', estado: 'En Espera', total: 200 },
-    { id: 3, fechaOrden: '2024-07-13', estado: 'Cancelado', total: 100 }
-  ];
-
-
   displayedColumns: string[] = ['id', 'fechaOrden', 'estado', 'total', 'detallePedido'];
+  dataSource = ELEMENT_DATA;
 
-  estadosPedidos: string[] = ['Procesado', 'En Espera', 'Cancelado'];
+  estadosPedidos: string[] = ['Procesado', 'En Espera', 'Cancelado']; // Opciones para el estado del pedido
 
+  constructor(private router: Router, public sidebarservice: SidebarService) {}
 
-  constructor(private router: Router) {}
+  verDetalle(pedido: Pedido) {
+    this.router.navigate(['/admin/orders-details', pedido.id]);
+  }
 
-  verDetalle(pedido: Producto) {
-    this.router.navigate(['/orders']);
+  toggleSidebar() {
+    this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
+  }
+
+  toggleBackgroundImage() {
+    this.sidebarservice.hasBackgroundImage = !this.sidebarservice.hasBackgroundImage;
+  }
+
+  getSideBarState() {
+    return this.sidebarservice.getSidebarState();
+  }
+
+  hideSidebar() {
+    this.sidebarservice.setSidebarState(true);
   }
 }
-
