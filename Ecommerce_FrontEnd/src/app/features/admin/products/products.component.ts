@@ -11,12 +11,13 @@ export interface Product {
   name: string;
   price: number;
   stock: number;
+  estado: string;
 }
 
 const ELEMENT_DATA: Product[] = [
-  { id: 1, image: 'https://via.placeholder.com/150', name: 'Manzana', price: 1.99, stock: 100 },
-  { id: 2, image: 'https://via.placeholder.com/150', name: 'Banana', price: 0.99, stock: 150 },
-  { id: 3, image: 'https://via.placeholder.com/150', name: 'Fresa', price: 2.99, stock: 50 },
+  { id: 1, image: 'https://via.placeholder.com/150', name: 'Manzana', price: 1.99, stock: 100, estado: 'Disponible' },
+  { id: 2, image: 'https://via.placeholder.com/150', name: 'Banana', price: 0.99, stock: 150, estado: 'No Disponible' },
+  { id: 3, image: 'https://via.placeholder.com/150', name: 'Fresa', price: 2.99, stock: 50, estado: 'Disponible' },
 ];
 
 @Component({
@@ -25,7 +26,7 @@ const ELEMENT_DATA: Product[] = [
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent {
-  displayedColumns: string[] = ['image', 'name', 'price', 'stock', 'actions'];
+  displayedColumns: string[] = ['image', 'name', 'price', 'stock', 'estado', 'actions'];
   dataSource = ELEMENT_DATA;
 
   constructor(public dialog: MatDialog, private router: Router, public sidebarservice: SidebarService) {}
@@ -43,7 +44,7 @@ export class ProductsComponent {
     });
   }
 
-  //modal de edit
+  // Modal de edición
   editProduct(row: Product): void {
     const dialogRef = this.dialog.open(EditProductComponent, {
       width: '400px',
