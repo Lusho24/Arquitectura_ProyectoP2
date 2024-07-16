@@ -25,6 +25,7 @@
     "@swimlane/ngx-datatable": "^20.1.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "decoder": "^1.1.6",
     "install": "^0.13.0",
     "ngx-perfect-scrollbar": "^10.1.1",
     "npm": "^10.8.2",

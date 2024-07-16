@@ -8,7 +8,7 @@ export interface Product {
   name: string;
   price: number;
   stock: number;
-  description: string; // Asegúrate de tener esta propiedad si estás usando descripción
+  description: string;
 }
 
 @Component({
@@ -19,6 +19,7 @@ export interface Product {
 export class EditProductComponent {
   editProductForm: FormGroup;
   selectedFile: File | null = null;
+  imageUrl: string | ArrayBuffer | null;
 
   constructor(
     public dialogRef: MatDialogRef<EditProductComponent>,
@@ -32,6 +33,8 @@ export class EditProductComponent {
       stock: [data.stock, Validators.required],
       image: [data.image]
     });
+
+    this.imageUrl = data.image;
   }
 
   onNoClick(): void {
@@ -57,5 +60,12 @@ export class EditProductComponent {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageUrl = e.target.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 }
