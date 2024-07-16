@@ -1,11 +1,11 @@
 package com.api.ecommerce.application.service.user;
 
+import com.api.ecommerce.domain.model.user.CustomUser;
 import com.api.ecommerce.domain.model.user.UserEntity;
 import com.api.ecommerce.domain.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,14 +29,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role.getName().name())))
                 .collect(Collectors.toSet());
 
-        return new User(
+        return new CustomUser(
                 userEntity.getEmail(),
                 userEntity.getPassword(),
                 true,
                 true,
                 true,
                 true,
-                authorities
+                authorities,
+                userEntity.getId(),
+                userEntity.getName(),
+                userEntity.getAddress(),
+                userEntity.getPhone(),
+                userEntity.getRoles()
         );
     }
 

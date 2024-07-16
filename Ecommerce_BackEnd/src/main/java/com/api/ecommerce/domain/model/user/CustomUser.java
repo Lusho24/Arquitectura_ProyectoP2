@@ -1,6 +1,6 @@
-package com.api.auth.domain.model.user;
+package com.api.ecommerce.domain.model.user;
 
-import com.api.auth.domain.model.role.RoleEntity;
+import com.api.ecommerce.domain.model.role.RoleEntity;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +23,19 @@ public class CartRestController {
     private ICartService cartService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CartEntity>> findAllCarts(){
         return ResponseEntity.ok().body(cartService.findAllCarts());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Optional<?>> findCartById(@PathVariable Long id){
         return ResponseEntity.ok().body(cartService.findCartById(id));
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> saveCart(@Valid @RequestBody CreateCartDTO cartDTO, BindingResult result){
         if (result.hasErrors()) {
             return this.validate(result);
@@ -46,6 +50,7 @@ public class CartRestController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id){
         cartService.deleteCartById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -54,6 +59,7 @@ public class CartRestController {
     }
 
     @GetMapping("/by-user-id/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> findCartByUserId(@PathVariable String id){
         return ResponseEntity.ok().body(cartService.findCartByUserId(id));
     }

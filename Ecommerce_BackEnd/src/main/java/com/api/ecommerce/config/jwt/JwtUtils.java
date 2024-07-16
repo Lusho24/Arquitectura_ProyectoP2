@@ -1,5 +1,6 @@
 package com.api.ecommerce.config.jwt;
 
+import com.api.ecommerce.domain.model.user.CustomUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 import java.util.function.Function;
 
 @Component
@@ -31,17 +33,22 @@ public class JwtUtils {
     }
 
     //Validar token de acceso
-    public boolean isTokenValid(String token){
+    public boolean isTokenValid(String token, CustomUser user){
+        String email = getEmail(token);
         try{
             Jwts.parser()
                     .verifyWith(getSignatureKey())
                     .build()
                     .parseSignedClaims(token);
-            return true;
+            return (email.equals(user.getUsername())) && !isTokenExpired(token);
         }catch (JwtException e){
             logger.error("ERROR: JWT Inválido.", e);
             return false;
         }
+    }
+
+    private boolean isTokenExpired(String token){
+        return getExpirationFromToken(token).before(new Date());
     }
 
     //Obtener claims del token
@@ -62,6 +69,11 @@ public class JwtUtils {
     //Obtener un solo claim del token
     public String getEmail(String token){
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    // Obtener la fecha de expiracion del token
+    private Date getExpirationFromToken (String token){
+        return getClaimFromToken(token,Claims::getExpiration);
     }
 
     // Obtener el atributo "id" del token

@@ -53,17 +53,22 @@ public class JwtUtils {
     }
 
     //Validar token de acceso
-    public boolean isTokenValid(String token){
+    public boolean isTokenValid(String token, CustomUser user){
+        String email = getEmail(token);
         try{
             Jwts.parser()
                     .verifyWith(getSignatureKey())
                     .build()
                     .parseSignedClaims(token);
-            return true;
+            return (email.equals(user.getUsername())) && !isTokenExpired(token);
         }catch (JwtException e){
             logger.error("ERROR: JWT Inválido.", e);
             return false;
         }
+    }
+
+    private boolean isTokenExpired(String token){
+        return getExpirationFromToken(token).before(new Date());
     }
 
     //Obtener claims del token
@@ -81,9 +86,15 @@ public class JwtUtils {
         return claimsResolver.apply(claims);
     }
 
+
     //Obtener un solo claim del token
     public String getEmail(String token){
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    // Obtener la fecha de expiracion del token
+    private Date getExpirationFromToken (String token){
+        return getClaimFromToken(token,Claims::getExpiration);
     }
 
     // Obtener el atributo "id" del token
