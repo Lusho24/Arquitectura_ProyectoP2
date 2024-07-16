@@ -49,6 +49,10 @@ export class LoginComponent {
     
   }
 
+  usuario(){
+    console.log("USUARIO: ", this.authService.getCurrentUser());
+  }
+
 
   // ** Getters del formulario y sus campos necesarios**
   public get signInForm(): FormGroup {
