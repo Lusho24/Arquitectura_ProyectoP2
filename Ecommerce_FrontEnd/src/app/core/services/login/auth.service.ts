@@ -20,15 +20,24 @@ export class AuthService {
     return this.http.post<any>(this.urlEndPoint, user)
       .pipe(
         tap(response => {
-          const decodedPayload = jwtDecode<JwtPayload>(response.token);
+          const email = jwtDecode<JwtPayload>(response.token).sub;
+          const decodedPayload = jwtDecode<UserModel>(response.token);
+          const filteredPayload = {
+            id: decodedPayload.id,
+            name: decodedPayload.name,
+            email: email,
+            address: decodedPayload.address,
+            phone: decodedPayload.phone,
+            roles: decodedPayload.roles
+          };
           localStorage.setItem('jwt', response.token);
-          localStorage.setItem(this.currentUserKey, JSON.stringify(decodedPayload));
+          localStorage.setItem(this.currentUserKey, JSON.stringify(filteredPayload));
         })
       );
   }
 
   // Método para obtener el usuario actual
-  public getCurrentUser(): UserModel | null | any{
+  public getCurrentUser(): UserModel | null {
     const userString = localStorage.getItem(this.currentUserKey);
     if (userString) {
       return JSON.parse(userString);

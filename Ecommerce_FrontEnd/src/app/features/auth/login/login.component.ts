@@ -3,8 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { AuthService } from 'src/app/core/services/login/auth.service';
-import { UserModel } from 'src/app/core/models/userModel';
+import { RoleModel, UserModel } from 'src/app/core/models/userModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) {
     this._signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -30,14 +32,27 @@ export class LoginComponent {
     const dialogRef = this.dialog.open(RegisterComponent);
   }
 
-  signIn():void{
+  signIn(): void {
     const user: UserModel = this._signInForm.value
 
     this.authService.login(user).subscribe({
       next: () => {
-        this.snackBar.open("✅ Usuario aceptado ", "Cerrar", {
+        const auxUser: UserModel | null = this.authService.getCurrentUser();
+        const roles: RoleModel[] = auxUser?.roles!;
+
+        const hasAdminRole = roles.some(role => role.name === 'ADMIN');
+        const hasUserRole = roles.some(role => role.name === 'USER');
+
+        if (hasAdminRole) {
+          this.router.navigate(['/admin']);
+        } else if (hasUserRole) {
+          this.router.navigate(['/']);
+        }
+
+        this.snackBar.open(`✅ Bienvenido ${auxUser?.name}`, "Cerrar", {
           duration: 2500
         });
+
       },
       error: (error) => {
         this.snackBar.open("❌ Error al iniciar sesión", "Cerrar", {
@@ -46,11 +61,7 @@ export class LoginComponent {
         console.log("ERROR: ", error);
       }
     });
-    
-  }
 
-  usuario(){
-    console.log("USUARIO: ", this.authService.getCurrentUser());
   }
 
 
@@ -62,5 +73,5 @@ export class LoginComponent {
   public get email() { return this._signInForm.get('email'); }
   public get password() { return this._signInForm.get('password'); }
 
-  
+
 }
