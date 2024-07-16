@@ -43,6 +43,7 @@ export class ProductsComponent {
     });
   }
 
+  //modal de edit
   editProduct(row: Product): void {
     const dialogRef = this.dialog.open(EditProductComponent, {
       width: '400px',

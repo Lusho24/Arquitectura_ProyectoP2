@@ -64,7 +64,7 @@ export class SidebarService {
       type: 'dropdown',
       submenus: [
         {
-          title: 'Agregar Envio',
+          title: 'Lista de Envio direcciones',
           type: 'simple',
           route: '/admin/shipping'
         },
