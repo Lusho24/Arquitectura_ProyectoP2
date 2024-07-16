@@ -1,43 +1,53 @@
 <app-sidebar></app-sidebar>
-    <div class="content-wrapper">
-      <h1 class="table">Lista de Pedidos</h1>
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  
-        <!-- ID del Pedido Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-        </ng-container>
-  
-        <!-- Fecha de Orden Column -->
-        <ng-container matColumnDef="fechaOrden">
-          <th mat-header-cell *matHeaderCellDef> Fecha de Orden </th>
-          <td mat-cell *matCellDef="let element"> {{ element.fechaOrden }} </td>
-        </ng-container>
-  
-        <!-- Estado del Pedido Column -->
-        <ng-container matColumnDef="estado">
-          <th mat-header-cell *matHeaderCellDef> Estado </th>
-          <td mat-cell *matCellDef="let element">
-            <mat-form-field appearance="fill">
-              <mat-label>Estado</mat-label>
-              <mat-select [(ngModel)]="element.estado" name="estado">
-                <mat-option *ngFor="let estado of estadosPedidos" [value]="estado">
-                  {{ estado }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-        </ng-container>
-  
-        <!-- Total Column -->
-        <ng-container matColumnDef="total">
-          <th mat-header-cell *matHeaderCellDef> Total </th>
-          <td mat-cell *matCellDef="let element"> {{ element.total | currency:'USD':'symbol':'1.2-2' }} </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-      </table>
-    </div>
+<div class="content-wrapper">
+  <h1 class="table">Lista de Pedidos</h1>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
     
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+    </ng-container>
+
+   
+    <ng-container matColumnDef="fechaOrden">
+      <th mat-header-cell *matHeaderCellDef> Fecha de Orden </th>
+      <td mat-cell *matCellDef="let element"> {{ element.fechaOrden }} </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-form-field appearance="fill">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="element.estado" name="estado">
+            <mat-option *ngFor="let estado of estadosPedidos" [value]="estado">
+              {{ estado }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef> Total </th>
+      <td mat-cell *matCellDef="let element"> {{ element.total | currency:'USD':'symbol':'1.2-2' }} </td>
+    </ng-container>
+
+    <!-- Detalle de Pedido Column -->
+    <ng-container matColumnDef="detallePedido">
+      <th mat-header-cell *matHeaderCellDef> Detalle de Pedido </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-mini-fab color="primary" aria-label="Detalle de Pedido" (click)="verDetalle(element)">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+  </table>
+</div>

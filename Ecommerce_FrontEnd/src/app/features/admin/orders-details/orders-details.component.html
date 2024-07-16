@@ -1,5 +1,64 @@
-<div class="page-wrapper" [ngClass]="{'toggled' : getSideBarState()}">
-    <app-sidebar>hola bebito ♥ </app-sidebar>
+
+    <app-sidebar></app-sidebar>
     <div class="content-wrapper">
+      <h1 class="table">
+        Detalles del Pedido
+      </h1>
+      <div class="order-details-container">
+        <div class="order-details-section">
+          <h2>Estado de Pedido</h2>
+          <mat-form-field appearance="fill">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="estadoPedido" name="estadoPedido">
+              <mat-option *ngFor="let estado of estadosPedidos" [value]="estado">
+                {{ estado }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div class="order-details-section">
+          <h2>Cliente</h2>
+          <p>{{ cliente.nombre }}</p>
+        </div>
+  
+        <div class="order-details-section">
+          <h2>Facturación</h2>
+          <p>Nombre: {{ factura.nombre }}</p>
+          <p>Correo: {{ factura.correo }}</p>
+          <p>Teléfono: {{ factura.telefono }}</p>
+        </div>
+  
+        <div class="order-details-section">
+          <h2>Envío</h2>
+          <p>Dirección: {{ envio.direccion }}</p>
+        </div>
+  
+        <div class="order-details-section">
+          <h2>Productos</h2>
+          <table mat-table [dataSource]="productos" class="mat-elevation-z8">
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef> Nombre </th>
+              <td mat-cell *matCellDef="let producto"> {{ producto.nombre }} </td>
+            </ng-container>
+            <ng-container matColumnDef="costo">
+              <th mat-header-cell *matHeaderCellDef> Costo </th>
+              <td mat-cell *matCellDef="let producto"> {{ producto.costo | currency:'USD':'symbol':'1.2-2' }} </td>
+            </ng-container>
+            <ng-container matColumnDef="cantidad">
+              <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+              <td mat-cell *matCellDef="let producto"> {{ producto.cantidad }} </td>
+            </ng-container>
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> Total </th>
+              <td mat-cell *matCellDef="let producto"> {{ producto.total | currency:'USD':'symbol':'1.2-2' }} </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let producto; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
     </div>
-</div>
+
+  

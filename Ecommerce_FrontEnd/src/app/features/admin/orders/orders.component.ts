@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Producto } from '../orders-details/orders-details.component';
 
 export interface Order {
   id: number;
@@ -19,9 +22,16 @@ export class OrdersComponent {
     { id: 3, fechaOrden: '2024-07-13', estado: 'Cancelado', total: 100 }
   ];
 
-  displayedColumns: string[] = ['id', 'fechaOrden', 'estado', 'total'];
+
+  displayedColumns: string[] = ['id', 'fechaOrden', 'estado', 'total', 'detallePedido'];
 
   estadosPedidos: string[] = ['Procesado', 'En Espera', 'Cancelado'];
 
-  constructor() {}
+
+  constructor(private router: Router) {}
+
+  verDetalle(pedido: Producto) {
+    this.router.navigate(['/orders']);
+  }
 }
+
