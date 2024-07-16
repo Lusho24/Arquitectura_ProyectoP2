@@ -5,9 +5,10 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrdersDetailsComponent } from './orders-details/orders-details.component';
 import { ProductsComponent } from './products/products.component';
+
 import { ShippingComponent } from './shipping/shipping.component';
 import { AddProductComponent } from './add-product/add-product.component';
-//import { AddProductComponent } from './add-product/add-product.component';
+
 
 
 const routes: Routes = [
@@ -15,11 +16,12 @@ const routes: Routes = [
   { path: 'orders', component: OrdersComponent },
   { path: 'ordersDetails', component: OrdersDetailsComponent },
   { path: 'products', component: ProductsComponent },
+  //shipping
   { path: 'shipping', component: ShippingComponent },
+
+
   //aqui iria la ruta que quiero redirigir 
-  { path: 'products/add', component: AddProductComponent },
-  { path: 'products/edit/:id', component: EditProductComponent } // Nueva ruta para editar productos
-  
+  { path: 'products/add', component: AddProductComponent }
 ];
 
 @NgModule({
