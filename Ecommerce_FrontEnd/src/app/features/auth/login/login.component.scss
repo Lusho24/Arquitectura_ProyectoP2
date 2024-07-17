@@ -240,3 +240,17 @@ body {
 .mdc-floating-label--required:not(.mdc-floating-label--hide-required-marker)::after {
   color: white !important;
 }
+
+//spinner
+.loading-spinner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 1000;
+}

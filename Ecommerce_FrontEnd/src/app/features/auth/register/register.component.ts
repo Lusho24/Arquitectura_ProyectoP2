@@ -13,6 +13,7 @@ import { UserService } from 'src/app/core/services/login/user.service';
 export class RegisterComponent {
   passwordStrength: string = '';
   passwordMessage: string = '';
+  isLoading = false;  
 
   private _registerForm: FormGroup;
 
@@ -35,6 +36,7 @@ export class RegisterComponent {
 
   // ** LOGICA DEL FORMULARIO ** 
   saveUserForm(): void {
+    this.isLoading = true;
     const user: CreateUserModel = this._registerForm.value;
     user.idTienda = 1;
     user.roles = ['USER'];
@@ -45,12 +47,14 @@ export class RegisterComponent {
           duration: 3000
         });
         this.dialogRef.close();
+        this.isLoading = false;
       },
       error: (error) => {
         this.snackBar.open(`⛔ ${error.error.message}`, "Cerrar", {
           duration: 3000
         });
         console.log(error);
+        this.isLoading = false;
       }
     });
 

@@ -14,6 +14,7 @@ import { RoleModel, UserModel } from 'src/app/core/models/login/userModel';
 })
 export class LoginComponent {
   private _signInForm: FormGroup;
+  isLoading = false;  
 
   constructor(
     public dialog: MatDialog,
@@ -33,6 +34,7 @@ export class LoginComponent {
   }
 
   signIn(): void {
+    this.isLoading = true;
     const user: UserModel = this._signInForm.value
 
     this.authService.login(user).subscribe({
@@ -45,10 +47,12 @@ export class LoginComponent {
 
         if (hasAdminRole) {
           this.router.navigate(['/admin']);
+          this.isLoading = false;
         } else if (hasUserRole) {
           this.router.navigate(['/']);
+          this.isLoading = false;
         }
-
+       
         this.snackBar.open(`✅ Bienvenido ${auxUser?.name}`, "Cerrar", {
           duration: 2500
         });
@@ -59,7 +63,8 @@ export class LoginComponent {
           duration: 2500
         });
         console.log("ERROR: ", error);
-      }
+        this.isLoading = false;
+      },
     });
 
   }
@@ -72,6 +77,5 @@ export class LoginComponent {
 
   public get email() { return this._signInForm.get('email'); }
   public get password() { return this._signInForm.get('password'); }
-
 
 }
