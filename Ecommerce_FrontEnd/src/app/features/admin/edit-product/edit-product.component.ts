@@ -1,15 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-export interface Product {
-  id: number;
-  image: string;
-  name: string;
-  price: number;
-  stock: number;
-  description: string; // Asegúrate de tener esta propiedad si estás usando descripción
-}
+import { ProductService } from 'src/app/services/product.service';
+import { ProductModel } from 'src/app/model/productModel'; // Asegúrate de importar el modelo correcto
 
 @Component({
   selector: 'app-edit-product',
@@ -19,19 +12,23 @@ export interface Product {
 export class EditProductComponent {
   editProductForm: FormGroup;
   selectedFile: File | null = null;
+  imageUrl: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<EditProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Product,
-    private fb: FormBuilder
+    @Inject(MAT_DIALOG_DATA) public data: ProductModel,
+    private fb: FormBuilder,
+    private productService: ProductService // Inyectar ProductService
   ) {
     this.editProductForm = this.fb.group({
       name: [data.name, Validators.required],
       price: [data.price, Validators.required],
       description: [data.description, Validators.required],
       stock: [data.stock, Validators.required],
-      image: [data.image]
+      categoryId: [data.categoryId, Validators.required], // Añadir campo de categoría
+      // image: [data.imageUrl] // Si deseas mostrar la imagen actual
     });
+    this.imageUrl = data.imageUrl; // Asignar la URL de imagen actual si existe
   }
 
   onNoClick(): void {
@@ -40,22 +37,36 @@ export class EditProductComponent {
 
   onSaveClick(): void {
     if (this.editProductForm.valid) {
-      const formData = this.editProductForm.value;
+      const formData: ProductModel = { ...this.editProductForm.value, id: this.data.id, imageUrl: this.imageUrl };
 
       if (this.selectedFile) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          formData.image = e.target.result;
-          this.dialogRef.close(formData);
+          formData.imageUrl = e.target.result; // Asignar el resultado de FileReader a imageUrl
+          this.updateProduct(formData);
         };
         reader.readAsDataURL(this.selectedFile);
       } else {
-        this.dialogRef.close(formData);
+        this.updateProduct(formData);
       }
     }
   }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+  }
+
+  updateProduct(product: ProductModel): void {
+    // Llamar al servicio para actualizar el producto
+    this.productService.updateProduct(product.id, product.categoryId, product.name, product.description, product.price, product.stock, product.imageUrl).subscribe(
+      response => {
+        console.log('Product updated successfully:', response);
+        this.dialogRef.close(product);
+      },
+      error => {
+        console.error('Error updating product:', error);
+        // Manejar el error aquí
+      }
+    );
   }
 }

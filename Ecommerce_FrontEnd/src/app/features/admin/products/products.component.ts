@@ -1,34 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ProductService } from 'src/app/services/product.service';
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { SidebarService } from '../sidebar/sidebar.service';
+import { ProductModel } from 'src/app/model/productModel'; // Asegúrate de importar la interfaz correcta aquí
 import { AddProductComponent } from '../add-product/add-product.component';
-
-export interface Product {
-  id: number;
-  image: string;
-  name: string;
-  price: number;
-  stock: number;
-}
-
-const ELEMENT_DATA: Product[] = [
-  { id: 1, image: 'https://via.placeholder.com/150', name: 'Manzana', price: 1.99, stock: 100 },
-  { id: 2, image: 'https://via.placeholder.com/150', name: 'Banana', price: 0.99, stock: 150 },
-  { id: 3, image: 'https://via.placeholder.com/150', name: 'Fresa', price: 2.99, stock: 50 },
-];
-
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
   displayedColumns: string[] = ['image', 'name', 'price', 'stock', 'actions'];
-  dataSource = ELEMENT_DATA;
+  dataSource: ProductModel[] = [];
 
-  constructor(public dialog: MatDialog, private router: Router, public sidebarservice: SidebarService) {}
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    public sidebarservice: SidebarService,
+    private productService: ProductService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.productService.getAllProducts().subscribe(
+      products => {
+        this.dataSource = products;
+        console.log('Productos cargados correctamente:', this.dataSource);
+      },
+      error => {
+        console.error('Error fetching products:', error);
+        // Manejo de errores, como mostrar un mensaje al usuario
+      }
+    );
+  }
 
   openAddModal(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
@@ -43,8 +52,7 @@ export class ProductsComponent {
     });
   }
 
-  //modal de edit
-  editProduct(row: Product): void {
+  editProduct(row: ProductModel): void {
     const dialogRef = this.dialog.open(EditProductComponent, {
       width: '400px',
       data: row
@@ -61,27 +69,36 @@ export class ProductsComponent {
     });
   }
 
-  deleteProduct(row: Product): void {
-    const index = this.dataSource.indexOf(row);
-    if (index !== -1) {
-      this.dataSource.splice(index, 1);
-      this.dataSource = [...this.dataSource]; // Para actualizar la tabla
-    }
+  deleteProduct(row: ProductModel): void {
+    this.productService.deleteProduct(row.id).subscribe(
+      response => {
+        console.log('Product deleted successfully:', response);
+        const index = this.dataSource.indexOf(row);
+        if (index !== -1) {
+          this.dataSource.splice(index, 1);
+          this.dataSource = [...this.dataSource];
+        }
+      },
+      error => {
+        console.error('Error deleting product:', error);
+        // Manejo de errores, como mostrar un mensaje al usuario
+      }
+    );
   }
 
-  toggleSidebar() {
+  toggleSidebar(): void {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
 
-  toggleBackgroundImage() {
+  toggleBackgroundImage(): void {
     this.sidebarservice.hasBackgroundImage = !this.sidebarservice.hasBackgroundImage;
   }
 
-  getSideBarState() {
+  getSideBarState(): boolean {
     return this.sidebarservice.getSidebarState();
   }
 
-  hideSidebar() {
+  hideSidebar(): void {
     this.sidebarservice.setSidebarState(true);
   }
 }
