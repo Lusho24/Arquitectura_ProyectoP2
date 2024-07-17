@@ -24,5 +24,8 @@ Dentro de esta carpeta se encuentra los siguientes archivos:
 Con respectos a las herramientas y tecnologias para el backend se usa los mismos que el de **AuthTokenService**. Para mas detalles dirigirse a: [AuthTokenService](#authtokenservice).
 
 ***
+## Ecommerce_Image_Service
+`pip install fastapi uvicorn python-multipart firebase-admin`
+
 
 
