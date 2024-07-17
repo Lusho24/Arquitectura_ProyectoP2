@@ -37,7 +37,8 @@ public class PaymentOrderRestController {
 
     @PostMapping("/save")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<?> savePaymentOrder(@Valid @RequestBody CreatePaymentOrderDTO paymentOrderDTO, BindingResult result){
+    public ResponseEntity<?> savePaymentOrder(@Valid @RequestBody CreatePaymentOrderDTO paymentOrderDTO,
+                                              BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getValidationErrors(result));
         }
