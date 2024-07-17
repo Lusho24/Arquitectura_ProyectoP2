@@ -3,6 +3,7 @@ package com.api.ecommerce.adapter.exception;
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
 import com.api.ecommerce.application.exceptions.cart.CartAlreadyExistsException;
 import com.api.ecommerce.application.exceptions.cart.CartNotFoundException;
+import com.api.ecommerce.application.exceptions.order.OrderNotFoundException;
 import com.api.ecommerce.application.exceptions.other.UserNotFoundException;
 import com.api.ecommerce.application.exceptions.shipment.ShipmentNotFoundException;
 import org.slf4j.Logger;
@@ -40,6 +41,13 @@ public class GlobalExceptionHandler {
     // * Excepciones del envío - SHIPMENT
     @ExceptionHandler(ShipmentNotFoundException.class)
     public ResponseEntity<ExceptionDetailsDTO> handleShipmentNotFoundException(ShipmentNotFoundException ex){
+        logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
+    }
+
+    // * Excepciones de la orden - PAYMENT ORDER/PURCHASE ORDER
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ExceptionDetailsDTO> handleOrderNotFoundException(OrderNotFoundException ex){
         logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
     }
