@@ -26,7 +26,7 @@
     <!-- Detalle de Pedido Column -->
     <ng-container matColumnDef="detallePedido">
       <th mat-header-cell *matHeaderCellDef> Detalle de Pedido </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" class="menu">
         <button mat-mini-fab color="primary" aria-label="Detalle de Pedido" (click)="verDetalle(element)">
           <mat-icon>menu</mat-icon>
         </button>

@@ -29,7 +29,7 @@ export class OrdersComponent {
   constructor(private router: Router, public sidebarservice: SidebarService) {}
 
   verDetalle(pedido: Pedido) {
-    this.router.navigate(['/admin/orders-details', pedido.id]);
+    this.router.navigate(['/admin/ordersDetails', pedido.id]);
   }
 
   toggleSidebar() {
