@@ -202,7 +202,13 @@ VALUES ('EcoVida', 'Calle Principal 123', '09926145', 'Esta es una tienda de eje
 -- INSERTAR datos iniciales de usuario
 INSERT INTO usuario (IDUSUARIO, IDTIENDA, NOMBREUSUARIO, EMAILUSUARIO, PASSWORDUSUARIO, DIRECCIONUSUARIO, TELFUSUARIO)
 VALUES ('1726189754', 1, 'Francisco Suntaxi', 'stalynfran007@gmail.com',
-        '$2a$10$3MPdW/Smy64P8Re0Cn.QP.D6Wl2jlFZ7un0zUbsrwYZ5tb7pggGxy', 'Calle Principal 456', '09987654321');
+        '$2a$10$3MPdW/Smy64P8Re0Cn.QP.D6Wl2jlFZ7un0zUbsrwYZ5tb7pggGxy', 'Calle Principal 456', '09987654321'),
+       ('1712345678', 1, 'Administrador', 'admin@gmail.com',
+        '$2a$10$hNk1aZ3.bnJV2fPdctzw7.YIOTLnqAzRTdM51HPhxPLFcTkSebhZm', 'Calle Principal 456, Sangolqui',
+        '09987654322'),
+       ('1798765430', 1, 'Usuario Casual', 'user@gmail.com',
+        '$2a$10$No/R/R6UP/cJqXpfcvCa6udjzFeJsZlEEK9tWeoZZBm8McK4PRboC', 'Avenida Principal, Quito',
+        '09887654322');
 
 -- INSERTAR datos iniciales de rol
 INSERT INTO rol (NOMBREROL)
@@ -213,6 +219,16 @@ INSERT INTO rol (NOMBREROL)
 INSERT INTO usuario_rol (IDUSUARIO, IDROL)
     VALUE ('1726189754', 1),
     ('1726189754', 2);
+INSERT INTO usuario_rol (IDUSUARIO, IDROL)
+    VALUE ('1712345678', 1),
+    ('1712345678', 2);
+INSERT INTO usuario_rol (IDUSUARIO, IDROL)
+    VALUE ('1798765430', 2);
 
+-- INSERTAR datos iniciales de carrito
+INSERT INTO carrito (IDUSUARIO, FECHACREACIONCARRITO, TOTALCARRITO)
+    VALUE ('1726189754', '2024-07-15T13:02:31', 0.00),
+    ('1712345678', '2024-07-15T14:01:40', 0.00),
+    ('1798765430', '2024-07-16T18:58:08', 0.00);
 
 
