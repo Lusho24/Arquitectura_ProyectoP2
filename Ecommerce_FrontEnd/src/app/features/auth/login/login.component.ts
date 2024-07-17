@@ -3,9 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { AuthService } from 'src/app/core/services/login/auth.service';
-import { RoleModel, UserModel } from 'src/app/core/models/userModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { RoleModel, UserModel } from 'src/app/core/models/login/userModel';
 
 @Component({
   selector: 'app-login',

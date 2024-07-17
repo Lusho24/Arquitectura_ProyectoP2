@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CreateUserModel } from 'src/app/core/models/createUserModel';
+import { CreateUserModel } from 'src/app/core/models/login/createUserModel';
 import { UserService } from 'src/app/core/services/login/user.service';
 
 @Component({
