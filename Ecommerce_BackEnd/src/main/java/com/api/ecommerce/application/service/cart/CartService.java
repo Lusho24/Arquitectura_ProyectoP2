@@ -1,8 +1,8 @@
 package com.api.ecommerce.application.service.cart;
 
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
-import com.api.ecommerce.application.exceptions.CartAlreadyExistsException;
-import com.api.ecommerce.application.exceptions.CartNotFoundException;
+import com.api.ecommerce.application.exceptions.cart.CartAlreadyExistsException;
+import com.api.ecommerce.application.exceptions.cart.CartNotFoundException;
 import com.api.ecommerce.domain.model.cart.CartEntity;
 import com.api.ecommerce.domain.repository.cart.ICartRepository;
 import org.springframework.beans.factory.annotation.Autowired;

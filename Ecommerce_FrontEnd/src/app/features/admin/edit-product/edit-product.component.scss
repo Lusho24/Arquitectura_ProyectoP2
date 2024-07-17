@@ -1,0 +1,113 @@
+// Variables de color
+$primary-color: #1976d2; // Azul principal
+$primary-dark: #004ba0; // Azul oscuro
+$accent-color: #ff4081; // Color de acento (opcional)
+
+// Estilo para el contenido del diálogo
+div[mat-dialog-content] {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center; // Centrar los elementos horizontalmente
+
+  mat-form-field {
+    width: 100%;
+
+    mat-label {
+      color: #000;
+    }
+
+    .mat-form-field-underline {
+      background-color: $primary-dark;
+    }
+
+    .mat-form-field-ripple {
+      background-color: $primary-color;
+    }
+  }
+
+  .subirArchivo {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+
+    // Estilo para el campo de subida de archivos
+    #fileInput {
+      display: none;
+    }
+
+    .file-label {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #2c3e50;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $primary-dark;
+      }
+    }
+
+    .image-preview {
+      width: 150px;
+      height: 150px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+// Estilo para las acciones del diálogo
+div[mat-dialog-actions] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  button {
+    &.mat-button {
+      background-color: #2c3e50;
+      color: #ffffff;
+
+      &:hover {
+        background-color: $primary-dark;
+      }
+
+      &:first-of-type {
+        background-color: $accent-color;
+
+        &:hover {
+          background-color: darken($accent-color, 10%);
+        }
+      }
+    }
+  }
+}
+
+// Remover el spinner de los campos numéricos
+.no-spinner {
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.botonAdd{
+    border: 2px solid #2c3e50;
+}
+
+.botonAdd:hover{
+    background-color: #2c3e5051;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SidebarService } from './sidebar.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/login/auth.service';
 
 interface Menu {
   title: string;
@@ -29,10 +30,14 @@ interface Menu {
   ]
 })
 export class SidebarComponent implements OnInit {
-[x: string]: any;
+  [x: string]: any;
   menus: Menu[] = [];
 
-  constructor(private router: Router,public sidebarService: SidebarService) { }
+  constructor(
+    private router: Router,
+    public sidebarService: SidebarService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.menus = this.sidebarService.getMenuList();
@@ -64,4 +69,11 @@ export class SidebarComponent implements OnInit {
   navigateTo(route: string) {
     this.router.navigateByUrl(route);
   }
+
+  //Funcion para borrar las credenciales
+  logout(): void {
+    this.authService.logout();
+  }
+
+
 }

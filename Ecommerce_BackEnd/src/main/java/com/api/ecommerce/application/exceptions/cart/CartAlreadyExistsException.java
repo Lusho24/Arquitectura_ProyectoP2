@@ -1,4 +1,4 @@
-package com.api.ecommerce.application.exceptions;
+package com.api.ecommerce.application.exceptions.cart;
 
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
 import lombok.Getter;

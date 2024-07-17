@@ -167,7 +167,7 @@ CREATE TABLE orden_pedido
     IDORDPEDIDO     INT AUTO_INCREMENT NOT NULL,
     IDPAGO          INT                NOT NULL,
     FECHAORDPEDIDO  DATETIME           NULL,
-    ESTADOORDPEDIDO VARCHAR(8)         NULL,
+    ESTADOORDPEDIDO VARCHAR(16)        NULL,
     PRIMARY KEY (IDORDPEDIDO),
     CONSTRAINT FK_ORDEN_PEDIDO_PAGO FOREIGN KEY (IDPAGO)
         REFERENCES orden_pago (IDPAGO)
@@ -202,7 +202,13 @@ VALUES ('EcoVida', 'Calle Principal 123', '09926145', 'Esta es una tienda de eje
 -- INSERTAR datos iniciales de usuario
 INSERT INTO usuario (IDUSUARIO, IDTIENDA, NOMBREUSUARIO, EMAILUSUARIO, PASSWORDUSUARIO, DIRECCIONUSUARIO, TELFUSUARIO)
 VALUES ('1726189754', 1, 'Francisco Suntaxi', 'stalynfran007@gmail.com',
-        '$2a$10$3MPdW/Smy64P8Re0Cn.QP.D6Wl2jlFZ7un0zUbsrwYZ5tb7pggGxy', 'Calle Principal 456', '09987654321');
+        '$2a$10$3MPdW/Smy64P8Re0Cn.QP.D6Wl2jlFZ7un0zUbsrwYZ5tb7pggGxy', 'Calle Principal 456', '09987654321'),
+       ('1712345678', 1, 'Administrador', 'admin@gmail.com',
+        '$2a$10$hNk1aZ3.bnJV2fPdctzw7.YIOTLnqAzRTdM51HPhxPLFcTkSebhZm', 'Calle Principal 456, Sangolqui',
+        '09987654322'),
+       ('1798765430', 1, 'Usuario Casual', 'user@gmail.com',
+        '$2a$10$No/R/R6UP/cJqXpfcvCa6udjzFeJsZlEEK9tWeoZZBm8McK4PRboC', 'Avenida Principal, Quito',
+        '09887654322');
 
 -- INSERTAR datos iniciales de rol
 INSERT INTO rol (NOMBREROL)
@@ -213,6 +219,32 @@ INSERT INTO rol (NOMBREROL)
 INSERT INTO usuario_rol (IDUSUARIO, IDROL)
     VALUE ('1726189754', 1),
     ('1726189754', 2);
+INSERT INTO usuario_rol (IDUSUARIO, IDROL)
+    VALUE ('1712345678', 1),
+    ('1712345678', 2);
+INSERT INTO usuario_rol (IDUSUARIO, IDROL)
+    VALUE ('1798765430', 2);
 
+-- INSERTAR datos iniciales de carrito
+INSERT INTO carrito (IDUSUARIO, FECHACREACIONCARRITO, TOTALCARRITO)
+    VALUE ('1726189754', '2024-07-15T13:02:31', 0.00),
+    ('1712345678', '2024-07-15T14:01:40', 0.00),
+    ('1798765430', '2024-07-16T18:58:08', 0.00);
 
+-- INSERTAR datos iniciales de envío
+INSERT INTO envio (NOMBREENVIO, PRECIOENVIO)
+    VALUE ('Sangolquí', 4.99),
+    ('Quito', 2.80),
+    ('Ibarra', 8.20);
 
+-- INSERTAR datos iniciales de orden_pago
+INSERT INTO orden_pago (IDCARRITO, IDENVIO, METODOPAGO, ESTADOPAGO, TOTALPAGO)
+    VALUE (1, 1, 'EFECTIVO', 'PENDIENTE', 29.99),
+    (2, 2, 'TRANSFERENCIA', 'EN PROCESO', 15.27),
+    (3, 2, 'PAYPAL', 'PAGADO', 99.99);
+
+-- INSERTAR datos iniciales de orden_pedido
+INSERT INTO orden_pedido (IDPAGO, FECHAORDPEDIDO, ESTADOORDPEDIDO)
+    VALUE (1, '2024-07-16T18:59:08', 'PENDIENTE'),
+    (2, '2024-07-16T19:25:08', 'TERMINADO'),
+    (3, '2024-07-16T20:12:08', 'TERMINADO');

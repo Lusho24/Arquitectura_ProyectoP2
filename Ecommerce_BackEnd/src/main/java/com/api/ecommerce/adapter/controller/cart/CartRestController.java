@@ -10,10 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+
+import static com.api.ecommerce.util.ValidationUtil.getValidationErrors;
 
 @RestController
 @RequestMapping("/api/ecommerce/cart")
@@ -38,7 +39,7 @@ public class CartRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> saveCart(@Valid @RequestBody CreateCartDTO cartDTO, BindingResult result){
         if (result.hasErrors()) {
-            return this.validate(result);
+            return ResponseEntity.badRequest().body(getValidationErrors(result));
         }
 
         CartEntity cart = CartEntity.builder()
@@ -64,17 +65,5 @@ public class CartRestController {
         return ResponseEntity.ok().body(cartService.findCartByUserId(id));
     }
 
-
-    private ResponseEntity<?> validate(BindingResult result) {
-        List<Map<String, Object>> errors = new ArrayList<>();
-
-        for (FieldError error : result.getFieldErrors()) {
-            Map<String, Object> errorMap = new HashMap<>();
-            errorMap.put("Campo", error.getField());
-            errorMap.put("Mensaje", error.getDefaultMessage());
-            errors.add(errorMap);
-        }
-        return ResponseEntity.badRequest().body(errors);
-    }
 
 }

@@ -51,7 +51,7 @@ export class SidebarService {
       type: 'dropdown',
       submenus: [
         {
-          title: 'Lista de Pedidos',
+          title: 'Orden de Pedidos',
           type: 'simple',
           route: '/admin/orders'
         },

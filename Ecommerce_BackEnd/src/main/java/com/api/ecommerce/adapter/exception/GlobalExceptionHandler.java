@@ -1,9 +1,11 @@
 package com.api.ecommerce.adapter.exception;
 
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
-import com.api.ecommerce.application.exceptions.CartAlreadyExistsException;
-import com.api.ecommerce.application.exceptions.CartNotFoundException;
-import com.api.ecommerce.application.exceptions.UserNotFoundException;
+import com.api.ecommerce.application.exceptions.cart.CartAlreadyExistsException;
+import com.api.ecommerce.application.exceptions.cart.CartNotFoundException;
+import com.api.ecommerce.application.exceptions.order.OrderNotFoundException;
+import com.api.ecommerce.application.exceptions.other.UserNotFoundException;
+import com.api.ecommerce.application.exceptions.shipment.ShipmentNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,21 @@ public class GlobalExceptionHandler {
     // * Excepciones del usuario - USER
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionDetailsDTO> handleUserNotFoundException(UserNotFoundException ex){
+        logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
+    }
+
+
+    // * Excepciones del envío - SHIPMENT
+    @ExceptionHandler(ShipmentNotFoundException.class)
+    public ResponseEntity<ExceptionDetailsDTO> handleShipmentNotFoundException(ShipmentNotFoundException ex){
+        logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
+    }
+
+    // * Excepciones de la orden - PAYMENT ORDER/PURCHASE ORDER
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ExceptionDetailsDTO> handleOrderNotFoundException(OrderNotFoundException ex){
         logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
     }
