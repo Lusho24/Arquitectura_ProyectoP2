@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
@@ -12,9 +12,9 @@ import { RoleModel, UserModel } from 'src/app/core/models/login/userModel';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private _signInForm: FormGroup;
-  isLoading = false;  
+  isLoading = false;
 
   constructor(
     public dialog: MatDialog,
@@ -27,6 +27,25 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      const auxUser: UserModel = this.authService.getCurrentUser()!;
+      const roles: RoleModel[] = auxUser?.roles!;
+
+      const hasAdminRole = roles.some(role => role.name === 'ADMIN');
+      const hasUserRole = roles.some(role => role.name === 'USER')
+
+      if (hasAdminRole) {
+        this.router.navigate(['/admin']);
+        this.isLoading = false;
+      } else if (hasUserRole) {
+        this.router.navigate(['/']);
+        this.isLoading = false;
+      }
+    }
+    
   }
 
   openSignUp(): void {
@@ -52,7 +71,7 @@ export class LoginComponent {
           this.router.navigate(['/']);
           this.isLoading = false;
         }
-       
+
         this.snackBar.open(`✅ Bienvenido ${auxUser?.name}`, "Cerrar", {
           duration: 2500
         });
