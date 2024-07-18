@@ -51,7 +51,7 @@ public class PaymentOrderRestController {
                 .total(paymentOrderDTO.getTotal())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.OK).body(paymentOrderService.savePaymentOrder(paymentOrder));
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentOrderService.savePaymentOrder(paymentOrder));
     }
 
     @DeleteMapping("/delete/{id}")
