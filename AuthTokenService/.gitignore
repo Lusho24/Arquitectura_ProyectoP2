@@ -34,3 +34,7 @@ build/
 
 ### LOGGS ###
 AuthTokenServiceLoggs.log
+
+### Claves Google ###
+src/main/resources/config.properties
+
