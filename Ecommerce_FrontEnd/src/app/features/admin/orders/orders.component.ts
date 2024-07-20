@@ -1,34 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidebarService } from '../sidebar/sidebar.service';
-
-export interface Pedido {
-  id: number;
-  fechaOrden: string;
-  estado: string;
-  total: number;
-}
-
-const ELEMENT_DATA: Pedido[] = [
-  { id: 1, fechaOrden: '2023-07-10', estado: 'Procesado', total: 100 },
-  { id: 2, fechaOrden: '2023-07-11', estado: 'En Espera', total: 150 },
-  { id: 3, fechaOrden: '2023-07-12', estado: 'Cancelado', total: 50 },
-];
+import { PurchaseOrderService } from 'src/app/core/services/ecommerce/purchase-order.service';
+import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
+import { PurchaseOrderModel } from 'src/app/core/models/ecommerce/purchaseOrder';
+import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent {
+export class OrdersComponent implements OnInit {
   displayedColumns: string[] = ['id', 'fechaOrden', 'estado', 'total', 'detallePedido'];
-  dataSource = ELEMENT_DATA;
+  dataSource: any[] = [];
 
-  estadosPedidos: string[] = ['Procesado', 'En Espera', 'Cancelado']; // Opciones para el estado del pedido
+  constructor(
+    private router: Router,
+    public sidebarservice: SidebarService,
+    private purchaseOrderService: PurchaseOrderService,
+    private paymentOrderService: PaymentOrderService
+  ) {}
 
-  constructor(private router: Router, public sidebarservice: SidebarService) {}
+  ngOnInit(): void {
+    this.loadOrders();
+  }
 
-  verDetalle(pedido: Pedido) {
+  loadOrders(): void {
+    this.purchaseOrderService.findAll().subscribe(
+      (orders: PurchaseOrderModel[]) => {
+        this.dataSource = [];
+        orders.forEach(order => {
+          if (order.paymentOrderId !== undefined) {
+            this.paymentOrderService.findById(order.paymentOrderId).subscribe(
+              (payment: PaymentOrderModel) => {
+                this.dataSource.push({
+                  id: order.id,
+                  fechaOrden: order.creationDate,
+                  estado: order.state,
+                  total: payment.total,
+                  detallePedido: order.id 
+                });
+                this.dataSource = [...this.dataSource]; // Forzar actualización
+              },
+              error => {
+                console.error('Error fetching payment order', error);
+              }
+            );
+          } else {
+            // Manejar el caso en que paymentOrderId no está definido
+            this.dataSource.push({
+              id: order.id,
+              fechaOrden: order.creationDate,
+              estado: order.state,
+              total: 0, // O algún valor por defecto
+              detallePedido: order.id
+            });
+          }
+        });
+      },
+      error => {
+        console.error('Error fetching orders', error);
+      }
+    );
+  }
+
+  verDetalle(pedido: any) {
     this.router.navigate(['/admin/ordersDetails', pedido.id]);
   }
 
