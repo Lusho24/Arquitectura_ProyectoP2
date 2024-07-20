@@ -11,8 +11,8 @@
             {{ estado }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-      <button mat-raised-button color="primary" >Actualizar</button>
+      </mat-form-field>      
+      <button mat-raised-button color="primary" (click)="updateOrderState(estadoPedido)">Actualizar</button>
     </div>
 
     <div class="order-details-section">
@@ -22,9 +22,9 @@
 
     <div class="order-details-section">
       <h2>Facturación</h2>
-      <p>Nombre: {{ factura.nombre }}</p>
-      <p>Correo: {{ factura.correo }}</p>
-      <p>Teléfono: {{ factura.telefono }}</p>
+      <p>Nombre: {{ cliente.nombre }}</p>
+      <p>Correo: {{ cliente.correo }}</p>
+      <p>Teléfono: {{ cliente.telefono }}</p>
     </div>
 
     <div class="order-details-section">
@@ -37,11 +37,11 @@
       <table mat-table [dataSource]="productos" class="mat-elevation-z8">
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef> Nombre </th>
-          <td mat-cell *matCellDef="let producto"> {{ producto.nombre }} </td>
+          <td mat-cell *matCellDef="let producto"> {{ producto.name }} </td>
         </ng-container>
         <ng-container matColumnDef="costo">
           <th mat-header-cell *matHeaderCellDef> Costo </th>
-          <td mat-cell *matCellDef="let producto"> {{ producto.costo | currency:'USD':'symbol':'1.2-2' }} </td>
+          <td mat-cell *matCellDef="let producto"> {{ producto.price | currency:'USD':'symbol':'1.2-2' }} </td>
         </ng-container>
         <ng-container matColumnDef="cantidad">
           <th mat-header-cell *matHeaderCellDef> Cantidad </th>

@@ -1,43 +1,110 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
-export interface Producto {
-  nombre: string;
-  costo: number;
-  cantidad: number;
-  total: number;
-}
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PurchaseOrderService } from 'src/app/core/services/ecommerce/purchase-order.service';
+import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
+import { CartService } from 'src/app/core/services/ecommerce/cart.service';
+import { CartDetailService } from 'src/app/core/services/ecommerce/cart-detail.service';
+import { PurchaseOrderModel } from 'src/app/core/models/ecommerce/purchaseOrder';
+import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
+import { UserModel } from 'src/app/core/models/login/userModel';
+import { CartDetailModel } from 'src/app/core/models/ecommerce/cartDetail';
+import { ProductModel } from 'src/app/model/productModel';
+import { UserService } from 'src/app/core/services/login/user.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
   styleUrls: ['./orders-details.component.scss']
 })
-export class OrdersDetailsComponent {
-  estadoPedido: string = ''; // Variable para almacenar el estado del pedido
-  cliente: { nombre: string } = { nombre: 'Nombre del cliente' }; // Objeto cliente con nombre
-  factura: { nombre: string, correo: string, telefono: string } = { nombre: '', correo: '', telefono: '' }; // Objeto factura con nombre, correo y teléfono
-  envio: { direccion: string } = { direccion: 'Dirección de envío' }; // Objeto envío con dirección
-  productos: Producto[] = []; // Array de productos
+export class OrdersDetailsComponent implements OnInit {
+  estadoPedido: string = '';
+  estadosPedidos: string[] = ['Pendiente', 'Terminado'];
+  cliente: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
+  factura: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
+  envio: { direccion: string } = { direccion: '' };
+  productos: ProductModel[] = [];
+  displayedColumns: string[] = ['nombre', 'costo', 'cantidad', 'total'];
+  currentOrder: PurchaseOrderModel = {} as PurchaseOrderModel;
 
-  displayedColumns: string[] = ['nombre', 'costo', 'cantidad', 'total']; // Columnas de la tabla de productos
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private purchaseOrderService: PurchaseOrderService,
+    private paymentOrderService: PaymentOrderService,
+    private cartService: CartService,
+    private userService: UserService,
+    private cartDetailService: CartDetailService,
+    private productService: ProductService
+  ) {}
 
-  estadosPedidos: string[] = ['En Proceso', 'En Espera', 'Cancelado']; // Opciones para el estado del pedido
+  ngOnInit(): void {
+    const orderId = +this.route.snapshot.paramMap.get('id')!;
+    if (!isNaN(orderId)) {
+      this.loadOrderDetails(orderId);
+    }
+  }
 
-  constructor(private route: ActivatedRoute) {
-    // Simular carga de datos desde una ruta dinámica
-    this.route.params.subscribe(params => {
-      // Aquí normalmente obtendrías los detalles del pedido basado en params.id y cargarías los datos correspondientes
-      this.estadoPedido = 'En Proceso'; // Ejemplo de asignación de estado
-      this.factura = {
-        nombre: 'Cliente de ejemplo',
-        correo: 'cliente@example.com',
-        telefono: '1234567890'
-      }; // Ejemplo de datos de factura
-      this.productos = [
-        { nombre: 'Producto 1', costo: 100, cantidad: 2, total: 200 },
-        { nombre: 'Producto 2', costo: 50, cantidad: 3, total: 150 }
-      ]; // Ejemplo de productos
+  loadOrderDetails(orderId: number): void {
+    this.purchaseOrderService.findById(orderId).subscribe(order => {
+      this.currentOrder = order;
+      this.estadoPedido = order.state || '';
+
+      if (order.paymentOrderId !== undefined) {
+        this.paymentOrderService.findById(order.paymentOrderId).subscribe(payment => {
+          if (payment.cartId !== undefined) {
+            this.cartService.findById(payment.cartId).subscribe(cart => {
+              const userId = cart.userId;
+              if (userId) {
+                this.userService.findById(userId).subscribe((user: UserModel) => {
+                  this.cliente = {
+                    nombre: user.name || '',
+                    correo: user.email || '',
+                    telefono: user.phone || ''
+                  };
+                  this.envio.direccion = user.address || '';
+                });
+              }
+
+              this.cartDetailService.findAll().subscribe(cartDetails => {
+                const details = cartDetails.filter(cd => cd.cartId === payment.cartId);
+                this.loadProductDetails(details);
+              });
+            });
+          }
+        });
+      }
+    });
+  }
+
+  loadProductDetails(cartDetails: CartDetailModel[]): void {
+    const productIds = cartDetails.map(cd => cd.productId);
+    this.productService.getAllProducts().subscribe(products => {
+      this.productos = cartDetails.map(cd => {
+        const product = products.find(p => p.id === cd.productId);
+        if (product && cd.productQuantity !== undefined) {
+          return {
+            ...product,
+            cantidad: cd.productQuantity,
+            total: product.price * (cd.productQuantity || 0)
+          };
+        }
+        return null;
+      }).filter(p => p !== null) as ProductModel[];
+    });
+  }
+
+  updateOrderState(newState: string): void {
+    const updatedOrder: Partial<PurchaseOrderModel> = {
+      state: newState // Solo actualiza el estado
+    };
+
+    this.purchaseOrderService.save({ ...this.currentOrder, ...updatedOrder }).subscribe(response => {
+      console.log('Estado del pedido actualizado');
+      this.router.navigate(['/admin/orders']);
+    }, error => {
+      console.error('Error al actualizar el estado del pedido', error);
+      // manejar errores
     });
   }
 }
