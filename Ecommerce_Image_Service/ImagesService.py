@@ -4,7 +4,6 @@ import firebase_admin
 from firebase_admin import credentials, storage
 import uuid
 
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -67,6 +66,8 @@ async def delete_image(file_id: str, file_name: str):
         return JSONResponse(status_code=200, content={"message": "File deleted successfully"})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
 
 # Ejecutar el servidor de desarrollo
 if __name__:

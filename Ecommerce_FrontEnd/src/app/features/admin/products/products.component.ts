@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit {
       },
       error => {
         console.error('Error fetching products:', error);
-        // Manejo de errores, como mostrar un mensaje al usuario
+        
       }
     );
   }
@@ -47,7 +47,7 @@ export class ProductsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.dataSource.push(result);
-        this.dataSource = [...this.dataSource]; // Para actualizar la tabla
+        this.dataSource = [...this.dataSource]; 
       }
     });
   }
@@ -63,7 +63,7 @@ export class ProductsComponent implements OnInit {
         const index = this.dataSource.findIndex(p => p.id === result.id);
         if (index !== -1) {
           this.dataSource[index] = result;
-          this.dataSource = [...this.dataSource]; // Para actualizar la tabla
+          this.dataSource = [...this.dataSource]; 
         }
       }
     });
@@ -81,7 +81,6 @@ export class ProductsComponent implements OnInit {
       },
       error => {
         console.error('Error deleting product:', error);
-        // Manejo de errores, como mostrar un mensaje al usuario
       }
     );
   }

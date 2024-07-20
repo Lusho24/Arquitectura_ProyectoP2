@@ -1,25 +1,26 @@
 <div class="container product-modal">
     <div class="row">
-        <div class="col-lg-4">
-            <img class="img-fluid" src="../../../../assets/img/product.jpg" alt="Producto Imagen">
+      <div class="col-lg-4">
+        <img class="img-fluid" [src]="product.imageUrl" alt="Producto Imagen">
+      </div>
+      <div class="col-lg-8">
+        <h2 class="product-name">{{ product.name }}</h2>
+        <p class="product-price">{{ price | currency }}</p>
+        <p class="product-description">{{ product.description }}</p>
+  
+        <!-- Contador -->
+        <div class="quantity-control">
+          <button mat-raised-button color="accent" (click)="decreaseQuantity()">-</button>
+          <span id="quantity">{{ quantity }}</span>
+          <button mat-raised-button color="accent" (click)="increaseQuantity()">+</button>
         </div>
-        <div class="col-lg-8">
-            <h2 class="product-name">Nombre del Producto</h2>
-            <p class="product-price">{{ price | currency }}</p>
-            <p class="product-description">Descripción de producto.</p>
-            
-            <!-- Contador -->
-            <div class="quantity-control">
-                <button mat-raised-button color="accent" (click)="decreaseQuantity()">-</button>
-                <span id="quantity">{{ quantity }}</span>
-                <button mat-raised-button color="accent" (click)="increaseQuantity()">+</button>
-            </div>
-            
-            <!-- Total -->
-            <p class="total-price">Total: {{ total | currency }}</p>
-
-            <!-- Añadir al Carrito -->
-            <button mat-raised-button color="primary" class="add-to-cart">Añadir al carrito</button>
-        </div>
+  
+        <!-- Total -->
+        <p class="total-price">Total: {{ total | currency }}</p>
+  
+        <!-- Añadir al Carrito -->
+        <button mat-raised-button color="primary" class="add-to-cart">Añadir al carrito</button>
+      </div>
     </div>
-</div>
+  </div>
+  

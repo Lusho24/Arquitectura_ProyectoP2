@@ -18,7 +18,10 @@ export class ImageService {
     return this.http.post<any>(`${this.apiUrl}/upload/`, formData);
   }
 
+  
+
   deleteImage(fileId: string, fileName: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/delete/${fileId}/${fileName}`);
   }
+  
 }

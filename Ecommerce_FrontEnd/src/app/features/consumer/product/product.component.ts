@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product',
@@ -7,11 +7,19 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent {
-  public price: number = 250.00;
+  public price: number;
   public quantity: number = 1;
-  public total: number = this.price;
+  public total: number;
+  public product: any;
 
-  constructor(public dialogRef: MatDialogRef<ProductComponent>) { }
+  constructor(
+    public dialogRef: MatDialogRef<ProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.product = data;
+    this.price = this.product.price;
+    this.total = this.price;
+  }
 
   increaseQuantity(): void {
     this.quantity++;
