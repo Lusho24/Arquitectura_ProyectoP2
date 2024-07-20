@@ -4,6 +4,7 @@ import com.api.auth.application.service.user.UserDetailsServiceImpl;
 import com.api.auth.config.filter.JwtAuthenticationFilter;
 import com.api.auth.config.filter.JwtAuthorizationFilter;
 import com.api.auth.config.jwt.JwtUtils;
+import com.api.auth.config.oauth2.CustomOAuth2SuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,9 @@ public class SecurityConfig {
     @Autowired
     JwtAuthorizationFilter authorizationFilter;
 
+    @Autowired
+    private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
@@ -55,6 +59,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
+                .oauth2Login(oauth2 -> oauth2
+                        //.loginPage("/oauth2/authorization/google")
+                        .successHandler(customOAuth2SuccessHandler)
+                )
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
