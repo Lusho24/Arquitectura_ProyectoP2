@@ -11,5 +11,6 @@ public interface ICartDetailService {
     public Optional<CartDetailEntity> findCartDetailById(Long id);
     public CartDetailEntity saveCartDetail(CartDetailEntity cartDetail);
     public void deleteCartDetailById(Long id);
+    public Optional<CartDetailEntity> updateProductQuantity(Long id, int productQuantity);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.api.ecommerce.util.ValidationUtil.getValidationErrors;
@@ -63,6 +64,14 @@ public class CartDetailRestController {
                         .message("Detalle del carrito eliminada exitosamente.")
                         .build()
         );
+    }
+
+    @PatchMapping("/{id}/product-quantity")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<?> updateProductQuantity(@PathVariable Long id,
+                                                   @Valid @RequestBody Map<String, Integer> updateProductQuantity){
+        int productQuantity = updateProductQuantity.get("productQuantity");
+        return ResponseEntity.status(HttpStatus.OK).body(cartDetailService.updateProductQuantity(id, productQuantity));
     }
 
 }
