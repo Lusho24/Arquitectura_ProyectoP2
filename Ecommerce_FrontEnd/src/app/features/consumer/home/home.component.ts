@@ -22,9 +22,6 @@ export class HomeComponent implements OnInit {
         this.authService.handleAuthCallback(token);
       } 
     });
-    console.log("TOKEN GUARDADO DE GOOGLE rRESPUESTA: ", this.authService.getToken())
-
   }
-
 
 }

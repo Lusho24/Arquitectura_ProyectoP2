@@ -29,4 +29,9 @@ export class CartDetailService {
     return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
   }
 
+  public updateProductQuantity(id: number, productQuantity: number): Observable<CartDetailModel> {
+    const body = { productQuantity };
+    return this.http.patch<CartDetailModel>(`${this.urlEndPoint}/${id}/product-quantity`,body);
+  }
+
 }
