@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { UserModel } from '../../models/login/userModel';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,32 @@ export class AuthService {
   private urlEndPoint = environment.authUrl;
   private currentUserKey = 'currentUser';
 
-  constructor(private http: HttpClient) { }
+  private oAuthUrl = 'http://localhost:443/oauth2/authorization/google';
 
-  // Método para iniciar sesion
+  constructor(
+    private http: HttpClient,
+    private router: Router) { }
+
+  // * Método para iniciar sesion con google
+  loginWithGoogle() {
+    window.location.href = this.oAuthUrl;
+  }
+  
+  handleAuthCallback(token: string) {
+    localStorage.setItem('token', token);
+    if (token) {
+      this.router.navigate(['/']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
+
+  // * Método para iniciar sesion con formularios de login
   public login(user: UserModel): Observable<any> {
     return this.http.post<any>(this.urlEndPoint, user)
       .pipe(

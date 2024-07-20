@@ -19,7 +19,7 @@
         <div class="textbox">
             <mat-form-field class="custom-input" appearance="outline">
                 <mat-label class="textoImp">Correo</mat-label>
-                <input matInput type="email" formControlName="email" required 
+                <input matInput type="email" formControlName="email" required
                     placeholder="Ej. example@example.com"/>
                 <mat-icon class="icon" matPrefix>email</mat-icon>
                 <div *ngIf="email?.invalid && email?.touched">
@@ -45,7 +45,7 @@
         </button>
     </form>
     <hr>
-    <button mat-raised-button class="google-button" >
+    <button mat-raised-button class="google-button" (click)="loginWithGoogle()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google"
             viewBox="0 0 16 16">
             <path

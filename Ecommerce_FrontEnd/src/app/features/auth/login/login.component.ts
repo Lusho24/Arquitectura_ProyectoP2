@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("TOKEN GUARDADO DE GOOGLE LUEGO DE OAUTH: ", this.authService.getToken())
+
     if (this.authService.isAuthenticated()) {
       const auxUser: UserModel = this.authService.getCurrentUser()!;
       const roles: RoleModel[] = auxUser?.roles!;
@@ -45,12 +47,18 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       }
     }
-    
+
   }
 
   openSignUp(): void {
     const dialogRef = this.dialog.open(RegisterComponent);
   }
+
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle();
+  }
+
 
   signIn(): void {
     this.isLoading = true;
