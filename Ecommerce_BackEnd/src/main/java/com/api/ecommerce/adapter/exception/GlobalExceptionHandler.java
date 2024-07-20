@@ -3,6 +3,7 @@ package com.api.ecommerce.adapter.exception;
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
 import com.api.ecommerce.application.exceptions.cart.CartAlreadyExistsException;
 import com.api.ecommerce.application.exceptions.cart.CartNotFoundException;
+import com.api.ecommerce.application.exceptions.order.OrderAlreadyExistsException;
 import com.api.ecommerce.application.exceptions.order.OrderNotFoundException;
 import com.api.ecommerce.application.exceptions.other.UserNotFoundException;
 import com.api.ecommerce.application.exceptions.shipment.ShipmentNotFoundException;
@@ -50,6 +51,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDetailsDTO> handleOrderNotFoundException(OrderNotFoundException ex){
         logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
+    }
+
+    @ExceptionHandler(OrderAlreadyExistsException.class)
+    public ResponseEntity<ExceptionDetailsDTO> handleOrderAlreadyExistsException(OrderAlreadyExistsException ex){
+        logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getExceptionDetailsDTO());
     }
 
 }

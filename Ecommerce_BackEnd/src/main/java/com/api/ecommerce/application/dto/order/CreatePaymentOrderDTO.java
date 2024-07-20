@@ -1,4 +1,4 @@
-package com.api.ecommerce.application.dto;
+package com.api.ecommerce.application.dto.order;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

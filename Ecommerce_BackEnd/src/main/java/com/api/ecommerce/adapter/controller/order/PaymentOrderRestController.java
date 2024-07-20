@@ -1,6 +1,6 @@
 package com.api.ecommerce.adapter.controller.order;
 
-import com.api.ecommerce.application.dto.CreatePaymentOrderDTO;
+import com.api.ecommerce.application.dto.order.CreatePaymentOrderDTO;
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
 import com.api.ecommerce.application.service.order.IPaymentOrderService;
 import com.api.ecommerce.domain.model.order.PaymentOrderEntity;

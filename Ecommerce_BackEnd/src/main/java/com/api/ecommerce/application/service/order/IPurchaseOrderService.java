@@ -11,5 +11,6 @@ public interface IPurchaseOrderService {
     public Optional<PurchaseOrderEntity> findPurchaseOrderById(Long id);
     public PurchaseOrderEntity savePurchaseOrder(PurchaseOrderEntity purchaseOrder);
     public void deletePurchaseOrderById(Long id);
+    public Optional<PurchaseOrderEntity> updateState(Long id,String state);
 
 }

@@ -1,4 +1,4 @@
-package com.api.ecommerce.application.dto;
+package com.api.ecommerce.application.dto.cart;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,15 +6,17 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
-public class CreatePurchaseOrderDTO {
-
-    @NotNull
-    private Long paymentOrderId;
+public class CreateCartDTO {
 
     @NotBlank
-    @Size(max = 16)
-    private String state;
+    @Size(max = 10)
+    private String userId;
+
+    @NotNull
+    private BigDecimal total;
 
 }

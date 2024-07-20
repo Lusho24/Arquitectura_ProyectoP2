@@ -1,6 +1,6 @@
 package com.api.ecommerce.adapter.controller.order;
 
-import com.api.ecommerce.application.dto.CreatePurchaseOrderDTO;
+import com.api.ecommerce.application.dto.order.CreatePurchaseOrderDTO;
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
 import com.api.ecommerce.application.service.order.IPurchaseOrderService;
 import com.api.ecommerce.domain.model.order.PurchaseOrderEntity;
@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.api.ecommerce.util.ValidationUtil.getValidationErrors;
@@ -62,6 +63,14 @@ public class PurchaseOrderRestController {
                         .message("Orden de pedido/compra eliminada exitosamente.")
                         .build()
         );
+    }
+
+    @PatchMapping("/{id}/state")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<?> updateState(@PathVariable Long id,
+                                         @Valid @RequestBody Map<String,String> updateState){
+        String state = updateState.get("state");
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.updateState(id, state));
     }
 
 }

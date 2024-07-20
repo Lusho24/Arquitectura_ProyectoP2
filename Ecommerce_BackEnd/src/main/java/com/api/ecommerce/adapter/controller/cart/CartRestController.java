@@ -1,6 +1,6 @@
 package com.api.ecommerce.adapter.controller.cart;
 
-import com.api.ecommerce.application.dto.CreateCartDTO;
+import com.api.ecommerce.application.dto.cart.CreateCartDTO;
 import com.api.ecommerce.application.dto.ExceptionDetailsDTO;
 import com.api.ecommerce.application.service.cart.ICartService;
 import com.api.ecommerce.domain.model.cart.CartEntity;
