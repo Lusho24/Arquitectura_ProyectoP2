@@ -22,3 +22,13 @@ h1{
 h2{
   font-size: 30px;
 }
+
+.image-container {
+  text-align: center; /* Centrar la imagen horizontalmente */
+  margin-top: 20px; /* Espacio superior para separar de los demás contenidos */
+}
+
+.bottom-image {
+  max-width: 100%; /* Ajustar la imagen al ancho del contenedor */
+  height: auto; /* Mantener la proporción de la imagen */
+}

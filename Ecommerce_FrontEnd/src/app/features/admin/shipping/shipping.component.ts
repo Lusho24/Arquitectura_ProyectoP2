@@ -1,32 +1,44 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { SidebarService } from '../sidebar/sidebar.service';
-import { MatDialog } from '@angular/material/dialog';
-import { AddShippingComponent } from '../add-shipping/add-shipping.component';
-import { EditShippingComponent } from '../edit-shipping/edit-shipping.component';
-
-export interface Shipping {
-  id: number;
-  ciudad: string;
-  valorTotal: number;
-}
-
-const ELEMENT_DATA: Shipping[] = [
-  { id: 1, ciudad: 'Quito', valorTotal: 5 },
-  { id: 2, ciudad: 'Sangolqui', valorTotal: 0 },
-  { id: 3, ciudad: 'Guayaquil', valorTotal: 7 }
-];
+import { ShipmentModel } from "src/app/core/models/ecommerce/shipmentModel";
+import { EditShippingComponent } from "../edit-shipping/edit-shipping.component";
+import { AddShippingComponent } from "../add-shipping/add-shipping.component";
+import { ShipmentService } from "src/app/core/services/ecommerce/shipment.service";
+import { SidebarService } from "../sidebar/sidebar.service";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: 'app-shipping',
   templateUrl: './shipping.component.html',
   styleUrls: ['./shipping.component.scss']
 })
-export class ShippingComponent {
-  displayedColumns: string[] = ['id', 'ciudad', 'valorTotal', 'actions'];
-  dataSource = ELEMENT_DATA;
+export class ShippingComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'name', 'price']; // Incluye columnas relevantes
+  dataSource: ShipmentModel[] = [];
 
-  constructor(public dialog: MatDialog, private router: Router, public sidebarService: SidebarService) {}
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    public sidebarService: SidebarService,
+    private shipmentService: ShipmentService // Inyecta el servicio
+  ) {}
+
+  ngOnInit(): void {
+    this.loadShipments();
+  }
+
+  loadShipments(): void {
+    this.shipmentService.findAll().subscribe(
+      envios => {
+        this.dataSource = envios;
+        console.log('envios cargados correctamente:', this.dataSource);
+      },
+      error => {
+        console.error('Error fetching shipments', error);
+      }
+    );
+  }
+  
 
   openAddModal(): void {
     const dialogRef = this.dialog.open(AddShippingComponent, {
@@ -41,7 +53,7 @@ export class ShippingComponent {
     });
   }
 
-  openEditModal(row: Shipping): void {
+  openEditModal(row: ShipmentModel): void {
     const dialogRef = this.dialog.open(EditShippingComponent, {
       width: '400px',
       data: { ...row } 
@@ -58,7 +70,7 @@ export class ShippingComponent {
     });
   }
 
-  deleteShipping(row: Shipping): void {
+  deleteShipping(row: ShipmentModel): void {
     const index = this.dataSource.indexOf(row);
     if (index !== -1) {
       this.dataSource.splice(index, 1);
