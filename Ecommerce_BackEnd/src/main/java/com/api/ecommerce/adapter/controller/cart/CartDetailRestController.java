@@ -26,7 +26,7 @@ public class CartDetailRestController {
     private ICartDetailService cartDetailService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<CartDetailEntity>> findAllCartDetail(){
         return ResponseEntity.status(HttpStatus.OK).body(cartDetailService.findAllCartDetail());
     }
