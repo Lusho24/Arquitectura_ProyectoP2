@@ -29,7 +29,7 @@ export class PurchaseOrderService {
     return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
   }
 
-  public updateProductQuantity(id: number, state: string): Observable<PurchaseOrderModel> {
+  public updateState(id: number, state: string): Observable<PurchaseOrderModel> {
     const body = { state };
     return this.http.patch<PurchaseOrderModel>(`${this.urlEndPoint}/${id}/state`,body);
   }
