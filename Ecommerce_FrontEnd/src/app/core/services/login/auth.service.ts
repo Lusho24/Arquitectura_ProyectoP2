@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { UserModel } from '../../models/login/userModel';
+import { RoleModel, UserModel } from '../../models/login/userModel';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -24,18 +24,26 @@ export class AuthService {
   loginWithGoogle() {
     window.location.href = this.oAuthUrl;
   }
-  
+
   handleAuthCallback(token: string) {
-    localStorage.setItem('token', token);
-    if (token) {
+    localStorage.setItem('jwt', token);
+
+    const auxUser: UserModel = this.getCurrentUser()!;
+    const roles: RoleModel[] = auxUser?.roles!;
+
+    const hasAdminRole = roles.some(role => role.name === 'ADMIN');
+    const hasUserRole = roles.some(role => role.name === 'USER')
+
+    if (hasAdminRole) {
+      this.router.navigate(['/admin']);
+    } else if (hasUserRole) {
       this.router.navigate(['/']);
-    } else {
-      this.router.navigate(['/login']);
     }
+
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem('jwt');
   }
 
 
