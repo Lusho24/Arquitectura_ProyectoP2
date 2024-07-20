@@ -1,11 +1,11 @@
-import { ShipmentModel } from "src/app/core/models/ecommerce/shipmentModel";
-import { EditShippingComponent } from "../edit-shipping/edit-shipping.component";
-import { AddShippingComponent } from "../add-shipping/add-shipping.component";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
 import { ShipmentService } from "src/app/core/services/ecommerce/shipment.service";
 import { SidebarService } from "../sidebar/sidebar.service";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
+import { ShipmentModel } from "src/app/core/models/ecommerce/shipmentModel";
+import { AddShippingComponent } from "../add-shipping/add-shipping.component";
+import { EditShippingComponent } from "../edit-shipping/edit-shipping.component";
 
 @Component({
   selector: 'app-shipping',
@@ -13,14 +13,14 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ['./shipping.component.scss']
 })
 export class ShippingComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'price']; // Incluye columnas relevantes
+  displayedColumns: string[] = ['id', 'name', 'price', 'actions']; // Incluye 'actions' aquí
   dataSource: ShipmentModel[] = [];
 
   constructor(
     public dialog: MatDialog,
     private router: Router,
     public sidebarService: SidebarService,
-    private shipmentService: ShipmentService // Inyecta el servicio
+    private shipmentService: ShipmentService
   ) {}
 
   ngOnInit(): void {
@@ -29,52 +29,79 @@ export class ShippingComponent implements OnInit {
 
   loadShipments(): void {
     this.shipmentService.findAll().subscribe(
-      envios => {
-        this.dataSource = envios;
-        console.log('envios cargados correctamente:', this.dataSource);
+      (shipments: ShipmentModel[]) => {
+        this.dataSource = shipments;
       },
       error => {
         console.error('Error fetching shipments', error);
       }
     );
   }
-  
 
   openAddModal(): void {
     const dialogRef = this.dialog.open(AddShippingComponent, {
       width: '400px'
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataSource.push(result);
-        this.dataSource = [...this.dataSource];
+        console.log('Resultado del modal:', result); // Verifica los datos del formulario
+        this.shipmentService.save(result).subscribe(
+          (newShipment: ShipmentModel) => {
+            this.dataSource.push(newShipment);
+            this.dataSource = [...this.dataSource]; // Forzar actualización
+            console.log('Nuevo envío guardado:', newShipment);
+          },
+          error => {
+            console.error('Error saving shipment', error);
+          }
+        );
       }
     });
   }
+  
 
   openEditModal(row: ShipmentModel): void {
     const dialogRef = this.dialog.open(EditShippingComponent, {
       width: '400px',
-      data: { ...row } 
+      data: { ...row }
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.dataSource.findIndex(p => p.id === result.id);
-        if (index !== -1) {
-          this.dataSource[index] = result;
-          this.dataSource = [...this.dataSource];
-        }
+        this.shipmentService.save(result).subscribe(
+          (updatedShipment: ShipmentModel) => {
+            const index = this.dataSource.findIndex(p => p.id === updatedShipment.id);
+            if (index !== -1) {
+              this.dataSource[index] = updatedShipment;
+              this.dataSource = [...this.dataSource]; // Forzar actualización
+            }
+          },
+          error => {
+            console.error('Error saving shipment', error);
+          }
+        );
       }
     });
   }
+  
+  
 
   deleteShipping(row: ShipmentModel): void {
-    const index = this.dataSource.indexOf(row);
-    if (index !== -1) {
-      this.dataSource.splice(index, 1);
-      this.dataSource = [...this.dataSource];
+    if (confirm('¿Estás seguro de que deseas eliminar este envío?')) {
+      this.shipmentService.delete(row.id!).subscribe(
+        () => {
+          // Eliminar el elemento de la lista local
+          const index = this.dataSource.findIndex(p => p.id === row.id);
+          if (index !== -1) {
+            this.dataSource.splice(index, 1);
+            this.dataSource = [...this.dataSource]; // Forzar actualización
+          }
+        },
+        error => {
+          console.error('Error deleting shipment', error);
+        }
+      );
     }
   }
 

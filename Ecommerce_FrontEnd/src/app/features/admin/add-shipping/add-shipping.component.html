@@ -2,14 +2,15 @@
 <div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="save()" class="form">
     <mat-form-field appearance="fill">
-      <mat-label>Ciudad</mat-label>
-      <input matInput formControlName="ciudad" placeholder="Ingrese la ciudad" required>
-      <mat-error *ngIf="form.get('ciudad')?.hasError('required')">La ciudad es requerida</mat-error>
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Ingrese el nombre" required>
+      <mat-error *ngIf="form.get('name')?.hasError('required')">El nombre es requerido</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Valor Total</mat-label>
-      <input matInput formControlName="valorTotal" placeholder="Ingrese el valor total" required>
-      <mat-error *ngIf="form.get('valorTotal')?.hasError('required')">El valor total es requerido</mat-error>
+      <mat-label>Precio</mat-label>
+      <input matInput formControlName="price" type="number" placeholder="Ingrese el precio" required>
+      <mat-error *ngIf="form.get('price')?.hasError('required')">El precio es requerido</mat-error>
+      <mat-error *ngIf="form.get('price')?.hasError('pattern')">El precio debe ser un número válido</mat-error>
     </mat-form-field>
   </form>
 </div>

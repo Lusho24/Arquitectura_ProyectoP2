@@ -24,4 +24,12 @@ export class ShipmentService {
     return this.http.get<ShipmentModel>(`${this.urlEndPoint}/by-name/${name}`);
   }
 
+  public save(shipment: ShipmentModel): Observable<any> {
+    return this.http.post<any>(`${this.urlEndPoint}/save`, shipment);
+  }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
+  }
+
 }

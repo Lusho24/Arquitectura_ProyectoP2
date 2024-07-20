@@ -7,8 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './add-shipping.component.html',
   styleUrls: ['./add-shipping.component.scss']
 })
-export class AddShippingComponent 
-{
+export class AddShippingComponent {
   form: FormGroup;
 
   constructor(
@@ -17,8 +16,8 @@ export class AddShippingComponent
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
-      ciudad: ['', Validators.required],
-      valorTotal: ['', Validators.required]
+      name: ['', Validators.required],
+      price: ['', [Validators.required, Validators.pattern("^[0-9]+(\.[0-9]{1,2})?$")]]
     });
   }
 
@@ -31,5 +30,4 @@ export class AddShippingComponent
   close(): void {
     this.dialogRef.close();
   }
-
 }
