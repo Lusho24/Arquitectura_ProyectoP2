@@ -14,7 +14,7 @@ export class AuthService {
   private urlEndPoint = environment.authUrl;
   private currentUserKey = 'currentUser';
 
-  private oAuthUrl = 'http://localhost:443/oauth2/authorization/google';
+  private oAuthUrl = 'http://localhost:4430/oauth2/authorization/google';
 
   constructor(
     private http: HttpClient,
@@ -72,6 +72,7 @@ export class AuthService {
   public getCurrentUser(): UserModel | null {
     const userString = localStorage.getItem(this.currentUserKey);
     if (userString) {
+      console.log(userString)
       return JSON.parse(userString);
     } else {
       return null;
