@@ -9,6 +9,8 @@ public interface IShipmentService {
 
     public List<ShipmentEntity> findAllShipments();
     public Optional<ShipmentEntity> findShipmentById(Long id);
+    public ShipmentEntity saveShipment(ShipmentEntity shipment);
     public Optional<ShipmentEntity> findShipmentByName(String name);
+    public void deleteShipmentById(Long id);
 
 }

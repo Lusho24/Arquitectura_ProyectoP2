@@ -36,6 +36,11 @@ public class ShipmentService implements IShipmentService{
     }
 
     @Override
+    public ShipmentEntity saveShipment(ShipmentEntity shipment) {
+        return shipmentRepository.save(shipment);
+    }
+
+    @Override
     public Optional<ShipmentEntity> findShipmentByName(String name) {
         Optional<ShipmentEntity> existShipment = shipmentRepository.findByName(name);
         if (existShipment.isPresent()){
@@ -47,6 +52,20 @@ public class ShipmentService implements IShipmentService{
                         .message("El envío que esta buscando no existe.")
                         .build()
         );
+    }
+
+    @Override
+    public void deleteShipmentById(Long id) {
+        if (shipmentRepository.existsById(id)){
+            shipmentRepository.deleteById(id);
+        } else {
+            throw new ShipmentNotFoundException(
+                    ExceptionDetailsDTO.builder()
+                            .statusCode(404)
+                            .message("El envio ya no existe.")
+                            .build()
+            );
+        }
     }
 
 }
