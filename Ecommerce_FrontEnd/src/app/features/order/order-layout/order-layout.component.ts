@@ -1,31 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { BankInfComponent } from '../bank-inf/bank-inf.component';
+import { CartService } from 'src/app/core/services/ecommerce/cart.service';
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  cartDetailId?: number;
+}
 
 @Component({
   selector: 'app-order-layout',
   templateUrl: './order-layout.component.html',
   styleUrls: ['./order-layout.component.scss']
 })
-export class OrderLayoutComponent {
-
+export class OrderLayoutComponent implements OnInit {
   termsAccepted: boolean = false;
   metodoPago: string = 'bankTransfer';
   selectedSector: string = 'Quito';
   envio: number = 10;
-  total: number = 85;
-  private clientId: string;
-  private clientSecret: string;
-  private apiUrl: string;
+  total: number = 0;
+  subtotal: number = 0;
+  products: Product[] = [];
 
-  constructor(private router: Router, public dialog: MatDialog) {
-    this.clientId = 'tu-client-id';
-    this.clientSecret = 'tu-client-secret';
-    this.apiUrl = 'https://sandbox.dlocal.com';
+  private clientId: string = 'tu-client-id';
+  private clientSecret: string = 'tu-client-secret';
+  private apiUrl: string = 'https://sandbox.dlocal.com';
+
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private cartService: CartService
+  ) {}
+
+  ngOnInit(): void {
+    this.cartService.products$.subscribe(productModels => {
+      this.products = productModels.map(productModel => ({
+        ...productModel,
+        quantity: 1, // Asigna una cantidad predeterminada o ajusta según tu lógica
+        cartDetailId: undefined // Asigna o elimina según sea necesario
+      }));
+      this.updateTotals();
+    });
   }
 
-  // Función para realizar el pedido
   realizarPedido(): void {
     if (this.termsAccepted) {
       if (this.metodoPago === 'bankTransfer') {
@@ -38,28 +59,22 @@ export class OrderLayoutComponent {
 
   openBankInfoModal(): void {
     const dialogRef = this.dialog.open(BankInfComponent);
-
     dialogRef.afterClosed().subscribe(() => {
       this.router.navigate(['/home']);
     });
   }
 
-  // Simulación de integración con pasarela de pagos de dLocalGo
   integrarPasarelaPago(): void {
-    // Aquí iría la lógica para integrar con dLocalGo
     console.log('Integración con pasarela de pagos de dLocalGo');
   }
 
-  onSectorChange(event: any) {
-    if (event.value === 'Quito') {
-      this.envio = 10;
-    } else if (event.value === 'Sangolqui') {
-      this.envio = 6;
-    }
-    this.updateTotal();
+  onSectorChange(event: any): void {
+    this.envio = event.value === 'Quito' ? 10 : 6;
+    this.updateTotals();
   }
 
-  updateTotal() {
-    this.total = 80 + this.envio;
+  updateTotals(): void {
+    this.subtotal = this.products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+    this.total = this.subtotal + this.envio;
   }
 }

@@ -1,96 +1,92 @@
 <app-header></app-header>
 
 <div class="container py-5">
-    <h2 class="h2">Procesar Orden</h2>
+  <h2 class="h2">Procesar Orden</h2>
 
-    <div class="row">
-        <!-- Detalles de envío -->
-        <div class="col-md-8">
-            <h3 class="h3">Detalles de envío</h3>
-            <div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <mat-form-field appearance="fill" disabled>
-                            <mat-label>Nombre</mat-label>
-                            <input matInput value="Juan" readonly>
-                        </mat-form-field>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <mat-form-field appearance="fill" disabled>
-                            <mat-label>Apellido</mat-label>
-                            <input matInput value="Perez" readonly>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <mat-form-field appearance="fill" disabled>
-                            <mat-label>Teléfono</mat-label>
-                            <input matInput value="0987654321" readonly>
-                        </mat-form-field>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Sector</mat-label>
-                            <mat-select [(ngModel)]="selectedSector" (selectionChange)="onSectorChange($event)">
-                                <mat-option value="Quito">Quito</mat-option>
-                                <mat-option value="Sangolqui">Sangolquí</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <mat-form-field appearance="fill" class="w-100" disabled>
-                    <mat-label>Dirección</mat-label>
-                    <input matInput value="Calle Falsa como sus sentimientos" readonly>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <!-- Cuadro del pedido -->
-        <div class="col-md-4">
-            <h3 class="h3">Tu pedido</h3>
-            <mat-card>
-              <mat-card-content>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Producto 1: $50.00</li>
-                  <li class="list-group-item">Producto 2: $30.00</li>
-                  <li class="list-group-item">Subtotal: $80.00</li>
-                  <li class="list-group-item">Envío: ${{ envio }}</li>
-                  <li class="list-group-item text-success">Total: ${{ total }}</li>
-                </ul>
-          
-
-                  <mat-radio-group aria-label="Selecciona método de pago" [(ngModel)]="metodoPago">
-                    <mat-radio-button  value="bankTransfer">
-                      Transferencia bancaria directa
-                    </mat-radio-button>
-                    <mat-radio-button value="creditCard">
-                      Pago con tarjeta Débito/Crédito
-                    </mat-radio-button>
-                  </mat-radio-group>
-
-                <!-- Mensaje de pago -->
-                <mat-card *ngIf="metodoPago === 'bankTransfer'" class="mt-3">
-                  <mat-card-content class="alert alert-info">
-                    Realiza tu pago directamente en nuestra cuenta bancaria. Por favor, usa el número del pedido como referencia de pago. Tu pedido no se procesará hasta que se haya recibido el importe en nuestra cuenta.
-                  </mat-card-content>
-                </mat-card>
-          
-                <!-- Términos y condiciones -->
-                <mat-checkbox class="form-check mt-3" [(ngModel)]="termsAccepted" required enable>
-                  He leído y estoy de acuerdo con los términos y condiciones.
-                </mat-checkbox>
-          
-                <!-- Botón de realizar pedido -->
-                <button mat-raised-button color="primary" class="btn btn-success mt-3" (click)="realizarPedido()" [disabled]="!termsAccepted">
-                  Realizar el pedido
-                </button>
-              </mat-card-content>
-            </mat-card>
-            
+  <div class="row">
+    <!-- Detalles de envío -->
+    <div class="col-md-8">
+      <h3 class="h3">Detalles de envío</h3>
+      <div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <mat-form-field appearance="fill" disabled>
+              <mat-label>Nombre</mat-label>
+              <input matInput value="Juan" readonly>
+            </mat-form-field>
           </div>
-          
-        
-        
+          <div class="form-group col-md-6">
+            <mat-form-field appearance="fill" disabled>
+              <mat-label>Apellido</mat-label>
+              <input matInput value="Perez" readonly>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <mat-form-field appearance="fill" disabled>
+              <mat-label>Teléfono</mat-label>
+              <input matInput value="0987654321" readonly>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6">
+            <mat-form-field appearance="fill">
+              <mat-label>Sector</mat-label>
+              <mat-select [(ngModel)]="selectedSector" (selectionChange)="onSectorChange($event)">
+                <mat-option value="Quito">Quito</mat-option>
+                <mat-option value="Sangolqui">Sangolquí</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-form-field appearance="fill" class="w-100" disabled>
+          <mat-label>Dirección</mat-label>
+          <input matInput value="Calle Falsa como sus sentimientos" readonly>
+        </mat-form-field>
+      </div>
     </div>
+
+    <!-- Cuadro del pedido -->
+    <div class="col-md-4">
+      <h3 class="h3">Tu pedido</h3>
+      <mat-card>
+        <mat-card-content>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let product of products">
+              {{ product.name }}: ${{ product.price }} x {{ product.quantity }}
+            </li>
+            <li class="list-group-item">Subtotal: ${{ subtotal }}</li>
+            <li class="list-group-item">Envío: ${{ envio }}</li>
+            <li class="list-group-item text-success">Total: ${{ total }}</li>
+          </ul>
+
+          <mat-radio-group aria-label="Selecciona método de pago" [(ngModel)]="metodoPago">
+            <mat-radio-button value="bankTransfer">
+              Transferencia bancaria directa
+            </mat-radio-button>
+            <mat-radio-button value="creditCard">
+              Pago con tarjeta Débito/Crédito
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <!-- Mensaje de pago -->
+          <mat-card *ngIf="metodoPago === 'bankTransfer'" class="mt-3">
+            <mat-card-content class="alert alert-info">
+              Realiza tu pago directamente en nuestra cuenta bancaria. Por favor, usa el número del pedido como referencia de pago. Tu pedido no se procesará hasta que se haya recibido el importe en nuestra cuenta.
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Términos y condiciones -->
+          <mat-checkbox class="form-check mt-3" [(ngModel)]="termsAccepted" required>
+            He leído y estoy de acuerdo con los términos y condiciones.
+          </mat-checkbox>
+
+          <!-- Botón de realizar pedido -->
+          <button mat-raised-button color="primary" class="btn btn-success mt-3" (click)="realizarPedido()" [disabled]="!termsAccepted">
+            Realizar el pedido
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>

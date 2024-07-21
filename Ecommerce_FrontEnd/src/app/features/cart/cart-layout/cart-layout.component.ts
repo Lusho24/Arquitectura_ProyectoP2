@@ -32,6 +32,15 @@ export class CartLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCartProducts();
+    this.transformProducts();
+  }
+  private transformProducts(): void {
+    const cartProducts = this.cartService.getProducts();
+    this.products = cartProducts.map(product => ({
+      ...product,
+      quantity: 0,  // Asigna un valor predeterminado o calcula la cantidad correcta
+      cartDetailId: 0  // Asigna un valor predeterminado o usa un identificador válido
+    }));
   }
 
   private loadCartProducts(): void {
@@ -51,7 +60,7 @@ export class CartLayoutComponent implements OnInit {
                       ...product,
                       quantity: detail.productQuantity ?? 0,
                       cartDetailId: detail.id
-                    };
+                    } as Product;
                   } else {
                     console.warn(`Product with ID ${detail.productId} not found.`);
                     return {
@@ -64,14 +73,14 @@ export class CartLayoutComponent implements OnInit {
                       imageUrl: '',
                       quantity: detail.productQuantity ?? 0,
                       cartDetailId: detail.id
-                    };
+                    } as Product;
                   }
                 })
               )
             );
 
             forkJoin(productObservables).subscribe(products => {
-              this.products = products as Product[];
+              this.products = products;
             });
           });
         }
@@ -101,6 +110,7 @@ export class CartLayoutComponent implements OnInit {
 
   onClickProceed(): void {
     if (this.products.length > 0) {
+      this.cartService.setProducts(this.products);
       this.router.navigate(['/order']);
     } else {
       this.router.navigate(['/ecovida/shop']);

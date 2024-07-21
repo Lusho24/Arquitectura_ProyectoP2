@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CartModel } from '../../models/ecommerce/cartModel';
+import { ProductModel } from 'src/app/model/productModel';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,10 @@ import { CartModel } from '../../models/ecommerce/cartModel';
 export class CartService {
 
   private urlEndPoint = `${environment.ecommerceUrl}/cart`;
+  private productsSubject: BehaviorSubject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
+  public products$: Observable<ProductModel[]> = this.productsSubject.asObservable();
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   public findAll(): Observable<CartModel[]> {
     return this.http.get<CartModel[]>(`${this.urlEndPoint}/all`);
@@ -33,4 +36,11 @@ export class CartService {
     return this.http.get<CartModel>(`${this.urlEndPoint}/by-user-id/${id}`);
   }
 
+  public setProducts(products: ProductModel[]): void {
+    this.productsSubject.next(products);
+  }
+
+  public getProducts(): ProductModel[] {
+    return this.productsSubject.value;
+  }
 }
