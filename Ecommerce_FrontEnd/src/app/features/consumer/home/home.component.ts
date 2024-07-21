@@ -21,7 +21,10 @@ export class HomeComponent implements OnInit {
       if (token) {
         this.authService.handleAuthCallback(token);
       } 
+      
     });
+
+    console.log("USUARIO ACTUAL:" , this.authService.getCurrentUser());
   }
 
 }

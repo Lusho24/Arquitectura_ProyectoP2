@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   handleAuthCallback(token: string) {
-    localStorage.setItem('jwt', token);
+    this.decodeToken(token);
 
     const auxUser: UserModel = this.getCurrentUser()!;
     const roles: RoleModel[] = auxUser?.roles!;
@@ -52,18 +52,7 @@ export class AuthService {
     return this.http.post<any>(this.urlEndPoint, user)
       .pipe(
         tap(response => {
-          const email = jwtDecode<JwtPayload>(response.token).sub;
-          const decodedPayload = jwtDecode<UserModel>(response.token);
-          const filteredPayload = {
-            id: decodedPayload.id,
-            name: decodedPayload.name,
-            email: email,
-            address: decodedPayload.address,
-            phone: decodedPayload.phone,
-            roles: decodedPayload.roles
-          };
-          localStorage.setItem('jwt', response.token);
-          localStorage.setItem(this.currentUserKey, JSON.stringify(filteredPayload));
+          this.decodeToken(response.token);
         })
       );
   }
@@ -87,6 +76,22 @@ export class AuthService {
   // Método para comprobar si el usuario está autenticado
   public isAuthenticated(): boolean {
     return this.getCurrentUser() !== null;
+  }
+
+  // Metodo para decodificar el token
+  private decodeToken(token: string) {
+    const email = jwtDecode<JwtPayload>(token).sub;
+    const decodedPayload = jwtDecode<UserModel>(token);
+    const filteredPayload = {
+      id: decodedPayload.id,
+      name: decodedPayload.name,
+      email: email,
+      address: decodedPayload.address,
+      phone: decodedPayload.phone,
+      roles: decodedPayload.roles
+    };
+    localStorage.setItem('jwt', token);
+    localStorage.setItem(this.currentUserKey, JSON.stringify(filteredPayload));
   }
 
 }

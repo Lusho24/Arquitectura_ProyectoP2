@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("TOKEN GUARDADO DE GOOGLE LUEGO DE OAUTH: ", this.authService.getToken())
 
     if (this.authService.isAuthenticated()) {
       const auxUser: UserModel = this.authService.getCurrentUser()!;
