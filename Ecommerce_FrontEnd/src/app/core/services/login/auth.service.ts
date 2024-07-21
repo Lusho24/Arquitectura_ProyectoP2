@@ -61,6 +61,7 @@ export class AuthService {
   public getCurrentUser(): UserModel | null {
     const userString = localStorage.getItem(this.currentUserKey);
     if (userString) {
+      console.log(userString)
       return JSON.parse(userString);
     } else {
       return null;

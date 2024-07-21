@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CartService } from 'src/app/core/services/ecommerce/cart.service';
+import { CartDetailService } from 'src/app/core/services/ecommerce/cart-detail.service';
+import { AuthService } from 'src/app/core/services/login/auth.service';
+import { ProductService } from 'src/app/services/product.service';
+import { ProductModel } from 'src/app/model/productModel';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
+interface Product extends ProductModel {
   quantity: number;
-  imageUrl: string;
+  cartDetailId: number;
 }
 
 @Component({
@@ -15,33 +18,99 @@ interface Product {
   templateUrl: './cart-layout.component.html',
   styleUrls: ['./cart-layout.component.scss']
 })
-export class CartLayoutComponent {
+export class CartLayoutComponent implements OnInit {
+  products: Product[] = [];
+  cartId: number | undefined;
 
-  products: Product[] = [
-    { id: 1, name: 'Producto 1', description: 'Descripción del producto 1', price: 100, quantity: 1, imageUrl: 'assets/img/product.jpg' },
-    { id: 2, name: 'Producto 2', description: 'Descripción del producto 2', price: 150, quantity: 1, imageUrl: 'assets/img/product.jpg' },
-    { id: 3, name: 'Producto 3', description: 'Descripción del producto 3', price: 200, quantity: 1, imageUrl: 'assets/img/product.jpg' }
-  ];
+  constructor(
+    private authService: AuthService,
+    private cartService: CartService,
+    private cartDetailService: CartDetailService,
+    private productService: ProductService,
+    private router: Router
+  ) {}
 
-  constructor(private router: Router) { }
+  ngOnInit(): void {
+    this.loadCartProducts();
+    this.transformProducts();
+  }
+  private transformProducts(): void {
+    const cartProducts = this.cartService.getProducts();
+    this.products = cartProducts.map(product => ({
+      ...product,
+      quantity: 0,  // Asigna un valor predeterminado o calcula la cantidad correcta
+      cartDetailId: 0  // Asigna un valor predeterminado o usa un identificador válido
+    }));
+  }
+
+  private loadCartProducts(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser?.id) {
+      this.cartService.findByUserId(currentUser.id).subscribe(cart => {
+        if (cart?.id) {
+          this.cartId = cart.id;
+          this.cartDetailService.findAll().subscribe(details => {
+            const productDetails = details.filter(detail => detail.cartId === this.cartId);
+
+            const productObservables = productDetails.map(detail => 
+              this.productService.getProduct(detail.productId!).pipe(
+                map(product => {
+                  if (product) {
+                    return {
+                      ...product,
+                      quantity: detail.productQuantity ?? 0,
+                      cartDetailId: detail.id
+                    } as Product;
+                  } else {
+                    console.warn(`Product with ID ${detail.productId} not found.`);
+                    return {
+                      id: 0,
+                      categoryId: 0,
+                      name: 'Unknown',
+                      description: '',
+                      price: 0,
+                      stock: 0,
+                      imageUrl: '',
+                      quantity: detail.productQuantity ?? 0,
+                      cartDetailId: detail.id
+                    } as Product;
+                  }
+                })
+              )
+            );
+
+            forkJoin(productObservables).subscribe(products => {
+              this.products = products;
+            });
+          });
+        }
+      });
+    }
+  }
 
   procederAlPago(): void {
     this.router.navigate(['/order']);
   }
 
   eliminarProducto(id: number): void {
-    this.products = this.products.filter(product => product.id !== id);
-    if (this.products.length === 0) {
-      const button = document.getElementById('proceedButton') as HTMLButtonElement;
-      if (button) {
-        button.disabled = false;
-        button.innerText = 'Regresar a la tienda';
-      }
+    const productToRemove = this.products.find(product => product.id === id);
+    if (productToRemove && productToRemove.cartDetailId) {
+      this.cartDetailService.delete(productToRemove.cartDetailId).subscribe(() => {
+        this.products = this.products.filter(product => product.id !== id);
+        if (this.products.length === 0) {
+          const button = document.getElementById('proceedButton') as HTMLButtonElement;
+          if (button) {
+            button.disabled = false;
+            button.innerText = 'Regresar a la tienda';
+          }
+        }
+      });
     }
   }
 
   onClickProceed(): void {
     if (this.products.length > 0) {
+      this.cartService.setProducts(this.products);
       this.router.navigate(['/order']);
     } else {
       this.router.navigate(['/ecovida/shop']);
@@ -50,5 +119,23 @@ export class CartLayoutComponent {
 
   calcularTotal(): number {
     return this.products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+  }
+
+  incrementarCantidad(product: Product): void {
+    if (product.quantity < product.stock) {
+      product.quantity++;
+      this.actualizarCantidadProducto(product);
+    }
+  }
+
+  decrementarCantidad(product: Product): void {
+    if (product.quantity > 0) {
+      product.quantity--;
+      this.actualizarCantidadProducto(product);
+    }
+  }
+
+  private actualizarCantidadProducto(product: Product): void {
+    this.cartDetailService.updateProductQuantity(product.cartDetailId, product.quantity).subscribe();
   }
 }

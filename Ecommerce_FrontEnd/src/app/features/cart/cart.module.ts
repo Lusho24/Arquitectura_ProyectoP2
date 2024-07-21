@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
-
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import { FormsModule } from '@angular/forms';
     MatCardModule,
     MatInputModule,
     MatListModule,
-    FormsModule 
+    FormsModule ,
+    MatIconModule
   ]
 })
 export class CartModule { }
