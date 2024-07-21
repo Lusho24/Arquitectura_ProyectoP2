@@ -26,6 +26,7 @@ export class UserService {
   public save(user: CreateUserModel): Observable<any> {
     return this.http.post<any>(`${this.urlEndPoint}/save`, user);
   }
+  
 
   public delete(id: string): Observable<any> {
     return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
