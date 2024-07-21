@@ -34,4 +34,7 @@ export class ProductCatalogComponent implements OnInit {
       data: product
     });
   }
+
+
+  
 }
