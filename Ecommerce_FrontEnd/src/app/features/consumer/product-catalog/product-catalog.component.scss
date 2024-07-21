@@ -1,93 +1,17 @@
-body, ul, li, p, a, label, input, div {
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px !important;
-  font-weight: 300 !important;
-}
-
-.h1 {
-  font-family: 'Roboto', sans-serif;
-  font-size: 48px !important;
-  font-weight: 200 !important;
-}
-
-.h2 {
-  font-family: 'Roboto', sans-serif;
-  font-size: 30px !important;
-  font-weight: 300;
-}
-
-.h3 {
-  font-family: 'Roboto', sans-serif;
-  font-size: 22px !important;
-}
-
 /* General */
-.logo { 
-  font-weight: 500 !important;
-}
-
-.text-warning {  
-  color: #ede861 !important;
-}
-
-.text-muted { 
-  color: #bcbcbc !important;
-}
-
-.text-success { 
-  color: #59ab6e !important;
-}
-
-.text-light { 
-  color: #cfd6e1 !important;
-}
-
-.bg-dark { 
-  background-color: #212934 !important;
-}
-
-.bg-light { 
-  background-color: #e9eef5 !important;
-}
-
-.bg-black { 
-  background-color: #1d242d !important;
-}
-
-.bg-success { 
-  background-color: #59ab6e !important;
-}
-
-.btn-success {
-  background-color: #59ab6e !important;
-  border-color: #56ae6c !important;
-}
-
-.pagination .page-link:hover {
-  color: #000;
-}
-
-.pagination .page-link:hover, 
-.pagination .page-link.active {
-  background-color: #69bb7e;
-  color: #fff;
-}
-
-
-
-/* Product */
 .product-card {
   max-width: 100%; /* Se asegura de que la tarjeta no exceda el ancho del contenedor */
-  min-height: 350px; /* Altura mínima para todas las tarjetas */
+  min-height: 400px; /* Altura mínima para todas las tarjetas */
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Para alinear el contenido de manera uniforme */
+  position: relative; /* Necesario para el overlay */
 }
 
 .product-image {
-  max-width: 100%; /* Se asegura de que la imagen no exceda el ancho de la tarjeta */
-  max-height: 200px; /* Altura máxima de la imagen */
-  object-fit: cover; /* Mantiene la proporción de la imagen */
+  width: 100%; /* Ajusta el ancho al 100% del contenedor */
+  height: 200px; /* Altura fija para todas las imágenes */
+  object-fit: cover; /* Mantiene la proporción de la imagen, recorta si es necesario */
 }
 
 .product-overlay {
@@ -103,70 +27,22 @@ body, ul, li, p, a, label, input, div {
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 .product-card:hover .product-overlay {
-  opacity: 0.5; 
+  opacity: 0.5; /* Ajusta la opacidad del overlay al pasar el ratón */
 }
 
+.card.product-wap:hover img.card-img {
+  opacity: 0.5; /* Ajusta la opacidad de la imagen al pasar el ratón */
+}
 
-.product-card .product-actions {
+.product-actions {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: all 0.3s ease;
-}
-
-
-.card.product-wap:hover img.card-img {
-  opacity: 0.5; /* Ajusta la opacidad según sea necesario */
-}
-
-#carousel-related-product .slick-slide:focus { 
-  outline: none !important;
-}
-
-#carousel-related-product .slick-dots li button:before {
-  font-size: 15px;
-  margin-top: 20px;
-}
-
-@media (min-width: 576px) {
-  .tempaltemo-carousel .h1 { 
-      font-size: 1em !important;
-  }
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-  #templatemo_main_nav .navbar-nav {
-      max-width: 450px;
-  }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-  #templatemo_main_nav .navbar-nav {
-      max-width: 550px;
-  }
-  #template-mo-zay-hero-carousel .carousel-item {
-      min-height: 30rem !important;
-  }
-  .product-wap .h3, 
-  .product-wap li, 
-  .product-wap i, 
-  .product-wap p {
-      font-size: 18px !important;
-  }
-  .product-wap .product-color-dot {
-      width: 12px;
-      height: 12px;
-  }
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-  /* Add extra large device specific styles here if needed */
 }
 
 .options {
@@ -189,7 +65,8 @@ body, ul, li, p, a, label, input, div {
   margin-right: 10px; 
 }
 
-.icons{
+.icons {
+  margin-bottom: 200px;
   color: white;
   background-color: #000;
 }
@@ -200,4 +77,42 @@ body, ul, li, p, a, label, input, div {
   margin-top: 10px;
   border-radius: 5px; /* Opcional: para bordes redondeados */
   background-color: #fff; /* Opcional: fondo blanco para el recuadro */
+}
+
+/* Estilos de paginación */
+.mat-paginator {
+  margin-top: 20px; /* Ajusta el espacio superior según sea necesario */
+  justify-content: flex-end; /* Alinea la paginación a la derecha */
+}
+
+/* Responsive */
+@media (min-width: 576px) {
+  .tempaltemo-carousel .h1 { 
+    font-size: 1em !important;
+  }
+}
+
+@media (min-width: 768px) {
+  #templatemo_main_nav .navbar-nav {
+    max-width: 450px;
+  }
+}
+
+@media (min-width: 992px) {
+  #templatemo_main_nav .navbar-nav {
+    max-width: 550px;
+  }
+  #template-mo-zay-hero-carousel .carousel-item {
+    min-height: 30rem !important;
+  }
+  .product-wap .h3, 
+  .product-wap li, 
+  .product-wap i, 
+  .product-wap p {
+    font-size: 18px !important;
+  }
+  .product-wap .product-color-dot {
+    width: 12px;
+    height: 12px;
+  }
 }

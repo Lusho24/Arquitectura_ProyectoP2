@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CartDetailModel } from '../../models/ecommerce/cartDetail';
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,4 +34,10 @@ export class CartDetailService {
     return this.http.patch<CartDetailModel>(`${this.urlEndPoint}/${id}/product-quantity`,body);
   }
 
+  public getTotalItems(): Observable<number> {
+    return this.findAll().pipe(
+      map(cartDetails => cartDetails.reduce((total, item) => total + (item.productQuantity ?? 0), 0)) // Usa el operador ?? para manejar undefined
+    );
+  }
+  
 }

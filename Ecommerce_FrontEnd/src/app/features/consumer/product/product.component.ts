@@ -68,11 +68,9 @@ export class ProductComponent {
                 productQuantity: this.quantity
               };
 
-              this.cartDetailService.save(cartDetail).subscribe(response => {
-                // Manejar la respuesta exitosa
+              this.cartDetailService.save(cartDetail).subscribe(() => {
                 this.dialogRef.close();
               }, error => {
-                // Manejar el error
                 console.error('Error al añadir al carrito:', error);
               });
             }

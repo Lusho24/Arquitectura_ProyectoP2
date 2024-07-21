@@ -32,15 +32,6 @@ export class CartLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCartProducts();
-    this.transformProducts();
-  }
-  private transformProducts(): void {
-    const cartProducts = this.cartService.getProducts();
-    this.products = cartProducts.map(product => ({
-      ...product,
-      quantity: 0,  // Asigna un valor predeterminado o calcula la cantidad correcta
-      cartDetailId: 0  // Asigna un valor predeterminado o usa un identificador válido
-    }));
   }
 
   private loadCartProducts(): void {
@@ -52,7 +43,7 @@ export class CartLayoutComponent implements OnInit {
           this.cartDetailService.findAll().subscribe(details => {
             const productDetails = details.filter(detail => detail.cartId === this.cartId);
 
-            const productObservables = productDetails.map(detail => 
+            const productObservables = productDetails.map(detail =>
               this.productService.getProduct(detail.productId!).pipe(
                 map(product => {
                   if (product) {

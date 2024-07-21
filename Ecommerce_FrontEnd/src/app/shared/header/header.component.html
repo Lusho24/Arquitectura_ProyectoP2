@@ -54,8 +54,11 @@
                     </div>
                     <a class="nav-icon position-relative text-decoration-none" href="/cart">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">2</span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">
+                            {{ cartItemCount }} <!-- Mostrar la cantidad de productos únicos -->
+                        </span>
                     </a>
+                                      
                     <a class="nav-icon position-relative text-decoration-none" href="/login">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
                     </a>
