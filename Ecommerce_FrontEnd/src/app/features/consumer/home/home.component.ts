@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 
 @Component({
@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit {
       
     });
 
-    console.log("USUARIO ACTUAL:" , this.authService.getCurrentUser());
   }
 
 }
