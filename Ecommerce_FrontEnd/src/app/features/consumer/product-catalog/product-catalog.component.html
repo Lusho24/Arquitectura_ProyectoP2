@@ -2,7 +2,7 @@
 <div class="container py-5">
   <div class="row">
     <div class="col-lg-3">
-      <h1 class="h2 pb-4">Categorias</h1>
+      <h1 class="h2 pb-4">Categorías</h1>
       <mat-nav-list class="templatemo-accordion">
         <mat-list-item>
           <a matLine class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
@@ -25,23 +25,23 @@
     <div class="col-lg-9">
       <div class="row">
         <div class="col-md-4" *ngFor="let product of products">
-          <mat-card class="mb-3 product-wap rounded-0" (mouseenter)="product.showActions = true" (mouseleave)="product.showActions = false">
-            <img mat-card-image class="card-img rounded-0 img-fluid" [src]="product.imageUrl">
+          <mat-card class="mb-3 product-wap rounded-0 product-card" (mouseenter)="product.showActions = true" (mouseleave)="product.showActions = false">
+            <img mat-card-image class="card-img rounded-0 img-fluid product-image" [src]="product.imageUrl">
             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center" *ngIf="product.showActions">
               <ul class="options">
-                <li><button mat-icon-button color="primary" (click)="openSignUp(product)"><mat-icon>visibility</mat-icon></button></li>
-                <li><button mat-icon-button color="primary"><mat-icon>add_shopping_cart</mat-icon></button></li>
+                <li><button mat-icon-button class="icons" (click)="openSignUp(product)"><mat-icon>visibility</mat-icon></button></li>
+                <li><button mat-icon-button class="icons" ><mat-icon>add_shopping_cart</mat-icon></button></li>
               </ul>
             </div>
             <mat-card-content>
               <a mat-card-title class="h3 text-decoration-none">{{ product.name }}</a>
               <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                <li>{{ product.stock }}</li>
+                <li>{{ product.stock }} unidades</li>
                 <li class="pt-2">
-                  <span *ngFor="let color " class="product-color-dot" [ngStyle]="{'background-color': color}"></span>
+                  <span *ngFor="let color of product.colors" class="product-color-dot" [ngStyle]="{'background-color': color}"></span>
                 </li>
               </ul>
-              <p class="text-center mb-0">{{ product.price | currency }}</p>
+              <p class="text-center mb-0 price-box">{{ product.price | currency }}</p>
             </mat-card-content>
           </mat-card>
         </div>

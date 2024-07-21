@@ -77,14 +77,36 @@ body, ul, li, p, a, label, input, div {
 
 /* Product */
 .product-card {
-  position: relative;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  max-width: 100%; /* Se asegura de que la tarjeta no exceda el ancho del contenedor */
+  min-height: 350px; /* Altura mínima para todas las tarjetas */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Para alinear el contenido de manera uniforme */
 }
 
-.product-card:hover {
-  opacity: 0.8;
+.product-image {
+  max-width: 100%; /* Se asegura de que la imagen no exceda el ancho de la tarjeta */
+  max-height: 200px; /* Altura máxima de la imagen */
+  object-fit: cover; /* Mantiene la proporción de la imagen */
 }
+
+.product-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(149, 149, 149, 0.31); /* Fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.product-card:hover .product-overlay {
+  opacity: 0.5; 
+}
+
 
 .product-card .product-actions {
   position: absolute;
@@ -95,49 +117,6 @@ body, ul, li, p, a, label, input, div {
   transition: all 0.3s ease;
 }
 
-.product-card:hover .product-actions {
-  opacity: 1;
-}
-
-.product-wap { 
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.10);
-}
-
-.product-wap .product-color-dot.color-dot-red { 
-  background:#f71515;
-}
-
-.product-wap .product-color-dot.color-dot-blue { 
-  background:#6db4fe;
-}
-
-.product-wap .product-color-dot.color-dot-black { 
-  background:#000000;
-}
-
-.product-wap .product-color-dot.color-dot-light { 
-  background:#e0e0e0;
-}
-
-.product-wap .product-color-dot.color-dot-green { 
-  background:#0bff7e;
-}
-
-.card.product-wap .card .product-overlay {
-  background: rgba(0,0,0,.2);
-  visibility: hidden;
-  opacity: 0;
-  transition: .3s;
-}
-
-.card.product-wap:hover .card .product-overlay {
-  visibility: visible;
-  opacity: 1;
-}
-
-.card.product-wap a { 
-  color: #000;
-}
 
 .card.product-wap:hover img.card-img {
   opacity: 0.5; /* Ajusta la opacidad según sea necesario */
@@ -191,14 +170,34 @@ body, ul, li, p, a, label, input, div {
 }
 
 .options {
-  background-color: #2e2d2dc0;
-  color: #fff;
-  list-style-type: none; /* Quitar los puntos de viñetas */
+  list-style: none;
   padding: 0;
-  margin-bottom: 75px;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.product-color-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .options li {
   display: inline-block; 
   margin-right: 10px; 
+}
+
+.icons{
+  color: white;
+  background-color: #000;
+}
+
+.price-box {
+  border: 2px solid #000000; /* Cambia el color del borde según tu preferencia */
+  padding: 10px; /* Ajusta el relleno según tu preferencia */
+  margin-top: 10px;
+  border-radius: 5px; /* Opcional: para bordes redondeados */
+  background-color: #fff; /* Opcional: fondo blanco para el recuadro */
 }
