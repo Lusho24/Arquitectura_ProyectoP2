@@ -3,12 +3,21 @@
 <div class="content-wrapper">
   <h1>Añadir Producto</h1>
   <form [formGroup]="addProductForm" class="add-product-form">
-    <input type="file" id="fileInput" (change)="onFileSelected($event)">
-    <label for="fileInput" class="file-label">Seleccionar Imagen</label>
 
+    <div *ngIf="imagePreview">
+      <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
+      <p>{{ selectedFileName }}</p>
+    </div>
+    <input type="file" id="fileInput" (change)="onFileSelected($event)">
+    <label for="fileInput" class="file-label small-button">Seleccionar Imagen</label>
+    
     <mat-form-field appearance="fill">
       <mat-label>Categoría</mat-label>
-      <input matInput formControlName="categoryId" placeholder="ID de Categoría" type="number" class="form-control no-spinner">
+      <mat-select formControlName="categoryId">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">

@@ -19,7 +19,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class OrdersDetailsComponent implements OnInit {
   estadoPedido: string = '';
-  estadosPedidos: string[] = ['Pendiente', 'Terminado'];
+  estadosPedidos: string[] = ['COMPLETADO', 'EN PROCESO'];
   cliente: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
   factura: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
   envio: { direccion: string } = { direccion: '' };
@@ -98,13 +98,18 @@ export class OrdersDetailsComponent implements OnInit {
     const updatedOrder: Partial<PurchaseOrderModel> = {
       state: newState // Solo actualiza el estado
     };
-
-    this.purchaseOrderService.save({ ...this.currentOrder, ...updatedOrder }).subscribe(response => {
-      console.log('Estado del pedido actualizado');
-      this.router.navigate(['/admin/orders']);
-    }, error => {
-      console.error('Error al actualizar el estado del pedido', error);
+  
+    if (this.currentOrder.id !== undefined) {
+      this.purchaseOrderService.updateState(this.currentOrder.id!, newState).subscribe(response => {
+        console.log('Estado del pedido actualizado');
+        this.router.navigate(['/admin/orders']);
+      }, error => {
+        console.error('Error al actualizar el estado del pedido', error);
+        // manejar errores
+      });
+    } else {
+      console.error('ID de la orden no definido');
       // manejar errores
-    });
+    }
   }
 }

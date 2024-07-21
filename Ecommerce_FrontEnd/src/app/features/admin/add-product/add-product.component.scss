@@ -20,18 +20,19 @@ input[type="file"] {
   display: inline-block;
   padding: 8px 16px;
   color: #fff;
-  background-color: #2c3e50; /* Color de fondo oscuro */
+  width: 250px;
+  background-color: #2c3e50; 
   border-radius: 4px;
   text-align: center;
   margin-bottom: 16px;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #34495e; /* Color de fondo oscuro al pasar el mouse */
+    background-color: #34495e; 
   }
 
   &:active {
-    background-color: #2e4053; /* Color de fondo oscuro al activar */
+    background-color: #2e4053; 
   }
 }
 
@@ -54,21 +55,21 @@ input[type=number] {
 .content-wrapper {
   flex-grow: 1;
   padding: 20px;
-  margin-left: 260px; /* Ancho del sidebar */
+  margin-left: 260px; 
 }
 
+//tabla estilos
 .table-responsive {
   overflow-x: auto;
 }
 button {
   margin-left: 8px;
-  color: #fff; /* Color del texto */
-  padding: 8px 16px; /* Espaciado interior */
-  border-radius: 4px; /* Bordes redondeados */
-  transition: background-color 0.3s ease; /* Transición suave */
+  color: #fff; 
+  padding: 8px 16px; 
+  border-radius: 4px; 
+  transition: background-color 0.3s ease; 
 }
 
-/* Estilo para el botón de Cancelar */
 .btn-cancel {
   border-radius: 5px;
   border: 1px solid #0000007b; 
@@ -79,7 +80,6 @@ button {
   background-color: #073a9150; 
 }
 
-/* Estilo para el botón de Añadir */
 .btn-add {
   border-radius: 5px;
   border: 1px solid #0000007b; 
@@ -90,7 +90,12 @@ button {
 }
 
 
-/* Cambios de color al pasar el mouse sobre los botones */
 button:hover {
-  opacity: 0.8; /* Opacidad reducida */
+  opacity: 0.8; 
+}
+
+.image-preview {
+  max-width: 250px; 
+  max-height: 250px; 
+  margin-top: 10px;
 }
