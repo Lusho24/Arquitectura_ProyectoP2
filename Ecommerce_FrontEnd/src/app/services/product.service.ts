@@ -120,7 +120,7 @@ export class ProductService {
         const stock = parseInt(productInfo[5], 10);
     
         // categoryId se incluye en el objeto del producto (asumir que se obtiene del XML si es necesario)
-        const categoryId = 0; // Asegúrate de obtener categoryId del XML si es necesario
+        const categoryId = parseInt(productInfo[6]); // Asegúrate de obtener categoryId del XML si es necesario
         const imageUrl = productInfo[3]; // Asumiendo que el último valor es el URL de la imagen
         console.log(products)
         products.push({ id, categoryId, name, description, price, stock, imageUrl });
@@ -143,7 +143,7 @@ export class ProductService {
       const description = productInfo[2];
       const price = parseFloat(productInfo[4]);
       const stock = parseInt(productInfo[5], 10);
-      const categoryId = 0; // Asegúrate de obtener categoryId del XML si es necesario
+      const categoryId = parseInt(productInfo[6]);; // Asegúrate de obtener categoryId del XML si es necesario
       const imageUrl = productInfo[3]; // Asumiendo que el último valor es el URL de la imagen
   
       return { id, categoryId, name, description, price, stock, imageUrl };
