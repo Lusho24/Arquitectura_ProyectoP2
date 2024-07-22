@@ -33,10 +33,10 @@
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let element" class="actions">
         <button mat-icon-button (click)="changeStatus(element, 'PAGADO')" aria-label="Marcar como Pagado">
-          <mat-icon>check</mat-icon>
+          <mat-icon>attach_money</mat-icon>
         </button>
         <button mat-icon-button (click)="changeStatus(element, 'PENDIENTE')" aria-label="Marcar como Pendiente">
-          <mat-icon>cancel</mat-icon>
+          <mat-icon>money_off</mat-icon>
         </button>
       </td>
     </ng-container>
