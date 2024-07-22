@@ -48,3 +48,24 @@
     align-items: center;
     padding-left: 50px;
   }
+
+  /* payments.component.scss */
+.summary-box {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .summary-item:last-child {
+    border-bottom: none;
+  }
+  

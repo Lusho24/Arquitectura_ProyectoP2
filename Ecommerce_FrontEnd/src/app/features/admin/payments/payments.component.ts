@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
 import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
-import { ShipmentService } from 'src/app/core/services/ecommerce/shipment.service';
 import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
+import { ShipmentService } from 'src/app/core/services/ecommerce/shipment.service';
 import { ShipmentModel } from 'src/app/core/models/ecommerce/shipmentModel';
 
 @Component({
@@ -12,14 +10,15 @@ import { ShipmentModel } from 'src/app/core/models/ecommerce/shipmentModel';
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'shipment', 'method', 'state', 'total', 'actions'];
   dataSource: PaymentOrderModel[] = [];
+  displayedColumns: string[] = ['id', 'shipment', 'method', 'state', 'total', 'actions'];
   shipments: ShipmentModel[] = [];
+  totalEarned: number = 0;
+  pendingIncome: number = 0;
 
   constructor(
     private paymentOrderService: PaymentOrderService,
-    private shipmentService: ShipmentService,
-    private snackBar: MatSnackBar
+    private shipmentService: ShipmentService
   ) {}
 
   ngOnInit(): void {
@@ -29,15 +28,29 @@ export class PaymentsComponent implements OnInit {
 
   loadOrders(): void {
     this.paymentOrderService.findAll().subscribe(
-      data => this.dataSource = data,
-      error => this.snackBar.open('Error al cargar los pedidos', 'Cerrar', { duration: 3000 })
+      data => {
+        this.dataSource = data;
+        this.calculateSummary(); // Calcula la ganancia total y los ingresos en proceso
+      },
+      error => console.error('Error loading orders', error)
     );
   }
 
   loadShipments(): void {
     this.shipmentService.findAll().subscribe(
       data => this.shipments = data,
-      error => this.snackBar.open('Error al cargar los métodos de envío', 'Cerrar', { duration: 3000 })
+      error => console.error('Error loading shipments', error)
+    );
+  }
+
+  changeStatus(order: PaymentOrderModel, newState: string): void {
+    const updatedOrder: PaymentOrderModel = { ...order, state: newState };
+    
+    this.paymentOrderService.save(updatedOrder).subscribe(
+      () => {
+        this.loadOrders(); // Recarga la lista después de la actualización
+      },
+      error => console.error('Error updating order status', error)
     );
   }
 
@@ -46,22 +59,17 @@ export class PaymentsComponent implements OnInit {
     return shipment && shipment.name ? shipment.name : 'Desconocido';
   }
 
-  updateOrderStatus(order: PaymentOrderModel, newStatus: string): void {
-    if (order.state !== newStatus) {
-      const updatedOrder: PaymentOrderModel = { ...order, state: newStatus };
-      this.paymentOrderService.save(updatedOrder).subscribe(
-        () => {
-          this.snackBar.open('Estado actualizado con éxito', 'Cerrar', { duration: 3000 });
-          this.loadOrders(); // Recargar la lista después de actualizar
-        },
-        error => this.snackBar.open('Error al actualizar el estado', 'Cerrar', { duration: 3000 })
-      );
-    }
-  }
 
-  updateState(order: PaymentOrderModel): void {
-    if (order.state) {
-      this.updateOrderStatus(order, order.state);
-    }
+  calculateSummary(): void {
+    this.totalEarned = this.dataSource
+      .filter(order => order.state === 'PAGADO')
+      .reduce((sum, order) => sum + (order.total || 0), 0);
+
+    this.pendingIncome = this.dataSource
+      .filter(order => order.state === 'PENDIENTE')
+      .reduce((sum, order) => sum + (order.total || 0), 0);
   }
 }
+
+
+
