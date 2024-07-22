@@ -29,4 +29,9 @@ export class PaymentOrderService {
     return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
   }
 
+  public updateState(id: number, state: string): Observable<PaymentOrderModel> {
+    const body = { state };
+    return this.http.patch<PaymentOrderModel>(`${this.urlEndPoint}/${id}/state`,body);
+  }
+
 }
