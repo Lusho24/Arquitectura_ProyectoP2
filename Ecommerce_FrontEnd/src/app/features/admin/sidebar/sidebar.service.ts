@@ -66,7 +66,7 @@ export class SidebarService {
         {
           title: 'Lista Pagos',
           type: 'simple',
-          route: '/admin/orders'
+          route: '/admin/payments'
         },
       ]
     },

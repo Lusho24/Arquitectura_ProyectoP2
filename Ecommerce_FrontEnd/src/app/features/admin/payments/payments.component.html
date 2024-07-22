@@ -1,0 +1,47 @@
+<app-sidebar></app-sidebar>
+<div class="content-wrapper">
+  <h1 class="table">Lista de Pedidos</h1>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="shipment">
+      <th mat-header-cell *matHeaderCellDef> Método de Envío </th>
+      <td mat-cell *matCellDef="let element"> {{ getShipmentName(element.shipmentId) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="method">
+      <th mat-header-cell *matHeaderCellDef> Método de Pago </th>
+      <td mat-cell *matCellDef="let element"> {{ element.method }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-select [(ngModel)]="element.state" (ngModelChange)="updateState(element)">
+          <mat-option value="PENDIENTE">PENDIENTE</mat-option>
+          <mat-option value="PAGADO">PAGADO</mat-option>
+        </mat-select>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef> Total </th>
+      <td mat-cell *matCellDef="let element"> {{ element.total | currency:'USD':'symbol':'1.2-2' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="updateOrderStatus(element, 'PAGADO')">Marcar como PAGADO</button>
+        <button mat-raised-button color="warn" (click)="updateOrderStatus(element, 'PENDIENTE')">Marcar como PENDIENTE</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+  </table>
+</div>

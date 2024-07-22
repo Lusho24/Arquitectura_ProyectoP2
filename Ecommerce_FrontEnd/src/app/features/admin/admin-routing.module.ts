@@ -8,12 +8,14 @@ import { ProductsComponent } from './products/products.component';
 
 import { ShippingComponent } from './shipping/shipping.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 
 
 const routes: Routes = [
   { path: '', component: HomeAdminComponent },
   { path: 'orders', component: OrdersComponent },
+  { path: 'payments', component: PaymentsComponent },
   { path: 'ordersDetails/:id', component: OrdersDetailsComponent },
   { path: 'products', component: ProductsComponent },
   //shipping

@@ -23,6 +23,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { PaymentsComponent } from './payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MatSelectModule } from '@angular/material/select';
     AddShippingComponent,
     EditShippingComponent,
     SidebarComponent,
-    OrdersComponent
+    OrdersComponent,
+    PaymentsComponent
   ],
   imports: [
     CommonModule,
