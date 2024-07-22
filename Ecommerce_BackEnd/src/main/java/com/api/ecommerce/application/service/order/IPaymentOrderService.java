@@ -11,5 +11,6 @@ public interface IPaymentOrderService {
     public Optional<PaymentOrderEntity> findPaymentOrderById(Long id);
     public PaymentOrderEntity savePaymentOrder(PaymentOrderEntity paymentOrder);
     public void deletePaymentOrderById(Long id);
+    public Optional<PaymentOrderEntity> updateState(Long id, String state);
 
 }

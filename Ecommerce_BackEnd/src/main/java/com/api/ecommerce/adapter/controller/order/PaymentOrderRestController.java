@@ -66,4 +66,12 @@ public class PaymentOrderRestController {
         );
     }
 
+    @PatchMapping("/{id}/state")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<Optional<?>> updateState(@PathVariable Long id,
+                                                   @Valid @RequestBody Map<String,String> updateState) {
+        String state = updateState.get("state");
+        return ResponseEntity.status(HttpStatus.OK).body(paymentOrderService.updateState(id, state));
+    }
+
 }

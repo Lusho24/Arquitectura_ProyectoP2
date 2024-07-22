@@ -53,4 +53,20 @@ public class PaymentOrderService implements IPaymentOrderService{
         }
     }
 
+    @Override
+    public Optional<PaymentOrderEntity> updateState(Long id, String state) {
+        Optional<PaymentOrderEntity> paymentOrder = paymentOrderRepository.findById(id);
+        if (paymentOrder.isPresent()){
+            PaymentOrderEntity updatePaymentState = paymentOrder.get();
+            updatePaymentState.setState(state);
+            return Optional.of(paymentOrderRepository.save(updatePaymentState));
+        }
+        throw new OrderNotFoundException(
+                ExceptionDetailsDTO.builder()
+                        .statusCode(404)
+                        .message("La orden de pago a actualizar no existe.")
+                        .build()
+        );
+    }
+
 }
