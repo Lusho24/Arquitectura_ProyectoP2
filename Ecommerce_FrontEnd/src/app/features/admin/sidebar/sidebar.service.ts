@@ -58,6 +58,19 @@ export class SidebarService {
       ]
     },
     {
+      title: 'Pagos',
+      icon: 'fa fa-credit-card',
+      active: false,
+      type: 'dropdown',
+      submenus: [
+        {
+          title: 'Lista Pagos',
+          type: 'simple',
+          route: '/admin/orders'
+        },
+      ]
+    },
+    {
       title: 'Gestión Envio',
       icon: 'fa fa-paper-plane',
       active: false,
