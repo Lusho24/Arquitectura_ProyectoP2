@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { BankInfComponent } from '../bank-inf/bank-inf.component';
 import { CartService } from 'src/app/core/services/ecommerce/cart.service';
-import { CartDetailService } from 'src/app/core/services/ecommerce/cart-detail.service'; // Asegúrate de importar el servicio
+import { CartDetailService } from 'src/app/core/services/ecommerce/cart-detail.service';
 import { ShipmentService } from 'src/app/core/services/ecommerce/shipment.service';
 import { ShipmentModel } from 'src/app/core/models/ecommerce/shipmentModel';
 import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
@@ -31,30 +31,37 @@ export class OrderLayoutComponent implements OnInit {
   total: number = 0;
   subtotal: number = 0;
   products: Product[] = [];
-  shipments: ShipmentModel[] = []; // Propiedad para los métodos de envío
-  selectedShipment: ShipmentModel | null = null; // Propiedad para el método de envío seleccionado
+  shipments: ShipmentModel[] = [];
+  selectedShipment: ShipmentModel | null = null;
+  currentUser: any; // Propiedad para almacenar los datos del usuario actual
 
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private cartService: CartService,
-    private shipmentService: ShipmentService, // Inyección del servicio de envíos
+    private shipmentService: ShipmentService,
     private paymentOrderService: PaymentOrderService,
     private purchaseOrderService: PurchaseOrderService,
-    private authService: AuthService, // Inyección del servicio de autenticación
-    private cartDetailService: CartDetailService // Inyección del servicio de detalles del carrito
+    private authService: AuthService,
+    private cartDetailService: CartDetailService
   ) {}
 
   ngOnInit(): void {
     this.cartService.products$.subscribe(productModels => {
       this.products = productModels.map(productModel => ({
         ...productModel,
-        quantity: 1 // Asigna una cantidad predeterminada
+        quantity: 1
       }));
       this.updateTotals();
     });
 
-    this.loadShipments(); // Carga los métodos de envío
+    this.loadShipments();
+
+    // Obtén el usuario actual al inicializar el componente
+    this.currentUser = this.authService.getCurrentUser();
+    if (!this.currentUser) {
+      console.error('No user found');
+    }
   }
 
   loadShipments(): void {
@@ -62,7 +69,7 @@ export class OrderLayoutComponent implements OnInit {
       (data) => {
         this.shipments = data;
         if (this.shipments.length > 0) {
-          this.selectedShipment = this.shipments[0]; // Establece el primer método de envío como seleccionado por defecto
+          this.selectedShipment = this.shipments[0];
           this.updateShippingCost();
         }
       },
@@ -95,19 +102,16 @@ export class OrderLayoutComponent implements OnInit {
   }
   
   private createPaymentOrder(): Observable<any> {
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser || !currentUser.id) {
+    if (!this.currentUser || !this.currentUser.id) {
       throw new Error('User not authenticated or user ID is missing');
     }
 
-    // Obtén el carrito del usuario
-    return this.cartService.findByUserId(currentUser.id).pipe(
+    return this.cartService.findByUserId(this.currentUser.id).pipe(
       switchMap(cart => {
         if (!cart || !cart.id) {
           throw new Error('No cart found for the user');
         }
 
-        // Crea la orden de pago con el ID del carrito obtenido
         const paymentOrder = {
           cartId: cart.id,
           shipmentId: this.selectedShipment?.id,
@@ -124,7 +128,7 @@ export class OrderLayoutComponent implements OnInit {
   private createPurchaseOrder(paymentOrderId: number): Observable<any> {
     const purchaseOrder = {
       paymentOrderId: paymentOrderId,
-      creationDate: new Date(), // Usa una instancia de Date
+      creationDate: new Date(),
       state: 'EN PROCESO'
     };
   
@@ -136,7 +140,7 @@ export class OrderLayoutComponent implements OnInit {
       this.cartDetailService.findById(product.id).subscribe(cartDetail => {
         if (cartDetail && cartDetail.id !== undefined) {
           this.cartDetailService.delete(cartDetail.id).subscribe(() => {
-            // Aquí podrías actualizar el estado de tu carrito o manejar la UI según sea necesario
+            // Actualizar el estado del carrito o manejar la UI
           });
         } else {
           console.error('Cart detail ID is undefined');
@@ -158,12 +162,12 @@ export class OrderLayoutComponent implements OnInit {
 
   onSectorChange(event: any): void {
     this.selectedSector = event.value;
-    this.updateShippingCost(); // Actualiza el costo del envío cuando cambie el sector
+    this.updateShippingCost();
   }
 
   onShipmentChange(event: any): void {
     this.selectedShipment = event.value;
-    this.updateShippingCost(); // Actualiza el costo del envío cuando cambie el método de envío
+    this.updateShippingCost();
   }
 
   updateTotals(): void {
