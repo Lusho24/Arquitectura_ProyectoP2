@@ -67,7 +67,7 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 if (reader.Read())
                 {
                     string imageUrl = reader["IMAGENPRODUCTO"].ToString();
-                    return $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}";
+                    return $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]},CategoriaId: {reader["IDCATEGORIA"]}";
                 }
                 else
                 {
@@ -103,10 +103,11 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 while (reader.Read())
                 {
                     string imageUrl = reader["IMAGENPRODUCTO"].ToString();
-                    result += $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}\n";
+                    result += $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}, CategoriaId: {reader["IDCATEGORIA"]}\n";
                 }
                 return result;
             }
         }
+
     }
 }
