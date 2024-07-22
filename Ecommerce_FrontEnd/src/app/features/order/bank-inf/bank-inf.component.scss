@@ -56,3 +56,13 @@
     background-color: #69bb7e !important;
   }
   
+  .image-container {
+    text-align: center; /* Centra la imagen en su contenedor */
+    margin-top: 20px; /* Espacio superior */
+  }
+  
+  .image-container img {
+    max-width: 100%; /* Asegura que la imagen no se salga del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+  }
+  

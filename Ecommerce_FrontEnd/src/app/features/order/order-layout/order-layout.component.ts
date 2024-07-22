@@ -50,8 +50,9 @@ export class OrderLayoutComponent implements OnInit {
     this.cartService.products$.subscribe(productModels => {
       this.products = productModels.map(productModel => ({
         ...productModel,
-        quantity: 1
+        quantity: (productModel as any).quantity // Asegúrate de que la cantidad se copie correctamente
       }));
+      console.log('Productos cargados:', this.products);
       this.updateTotals();
     });
 
@@ -61,6 +62,8 @@ export class OrderLayoutComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     if (!this.currentUser) {
       console.error('No user found');
+    } else {
+      console.log('Usuario actual:', this.currentUser);
     }
   }
 
@@ -87,9 +90,14 @@ export class OrderLayoutComponent implements OnInit {
   }
 
   realizarPedido(): void {
+    console.log('Realizar pedido - términos aceptados:', this.termsAccepted);
+    console.log('Método de pago seleccionado:', this.metodoPago);
+
     if (this.termsAccepted) {
       if (this.metodoPago === 'bankTransfer') {
         this.createPaymentOrder().subscribe((paymentOrder) => {
+          console.log('Orden de pago creada:', paymentOrder);
+
           this.createPurchaseOrder(paymentOrder.id).subscribe(() => {
             this.openBankInfoModal();
             this.clearCartDetails();
@@ -120,6 +128,8 @@ export class OrderLayoutComponent implements OnInit {
           total: this.total
         };
 
+        console.log('Datos de la orden de pago:', paymentOrder);
+
         return this.paymentOrderService.save(paymentOrder);
       })
     );
@@ -131,14 +141,18 @@ export class OrderLayoutComponent implements OnInit {
       creationDate: new Date(),
       state: 'EN PROCESO'
     };
+
+    console.log('Datos de la orden de compra:', purchaseOrder);
   
     return this.purchaseOrderService.save(purchaseOrder);
   }
   
   private clearCartDetails(): void {
     this.cartService.getProducts().forEach(product => {
+      console.log("este es" ,product.id)
       this.cartDetailService.findById(product.id).subscribe(cartDetail => {
         if (cartDetail && cartDetail.id !== undefined) {
+          
           this.cartDetailService.delete(cartDetail.id).subscribe(() => {
             // Actualizar el estado del carrito o manejar la UI
           });
@@ -173,5 +187,6 @@ export class OrderLayoutComponent implements OnInit {
   updateTotals(): void {
     this.subtotal = this.products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
     this.total = this.subtotal + this.envio;
+    console.log('Subtotal:', this.subtotal, 'Total:', this.total);
   }
 }
