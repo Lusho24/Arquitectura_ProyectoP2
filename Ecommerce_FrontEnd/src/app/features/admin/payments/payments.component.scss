@@ -50,19 +50,22 @@
   }
 
   /* payments.component.scss */
-.summary-box {
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .summary-box {
     margin-top: 20px;
-    padding: 10px;
+    padding: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: #f9f9f9;
+    background: #f9f9f9;
   }
   
   .summary-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+    font-size: 16px;
   }
   
   .summary-item:last-child {

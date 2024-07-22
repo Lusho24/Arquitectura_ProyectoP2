@@ -44,14 +44,16 @@ export class PaymentsComponent implements OnInit {
   }
 
   changeStatus(order: PaymentOrderModel, newState: string): void {
-    const updatedOrder: PaymentOrderModel = { ...order, state: newState };
-    
-    this.paymentOrderService.save(updatedOrder).subscribe(
-      () => {
-        this.loadOrders(); // Recarga la lista después de la actualización
-      },
-      error => console.error('Error updating order status', error)
-    );
+    if (order.id !== undefined) {
+      this.paymentOrderService.updateState(order.id, newState).subscribe(
+        () => {
+          this.loadOrders(); // Recarga la lista después de la actualización
+        },
+        error => console.error('Error updating order status', error)
+      );
+    } else {
+      console.error('Order ID is undefined');
+    }
   }
 
   getShipmentName(shipmentId: number): string {
