@@ -189,6 +189,20 @@ CREATE TABLE ticket
         REFERENCES usuario (IDUSUARIO)
 );
 
+/*==============================================================*/
+/* Table: DETALLE_ORDEN                                         */
+/*==============================================================*/
+CREATE TABLE detalle_orden
+(
+    IDDETALLEORD        INTEGER AUTO_INCREMENT NOT NULL,
+    IDORDPEDIDO         INTEGER                NOT NULL,
+    NOMBREDETALLEPROD   VARCHAR(32)            NULL,
+    CANTIDADDETALLEPROD INTEGER                NULL,
+    PRECIODETALLEPROD   DECIMAL(10, 2)         NULL,
+    PRIMARY KEY (IDDETALLEORD),
+    CONSTRAINT FK_DETALLE_ORDEN_ORDEN_PEDIDO FOREIGN KEY (IDORDPEDIDO)
+        REFERENCES orden_pedido (IDORDPEDIDO)
+);
 
 
 /*==============================================================*/
