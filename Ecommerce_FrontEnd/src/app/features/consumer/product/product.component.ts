@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/login/auth.service';
 import { ProductModel } from 'src/app/model/productModel';
 import { CartDetailModel } from 'src/app/core/models/ecommerce/cartDetail';
 import { CartModel } from 'src/app/core/models/ecommerce/cartModel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -24,6 +25,7 @@ export class ProductComponent {
     private cartDetailService: CartDetailService,
     private cartService: CartService,
     private authService: AuthService,
+    private router: Router,
     private snackBar: MatSnackBar // Inyectar MatSnackBar
   ) {
     this.price = product.price;
@@ -49,6 +51,16 @@ export class ProductComponent {
   }
 
   addToCart(): void {
+    if (!this.authService.isAuthenticated()){
+      let snackBarRef  = this.snackBar.open('Debe iniciar sesion primero.', 'Iniciar Sesión', {
+        duration: 3500,
+      });
+      snackBarRef.onAction().subscribe(() => {
+        this.router.navigate(['/login']);
+        this.dialogRef.close();
+      });
+    }
+
     const currentUser = this.authService.getCurrentUser();
     if (currentUser?.id && this.product?.id) {
       this.cartService.findByUserId(currentUser.id).subscribe((cart: CartModel) => {

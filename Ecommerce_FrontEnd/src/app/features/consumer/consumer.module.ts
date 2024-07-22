@@ -19,6 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ContactComponent } from './contact/contact.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -45,7 +46,8 @@ import { MatListModule } from '@angular/material/list';
     MatSelectModule,
     MatSnackBarModule,
     MatPaginatorModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
 
   ]
 })

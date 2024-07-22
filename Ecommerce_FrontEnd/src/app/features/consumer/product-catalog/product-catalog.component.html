@@ -29,8 +29,8 @@
             <img mat-card-image class="card-img rounded-0 img-fluid product-image" [src]="product.imageUrl">
             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center" *ngIf="product.showActions">
               <ul class="options">
-                <li><button mat-icon-button class="icons" (click)="openSignUp(product)"><mat-icon>visibility</mat-icon></button></li>
-                <li><button mat-icon-button class="icons" (click)="addToCart(product)">
+                <li><button mat-icon-button class="icons" (click)="openSignUp(product)" matTooltip="Ver"><mat-icon>visibility</mat-icon></button></li>
+                <li><button mat-icon-button class="icons" (click)="addToCart(product)" matTooltip="Agregar 1 producto al carrito">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button></li>
               </ul>
