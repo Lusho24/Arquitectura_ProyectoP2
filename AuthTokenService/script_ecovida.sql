@@ -189,6 +189,20 @@ CREATE TABLE ticket
         REFERENCES usuario (IDUSUARIO)
 );
 
+/*==============================================================*/
+/* Table: DETALLE_ORDEN                                         */
+/*==============================================================*/
+CREATE TABLE detalle_orden
+(
+    IDDETALLEORD        INTEGER AUTO_INCREMENT NOT NULL,
+    IDORDPEDIDO         INTEGER                NOT NULL,
+    NOMBREDETALLEPROD   VARCHAR(32)            NULL,
+    CANTIDADDETALLEPROD INTEGER                NULL,
+    PRECIODETALLEPROD   DECIMAL(10, 2)         NULL,
+    PRIMARY KEY (IDDETALLEORD),
+    CONSTRAINT FK_DETALLE_ORDEN_ORDEN_PEDIDO FOREIGN KEY (IDORDPEDIDO)
+        REFERENCES orden_pedido (IDORDPEDIDO)
+);
 
 
 /*==============================================================*/
@@ -198,7 +212,12 @@ CREATE TABLE ticket
 -- INSERTAR datos iniciales de tienda
 INSERT INTO tienda (NOMBRETIENDA, DIRECCIONTIENDA, TELFTIENDA, DESCRIPCIONTIENDA, LOGOTIENDA)
 VALUES ('EcoVida', 'Calle Principal 123', '09926145', 'Esta es una tienda de ejemplo', 'URL_del_logo_o_imagen');
-
+-- INSERTAR categorias
+INSERT INTO categoria_producto (NOMBRECATEGORIA) 
+VALUES 
+    ('verduras'), 
+    ('frutas'), 
+    ('dulces');
 -- INSERTAR datos iniciales de usuario
 INSERT INTO usuario (IDUSUARIO, IDTIENDA, NOMBREUSUARIO, EMAILUSUARIO, PASSWORDUSUARIO, DIRECCIONUSUARIO, TELFUSUARIO)
 VALUES ('1726189754', 1, 'Francisco Suntaxi', 'stalynfran007@gmail.com',

@@ -42,7 +42,7 @@ export class CartLayoutComponent implements OnInit {
           this.cartId = cart.id;
           this.cartDetailService.findAll().subscribe(details => {
             const productDetails = details.filter(detail => detail.cartId === this.cartId);
-
+  
             const productObservables = productDetails.map(detail =>
               this.productService.getProduct(detail.productId!).pipe(
                 map(product => {
@@ -69,9 +69,9 @@ export class CartLayoutComponent implements OnInit {
                 })
               )
             );
-
+  
             forkJoin(productObservables).subscribe(products => {
-              this.products = products;
+              this.products = products as Product[];
             });
           });
         }
@@ -80,6 +80,7 @@ export class CartLayoutComponent implements OnInit {
   }
 
   procederAlPago(): void {
+    this.cartService.setProducts(this.products);
     this.router.navigate(['/order']);
   }
 

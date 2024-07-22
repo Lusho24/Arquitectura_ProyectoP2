@@ -27,7 +27,7 @@ export class EditProductComponent {
       price: [data.price, Validators.required],
       description: [data.description, Validators.required],
       stock: [data.stock, Validators.required],
-      categoryId: [data.categoryId, Validators.required],
+      // Remove categoryId from the form controls
     });
     this.imageUrl = data.imageUrl;
   }
@@ -38,14 +38,16 @@ export class EditProductComponent {
 
   onSaveClick(): void {
     if (this.editProductForm.valid) {
-      const formData: ProductModel = { 
-        ...this.editProductForm.value, 
-        id: this.data.id, 
-        imageUrl: this.imageUrl 
+      const formData = {
+        ...this.editProductForm.value,
+        id: this.data.id,
+        imageUrl: this.imageUrl,
+        categoryId: this.data.categoryId // Pass categoryId from data
       };
 
+      console.log('Form data before update:', formData); // Log form data
+
       if (this.selectedFile) {
-        
         if (this.imageUrl) {
           const oldFileName = this.extractFileName(this.imageUrl);
           const imageId = this.extractImageIdFromUrl(this.imageUrl);
@@ -58,16 +60,16 @@ export class EditProductComponent {
             },
             error => {
               console.error('Error deleting old image:', error);
-             
             }
           );
         } else {
-          
           this.uploadNewImage(formData);
         }
       } else {
         this.updateProduct(formData);
       }
+    } else {
+      console.error('Form is invalid');
     }
   }
 
@@ -75,33 +77,41 @@ export class EditProductComponent {
     this.selectedFile = event.target.files[0] as File;
   }
 
-  private uploadNewImage(formData: ProductModel): void {
+  private uploadNewImage(formData: any): void {
     if (this.selectedFile) {
       this.imageService.uploadImage(this.data.id.toString(), this.selectedFile).subscribe(
         (response: any) => {
-          formData.imageUrl = response.url; 
+          formData.imageUrl = response.url;
           this.updateProduct(formData);
         },
         error => {
           console.error('Error uploading image:', error);
-         
         }
       );
     } else {
       console.error('No file selected for upload');
-      
+      this.updateProduct(formData);  // Update product without image if no file is selected
     }
   }
 
-  private updateProduct(product: ProductModel): void {
-    this.productService.updateProduct(product.id, product.categoryId, product.name, product.description, product.price, product.stock, product.imageUrl).subscribe(
+  private updateProduct(product: any): void {
+    console.log('Updating product:', product); // Log product details
+
+    this.productService.updateProduct(
+      product.id,
+      product.categoryId, // Ensure categoryId is included here
+      product.name,
+      product.description,
+      product.price,
+      product.stock,
+      product.imageUrl
+    ).subscribe(
       response => {
         console.log('Product updated successfully:', response);
         this.dialogRef.close(product);
       },
       error => {
         console.error('Error updating product:', error);
-        
       }
     );
   }
@@ -111,13 +121,7 @@ export class EditProductComponent {
   }
 
   private extractImageIdFromUrl(url: string): string {
-    if (url) {
-
-      const urlParts = url.split('/');
-      if (urlParts.length > 1) {
-        return urlParts[urlParts.length - 2]; 
-      }
-    }
-    return '';
+    const urlParts = url.split('/');
+    return urlParts.length > 1 ? urlParts[urlParts.length - 2] : '';
   }
 }
