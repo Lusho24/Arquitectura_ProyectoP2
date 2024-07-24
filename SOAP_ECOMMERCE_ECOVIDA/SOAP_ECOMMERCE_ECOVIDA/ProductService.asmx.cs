@@ -108,6 +108,20 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 return result;
             }
         }
+        [WebMethod]
+        public string UpdateProductStock(int productId, int newStock)
+        {
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                string query = "UPDATE producto SET STOCKPRODUCTO = @newStock WHERE IDPRODUCTO = @productId";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@productId", productId);
+                cmd.Parameters.AddWithValue("@newStock", newStock);
+                int result = cmd.ExecuteNonQuery();
+                return result > 0 ? "Stock updated successfully" : "Error updating stock";
+            }
+        }
 
     }
 }

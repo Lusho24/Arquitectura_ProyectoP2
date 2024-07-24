@@ -21,6 +21,10 @@ public class OrderDetailService implements IOrderDetailService{
     public List<OrderDetailEntity> findAllOrderDetails() {
         return (ArrayList<OrderDetailEntity>)orderDetailRepository.findAll();
     }
+    @Override
+    public List<OrderDetailEntity> findOrderDetailsByPurchaseOrderId(Long purchaseOrderId) {
+        return orderDetailRepository.findByPurchaseOrderId(purchaseOrderId);
+    }
 
     @Override
     public Optional<OrderDetailEntity> findOrderDetailById(Long id) {

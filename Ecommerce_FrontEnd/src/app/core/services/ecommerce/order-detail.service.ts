@@ -28,6 +28,8 @@ export class OrderDetailService {
   public delete(id: number): Observable<any> {
     return this.http.delete<any>(`${this.urlEndPoint}/delete/${id}`);
   }
-
+  public findOrderDetailsByPurchaseOrderId(purchaseOrderId: number): Observable<OrderDetailModel[]> {
+    return this.http.get<OrderDetailModel[]>(`${this.urlEndPoint}/purchase-order/${purchaseOrderId}`);
+  }
 
 }
