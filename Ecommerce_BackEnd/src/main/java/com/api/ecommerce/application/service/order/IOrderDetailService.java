@@ -11,5 +11,5 @@ public interface IOrderDetailService {
     public Optional<OrderDetailEntity> findOrderDetailById(Long id);
     public OrderDetailEntity saveOrderDetail(OrderDetailEntity orderDetail);
     public void deleteOrderDetailById(Long id);
-
+    List<OrderDetailEntity> findOrderDetailsByPurchaseOrderId(Long purchaseOrderId);
 }

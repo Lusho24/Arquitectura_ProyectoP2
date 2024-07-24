@@ -64,6 +64,14 @@ public class OrderDetailRestController {
                         .build()
         );
     }
-
+    @GetMapping("/purchase-order/{purchaseOrderId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<OrderDetailEntity>> findOrderDetailsByPurchaseOrderId(@PathVariable Long purchaseOrderId) {
+        List<OrderDetailEntity> orderDetails = orderDetailService.findOrderDetailsByPurchaseOrderId(purchaseOrderId);
+        if (orderDetails.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(orderDetails);
+    }
 
 }
