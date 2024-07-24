@@ -9,6 +9,7 @@ import { ShipmentModel } from 'src/app/core/models/ecommerce/shipmentModel';
 import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
 import { PurchaseOrderService } from 'src/app/core/services/ecommerce/purchase-order.service';
 import { AuthService } from 'src/app/core/services/login/auth.service';
+import { ProductService } from 'src/app/services/product.service'; // Importa ProductService
 import { Observable, switchMap } from 'rxjs';
 
 interface Product {
@@ -43,7 +44,8 @@ export class OrderLayoutComponent implements OnInit {
     private paymentOrderService: PaymentOrderService,
     private purchaseOrderService: PurchaseOrderService,
     private authService: AuthService,
-    private cartDetailService: CartDetailService
+    private cartDetailService: CartDetailService,
+    private productService: ProductService // Inyecta ProductService
   ) {}
 
   ngOnInit(): void {
@@ -99,6 +101,7 @@ export class OrderLayoutComponent implements OnInit {
           console.log('Orden de pago creada:', paymentOrder);
 
           this.createPurchaseOrder(paymentOrder.id).subscribe(() => {
+            this.updateProductStock(); // Actualiza el stock de los productos
             this.openBankInfoModal();
             this.clearCartDetails();
           });
@@ -189,4 +192,42 @@ export class OrderLayoutComponent implements OnInit {
     this.total = this.subtotal + this.envio;
     console.log('Subtotal:', this.subtotal, 'Total:', this.total);
   }
+
+  private updateProductStock(): void {
+    this.products.forEach(product => {
+      this.productService.getProduct(product.id).subscribe({
+        next: (existingProduct) => {
+          if (existingProduct) {
+            // Calcula el nuevo stock restando la cantidad de productos en el carrito
+            const newStock = existingProduct.stock - product.quantity;
+            console.log('Datos antes de actualizar el producto:', {
+              id: existingProduct.id,
+              categoryId: existingProduct.categoryId,
+              name: existingProduct.name,
+              description: existingProduct.description,
+              price: existingProduct.price,
+              stock: newStock, // Solo actualizar el stock
+              imageUrl: existingProduct.imageUrl
+            });
+  
+            // Llama al método para actualizar solo el stock del producto
+            this.productService.updateProductStock(existingProduct.id, newStock).subscribe({
+              next: (response) => {
+                console.log('Stock del producto actualizado:', response);
+              },
+              error: (err) => {
+                console.error('Error al actualizar el stock del producto:', err);
+              }
+            });
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener el producto:', err);
+        }
+      });
+    });
+  }
+  
+  
+  
 }

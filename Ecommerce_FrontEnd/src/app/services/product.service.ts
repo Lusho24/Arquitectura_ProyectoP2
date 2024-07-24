@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductModel } from 'src/app/model/productModel';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,31 @@ export class ProductService {
         map(response => this.extractProduct(response))  // Ensure extractProduct returns ProductModel
       );
   }
+  updateProductStock(productId: number, newStock: number): Observable<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/xml'
+    });
+  
+    const body = `
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://tempuri.org/">
+        <soapenv:Header/>
+        <soapenv:Body>
+          <ser:UpdateProductStock>
+            <ser:productId>${productId}</ser:productId>
+            <ser:newStock>${newStock}</ser:newStock>
+          </ser:UpdateProductStock>
+        </soapenv:Body>
+      </soapenv:Envelope>`;
+  
+    return this.http.post<string>(this.apiUrl, body, { headers, responseType: 'text' as 'json' })
+      .pipe(
+        catchError(error => {
+          console.error('Error en updateProductStock:', error);
+          return throwError(() => new Error('Error al actualizar el stock del producto.'));
+        })
+      );
+  }
+  
   // Método para extraer los productos del XML de respuesta
   private extractProducts(response: string): ProductModel[] {
     const parser = new DOMParser();
