@@ -3,14 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PurchaseOrderService } from 'src/app/core/services/ecommerce/purchase-order.service';
 import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
 import { CartService } from 'src/app/core/services/ecommerce/cart.service';
-import { CartDetailService } from 'src/app/core/services/ecommerce/cart-detail.service';
+import { OrderDetailService } from 'src/app/core/services/ecommerce/order-detail.service'; // Ajustado
 import { PurchaseOrderModel } from 'src/app/core/models/ecommerce/purchaseOrder';
 import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
 import { UserModel } from 'src/app/core/models/login/userModel';
-import { CartDetailModel } from 'src/app/core/models/ecommerce/cartDetail';
-import { ProductModel } from 'src/app/model/productModel';
+import { OrderDetailModel } from 'src/app/core/models/ecommerce/orderDetail'; // Ajustado
 import { UserService } from 'src/app/core/services/login/user.service';
-import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-orders-details',
@@ -23,7 +21,7 @@ export class OrdersDetailsComponent implements OnInit {
   cliente: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
   factura: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
   envio: { direccion: string } = { direccion: '' };
-  productos: ProductModel[] = [];
+  productos: OrderDetailModel[] = []; // Ajustado
   displayedColumns: string[] = ['nombre', 'costo', 'cantidad', 'total'];
   currentOrder: PurchaseOrderModel = {} as PurchaseOrderModel;
 
@@ -34,8 +32,7 @@ export class OrdersDetailsComponent implements OnInit {
     private paymentOrderService: PaymentOrderService,
     private cartService: CartService,
     private userService: UserService,
-    private cartDetailService: CartDetailService,
-    private productService: ProductService
+    private orderDetailService: OrderDetailService, // Ajustado
   ) {}
 
   ngOnInit(): void {
@@ -66,31 +63,16 @@ export class OrdersDetailsComponent implements OnInit {
                 });
               }
 
-              this.cartDetailService.findAll().subscribe(cartDetails => {
-                const details = cartDetails.filter(cd => cd.cartId === payment.cartId);
-                this.loadProductDetails(details);
+              this.orderDetailService.findOrderDetailsByPurchaseOrderId(orderId).subscribe(orderDetails => {
+                this.productos = orderDetails.map(detail => ({
+                  ...detail,
+                  total: detail.price! * (detail.productQuantity || 0)
+                }));
               });
             });
           }
         });
       }
-    });
-  }
-
-  loadProductDetails(cartDetails: CartDetailModel[]): void {
-    const productIds = cartDetails.map(cd => cd.productId);
-    this.productService.getAllProducts().subscribe(products => {
-      this.productos = cartDetails.map(cd => {
-        const product = products.find(p => p.id === cd.productId);
-        if (product && cd.productQuantity !== undefined) {
-          return {
-            ...product,
-            cantidad: cd.productQuantity,
-            total: product.price * (cd.productQuantity || 0)
-          };
-        }
-        return null;
-      }).filter(p => p !== null) as ProductModel[];
     });
   }
 
