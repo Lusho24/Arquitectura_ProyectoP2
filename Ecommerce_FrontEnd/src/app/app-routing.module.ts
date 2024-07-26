@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./features/consumer/consumer.module').then(m => m.ConsumerModule )
+    loadChildren: () => import('./features/consumer/consumer.module').then(m => m.ConsumerModule)
   },
   {
     path: 'admin',
@@ -22,8 +23,8 @@ const routes: Routes = [
   {
     path: 'order',
     loadChildren: () => import('./features/order/order-routing.module').then(m => m.OrderRoutingModule)
-  }
-
+  },
+  { path: '**', component: NotFoundComponent }
 
 ];
 
