@@ -61,7 +61,6 @@ export class AuthService {
   public getCurrentUser(): UserModel | null {
     const userString = localStorage.getItem(this.currentUserKey);
     if (userString) {
-      console.log(userString)
       return JSON.parse(userString);
     } else {
       return null;
@@ -93,6 +92,16 @@ export class AuthService {
     };
     localStorage.setItem('jwt', token);
     localStorage.setItem(this.currentUserKey, JSON.stringify(filteredPayload));
+  }
+
+  // Metodo para devolver roles:
+  public getRoles(): RoleModel[] | null {
+    if (this.getCurrentUser()) {
+      const auxUser: UserModel = this.getCurrentUser()!;
+      const roles: RoleModel[] = auxUser?.roles!;
+      return roles;
+    }
+    return null
   }
 
 }

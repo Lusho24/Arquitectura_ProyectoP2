@@ -9,21 +9,54 @@ import { ProductsComponent } from './products/products.component';
 import { ShippingComponent } from './shipping/shipping.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { authGuard } from 'src/app/core/guards/auth.guard';
 
 
 
 const routes: Routes = [
-  { path: '', component: HomeAdminComponent },
-  { path: 'orders', component: OrdersComponent },
-  { path: 'payments', component: PaymentsComponent },
-  { path: 'ordersDetails/:id', component: OrdersDetailsComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: '', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: HomeAdminComponent 
+  },
+  { path: 'orders', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: OrdersComponent 
+
+  },
+  { path: 'payments', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: PaymentsComponent 
+  },
+  { path: 'ordersDetails/:id', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: OrdersDetailsComponent 
+
+  },
+  { path: 'products', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: ProductsComponent 
+
+  },
   //shipping
-  { path: 'shipping', component: ShippingComponent },
+  { path: 'shipping', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: ShippingComponent 
+
+  },
 
 
   //aqui iria la ruta que quiero redirigir 
-  { path: 'products/add', component: AddProductComponent }
+  { path: 'products/add', 
+    canActivate: [authGuard],
+    data: { requiredRole: 'ADMIN' },
+    component: AddProductComponent 
+  }
 ];
 
 @NgModule({

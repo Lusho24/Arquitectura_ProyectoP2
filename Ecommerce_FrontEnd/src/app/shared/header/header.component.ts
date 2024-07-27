@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { CartDetailService } from 'src/app/core/services/ecommerce/cart-detail.service';
 import { CartDetailModel } from 'src/app/core/models/ecommerce/cartDetail';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private cartDetailService: CartDetailService
+    private cartDetailService: CartDetailService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +33,9 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.snackBar.open(`✅ Sesión Cerrada`, "Cerrar", {
+      duration: 3000
+    });
   }
 
   // Método para contar productos únicos
