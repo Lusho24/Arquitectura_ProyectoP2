@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateUserModel } from 'src/app/core/models/login/createUserModel';
@@ -24,12 +24,12 @@ export class RegisterComponent {
     private snackBar: MatSnackBar,
   ) {
     this._registerForm = this._formBuilder.group({
-      id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]*$')]],
-      name: ['', [Validators.required, Validators.minLength(4)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      address: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
+      id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
+      name: ['', [Validators.required, Validators.maxLength(32)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(32), this.emailDomainValidator]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
+      address: ['', [Validators.required, Validators.maxLength(64)]],
+      phone: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
       //role: ['', Validators.required]
     });
    }
@@ -62,6 +62,26 @@ export class RegisterComponent {
 
 
   // ** VALIDACIONES DEL FORMULARIO **
+
+  //solo numeros
+  allowNumbersOnly(event: KeyboardEvent): void {
+    const invalidChars = /[^0-9]/g;
+    if (invalidChars.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+  //validacion de correo
+  emailDomainValidator(control: AbstractControl): ValidationErrors | null {
+    const email: string = control.value;
+    const allowedDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'espe.edu.ec']; // Lista de dominios permitidos
+    if (email) {
+      const domain = email.substring(email.lastIndexOf('@') + 1);
+      if (!allowedDomains.includes(domain)) {
+        return { 'emailDomain': true };
+      }
+    }
+    return null;
+  }
 
   //Control de Seguridad de Contraseña
   checkPasswordStrength(): void {
@@ -109,6 +129,13 @@ export class RegisterComponent {
     }
   }
 
+  //solo letras
+  allowLettersOnly(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (!((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32)) {
+      event.preventDefault();
+    }
+  }
 
   // ** Getters del formulario y sus campos necesarios**
   public get registerForm(): FormGroup {

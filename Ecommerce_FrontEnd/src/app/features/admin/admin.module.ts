@@ -24,6 +24,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { PaymentsComponent } from './payments/payments.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { PaymentsComponent } from './payments/payments.component';
     MatTableModule, 
     MatChipsModule,
     MatListModule,
-
+    MatTooltipModule,
 
     CommonModule,
     FormsModule,

@@ -20,7 +20,7 @@
             <mat-form-field class="custom-input" appearance="outline">
                 <mat-label class="textoImp">Correo</mat-label>
                 <input matInput type="email" formControlName="email" required
-                    placeholder="Ej. example@example.com"/>
+                    placeholder="Ej. example@example.com" maxlength="32"/>
                 <mat-icon class="icon" matPrefix>email</mat-icon>
                 <div *ngIf="email?.invalid && email?.touched">
                     <mat-error *ngIf="email?.errors?.['required']">El correo es requerido</mat-error>
@@ -31,7 +31,7 @@
         <div class="textbox">
             <mat-form-field class="custom-input" appearance="outline">
                 <mat-label class="textoImp">Password</mat-label>
-                <input matInput type="password" formControlName="password" required />
+                <input matInput type="password" formControlName="password" required maxlength="32" />
                 <mat-icon class="icon" matPrefix>lock</mat-icon>
                 <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
                     <mat-error *ngIf="password?.errors?.['required']">La contraseña es requerida</mat-error>

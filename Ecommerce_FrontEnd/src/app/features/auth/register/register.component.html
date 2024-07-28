@@ -7,7 +7,7 @@
         <mat-form-field class="input">
             <mat-label>Cédula</mat-label>
             <input matInput formControlName="id" name="id" required maxlength="10" 
-                placeholder="Ej. 1716189721"/><br>
+                placeholder="Ej. 1716189721" (keypress)="allowNumbersOnly($event)" /><br>
                 <div *ngIf="id?.invalid && id?.touched">
                     <mat-error *ngIf="id?.errors?.['required']">La cédula es requerida</mat-error>
                     <mat-error *ngIf="id?.errors?.['maxlength']">La cédula no puede tener más de 10 caracteres</mat-error>
@@ -16,8 +16,8 @@
         </mat-form-field>
         <mat-form-field class="input">
             <mat-label>Nombre y Apellido</mat-label>
-            <input matInput formControlName="name" name="name" required maxlength="64"
-                (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. Jhon Doe"/>
+            <input matInput formControlName="name" name="name" required maxlength="32"
+            (keydown)="allowLettersOnly($event)" (paste)="handlePaste($event)" placeholder="Ej. Jhon Doe"/>
                 <div *ngIf="name?.invalid && name?.touched">
                     <mat-error *ngIf="name?.errors?.['required']">El nombre y apellido es requerida</mat-error>
                 </div>
@@ -25,12 +25,14 @@
         <mat-form-field class="input">
             <mat-label>E-mail</mat-label>
             <input matInput formControlName="email" name="email" type="email" required maxlength="32"
-                (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. example@example.com"/>
-                <div *ngIf="email?.invalid && email?.touched">
-                    <mat-error *ngIf="email?.errors?.['required']">El correo es requerido</mat-error>
-                    <mat-error *ngIf="email?.errors?.['email']">El correo no es valido</mat-error>
-                </div>
+                   (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. example@example.com"/>
+            <div *ngIf="email?.invalid && email?.touched">
+                <mat-error *ngIf="email?.errors?.['required']">El correo es requerido</mat-error>
+                <mat-error *ngIf="email?.errors?.['email']">El correo no es válido</mat-error>
+                <mat-error *ngIf="email?.errors?.['emailDomain']">El dominio del correo no está permitido</mat-error>
+            </div>
         </mat-form-field>
+        
         <mat-form-field class="input">
             <mat-label>Dirección</mat-label>
             <input matInput formControlName="address" name="address" type="text" required 
@@ -41,8 +43,8 @@
         </mat-form-field>
         <mat-form-field class="input">
             <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="phone" name="phone" type="tel" required 
-            (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. 0981614801"/>
+            <input matInput formControlName="phone" name="phone" type="tel" required maxlength="10"
+            (keydown)="disallowSpecialCharacters($event)" (paste)="handlePaste($event)" placeholder="Ej. 0981614801" (keypress)="allowNumbersOnly($event)"/>
             <div *ngIf="phone?.invalid && phone?.touched">
                 <mat-error *ngIf="phone?.errors?.['required']">El teléfono es requerido</mat-error>
             </div>
