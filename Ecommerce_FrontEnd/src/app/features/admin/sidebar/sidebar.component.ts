@@ -3,6 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { SidebarService } from './sidebar.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/login/auth.service';
+import { UserModel } from 'src/app/core/models/login/userModel';
 
 interface Menu {
   title: string;
@@ -32,6 +33,7 @@ interface Menu {
 export class SidebarComponent implements OnInit {
   [x: string]: any;
   menus: Menu[] = [];
+  username: String = "";
 
   constructor(
     private router: Router,
@@ -41,6 +43,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.menus = this.sidebarService.getMenuList();
+    const auxUser: UserModel = this.authService.getCurrentUser()!;
+    this.username = auxUser.name!;
   }
 
   getSideBarState() {
