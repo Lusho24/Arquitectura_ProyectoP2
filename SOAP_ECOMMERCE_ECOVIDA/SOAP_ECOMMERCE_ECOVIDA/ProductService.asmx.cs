@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Web.Services;
@@ -16,14 +16,15 @@ namespace SOAP_ECOMMERCE_ECOVIDA
         private string connString = System.Configuration.ConfigurationManager.ConnectionStrings["MySqlConnection"].ConnectionString;
 
         [WebMethod]
-        public string AddProduct(int categoryId, string name, string description, string imageUrl, decimal price, int stock)
+        public string AddProduct(int categoryId, int storeId, string name, string description, string imageUrl, decimal price, int stock)
         {
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
                 conn.Open();
-                string query = "INSERT INTO producto (IDCATEGORIA, NOMBREPRODUCTO, DESCRIPCIONPRODUCTO, IMAGENPRODUCTO, PRECIOPRODUCTO, STOCKPRODUCTO) VALUES (@categoryId, @name, @description, @imageUrl, @price, @stock)";
+                string query = "INSERT INTO producto (IDCATEGORIA, IDTIENDA, NOMBREPRODUCTO, DESCRIPCIONPRODUCTO, IMAGENPRODUCTO, PRECIOPRODUCTO, STOCKPRODUCTO) VALUES (@categoryId, @storeId, @name, @description, @imageUrl, @price, @stock)";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@categoryId", categoryId);
+                cmd.Parameters.AddWithValue("@storeId", storeId);
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@description", description);
                 cmd.Parameters.AddWithValue("@imageUrl", imageUrl);
@@ -67,7 +68,7 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 if (reader.Read())
                 {
                     string imageUrl = reader["IMAGENPRODUCTO"].ToString();
-                    return $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]},CategoriaId: {reader["IDCATEGORIA"]}";
+                    return $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}, CategoriaId: {reader["IDCATEGORIA"]}, StoreId: {reader["IDTIENDA"]}";
                 }
                 else
                 {
@@ -103,11 +104,12 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 while (reader.Read())
                 {
                     string imageUrl = reader["IMAGENPRODUCTO"].ToString();
-                    result += $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}, CategoriaId: {reader["IDCATEGORIA"]}\n";
+                    result += $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}, CategoriaId: {reader["IDCATEGORIA"]}, StoreId: {reader["IDTIENDA"]}\n";
                 }
                 return result;
             }
         }
+
         [WebMethod]
         public string UpdateProductStock(int productId, int newStock)
         {
@@ -122,6 +124,6 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 return result > 0 ? "Stock updated successfully" : "Error updating stock";
             }
         }
-
     }
 }
+
