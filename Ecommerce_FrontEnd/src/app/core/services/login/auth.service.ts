@@ -88,7 +88,8 @@ export class AuthService {
       email: email,
       address: decodedPayload.address,
       phone: decodedPayload.phone,
-      roles: decodedPayload.roles
+      roles: decodedPayload.roles,
+      idTienda: decodedPayload.idTienda
     };
     localStorage.setItem('jwt', token);
     localStorage.setItem(this.currentUserKey, JSON.stringify(filteredPayload));
