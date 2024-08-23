@@ -53,13 +53,15 @@ export class AddProductComponent implements OnInit {
   onAddClick(): void {
     if (this.addProductForm.valid) {
       const formData = this.addProductForm.value;
-
+      const storeId = 1; // ID de tienda fijo
+  
       if (this.selectedFile) {
         this.imageService.uploadImage(formData.name, this.selectedFile)
           .subscribe(response => {
             console.log('Response from uploadImage:', response);
             this.productService.addProduct(
               formData.categoryId, 
+              storeId, // Pasar el storeId fijo
               formData.name, 
               formData.description, 
               formData.price, 
@@ -77,6 +79,7 @@ export class AddProductComponent implements OnInit {
       }
     }
   }
+  
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];

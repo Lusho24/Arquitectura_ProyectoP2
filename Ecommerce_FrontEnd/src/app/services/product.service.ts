@@ -14,26 +14,27 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  addProduct(categoryId: number, name: string, description: string, price: number, stock: number, imageUrl: string): Observable<string> {
+  addProduct(categoryId: number, storeId: number, name: string, description: string, price: number, stock: number, imageUrl: string): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'text/xml'
     });
-
+  
     const body = `
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://tempuri.org/">
         <soapenv:Header/>
         <soapenv:Body>
           <ser:AddProduct>
             <ser:categoryId>${categoryId}</ser:categoryId>
+            <ser:storeId>${storeId}</ser:storeId> <!-- Nuevo campo para IDTIENDA -->
             <ser:name>${name}</ser:name>
             <ser:description>${description}</ser:description>
             <ser:price>${price}</ser:price>
             <ser:stock>${stock}</ser:stock>
-            <ser:imageUrl>${imageUrl}</ser:imageUrl> <!-- Nuevo campo para la imagen -->
+            <ser:imageUrl>${imageUrl}</ser:imageUrl>
           </ser:AddProduct>
         </soapenv:Body>
       </soapenv:Envelope>`;
-
+  
     return this.http.post<string>(this.apiUrl, body, { headers, responseType: 'text' as 'json' });
   }
 
@@ -144,17 +145,17 @@ export class ProductService {
         const description = productInfo[2];
         const price = parseFloat(productInfo[4]);
         const stock = parseInt(productInfo[5], 10);
-    
-        // categoryId se incluye en el objeto del producto (asumir que se obtiene del XML si es necesario)
-        const categoryId = parseInt(productInfo[6]); // Asegúrate de obtener categoryId del XML si es necesario
-        const imageUrl = productInfo[3]; // Asumiendo que el último valor es el URL de la imagen
-        console.log(products)
-        products.push({ id, categoryId, name, description, price, stock, imageUrl });
+        const categoryId = parseInt(productInfo[6]);
+        const storeId = parseInt(productInfo[7]); // Nuevo campo para IDTIENDA
+        const imageUrl = productInfo[3];
+        
+        products.push({ id, categoryId, storeId, name, description, price, stock, imageUrl });
       });
     }
   
     return products;
   }
+  
   private extractProduct(response: string): ProductModel | null {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(response, 'text/xml');
@@ -169,13 +170,14 @@ export class ProductService {
       const description = productInfo[2];
       const price = parseFloat(productInfo[4]);
       const stock = parseInt(productInfo[5], 10);
-      const categoryId = parseInt(productInfo[6]);; // Asegúrate de obtener categoryId del XML si es necesario
-      const imageUrl = productInfo[3]; // Asumiendo que el último valor es el URL de la imagen
-  
-      return { id, categoryId, name, description, price, stock, imageUrl };
+      const categoryId = parseInt(productInfo[6]);
+      const storeId = parseInt(productInfo[7]); // Nuevo campo para IDTIENDA
+      const imageUrl = productInfo[3];
+      
+      return { id, categoryId, storeId, name, description, price, stock, imageUrl };
     }
   
-    return null; // Retornar null si no se encuentra el producto
+    return null;
   }
 
   deleteProduct(id: number): Observable<string> {
