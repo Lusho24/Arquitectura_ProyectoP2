@@ -16,7 +16,6 @@ public class CreateUserDTO {
     @Size(max = 10)
     private String id;
 
-    @NotNull
     private Integer idTienda;
 
     @NotBlank

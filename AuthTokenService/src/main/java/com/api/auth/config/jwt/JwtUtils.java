@@ -36,6 +36,7 @@ public class JwtUtils {
         claims.put("address",user.getAddress());
         claims.put("phone",user.getPhone());
         claims.put("roles",user.getRoles());
+        claims.put("idTienda", user.getIdTienda());
 
         return Jwts.builder()
                 .subject(user.getUsername())

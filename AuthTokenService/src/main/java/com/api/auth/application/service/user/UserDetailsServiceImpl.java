@@ -42,7 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 userEntity.getName(),
                 userEntity.getAddress(),
                 userEntity.getPhone(),
-                userEntity.getRoles()
+                userEntity.getRoles(),
+                userEntity.getIdTienda()
         );
     }
 }

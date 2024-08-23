@@ -14,19 +14,21 @@ public class CustomUser extends User {
     private final String name;
     private final String address;
     private final String phone;
+    private final Integer idTienda;
     private Set<RoleEntity> roles;
 
     public CustomUser(String username, String password,
                       boolean enabled, boolean accountNonExpired,
                       boolean credentialsNonExpired,
                       boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
-                      String id, String name, String address, String phone, Set<RoleEntity> roles) {
+                      String id, String name, String address, String phone, Set<RoleEntity> roles, Integer idTienda) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.roles = roles;
+        this.idTienda = idTienda;
     }
 
 }
