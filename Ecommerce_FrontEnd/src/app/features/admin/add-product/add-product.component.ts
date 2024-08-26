@@ -5,6 +5,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { ImageService } from 'src/app/services/ImageService/image.service'; // Importar el servicio de imágenes
 import { CategoryService } from 'src/app/core/services/products/category.service'; // Importar el servicio de categorías
 import { Category } from 'src/app/core/models/products/categoryModel'; // Importar el modelo de categoría
+import { AuthService } from 'src/app/core/services/login/auth.service';
 
 @Component({
   selector: 'app-add-product',
@@ -18,12 +19,15 @@ export class AddProductComponent implements OnInit {
   selectedFileName: string | null = null;
   categories: Category[] = []; // Inicializar el array de categorías
 
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private productService: ProductService,
     private imageService: ImageService,
-    private categoryService: CategoryService // Inyectar el servicio de categorías
+    private categoryService: CategoryService, // Inyectar el servicio de categorías
+    private authService: AuthService
+
   ) {
     this.addProductForm = this.fb.group({
       categoryId: [null, Validators.required],
@@ -53,29 +57,35 @@ export class AddProductComponent implements OnInit {
   onAddClick(): void {
     if (this.addProductForm.valid) {
       const formData = this.addProductForm.value;
-      const storeId = 1; // ID de tienda fijo
-  
-      if (this.selectedFile) {
-        this.imageService.uploadImage(formData.name, this.selectedFile)
-          .subscribe(response => {
-            console.log('Response from uploadImage:', response);
-            this.productService.addProduct(
-              formData.categoryId, 
-              storeId, // Pasar el storeId fijo
-              formData.name, 
-              formData.description, 
-              formData.price, 
-              formData.stock, 
-              response.url
-            ).subscribe(productResponse => {
-              console.log('Response from AddProduct:', productResponse);
-              this.router.navigate(['/admin/products']);
+      
+      // Obtener el ID de la tienda del usuario autenticado
+      const currentUser = this.authService.getCurrentUser();
+      if (currentUser && currentUser.idTienda) {
+        const storeId = currentUser.idTienda;
+
+        if (this.selectedFile) {
+          this.imageService.uploadImage(formData.name, this.selectedFile)
+            .subscribe(response => {
+              this.productService.addProduct(
+                formData.categoryId, 
+                storeId, // Usar el ID de la tienda del usuario autenticado
+                formData.name, 
+                formData.description, 
+                formData.price, 
+                formData.stock, 
+                response.url
+              ).subscribe(productResponse => {
+                console.log('Response from AddProduct:', productResponse);
+                this.router.navigate(['/admin/products']);
+              }, error => {
+                console.error('Error:', error);
+              });
             }, error => {
-              console.error('Error:', error);
+              console.error('Error uploading image:', error);
             });
-          }, error => {
-            console.error('Error uploading image:', error);
-          });
+        }
+      } else {
+        console.error('No se pudo obtener el ID de la tienda del usuario.');
       }
     }
   }
