@@ -76,6 +76,7 @@ CREATE TABLE producto
 (
     IDPRODUCTO          INT AUTO_INCREMENT NOT NULL,
     IDCATEGORIA         INT                NOT NULL,
+    IDTIENDA            INT                NOT NULL,  -- Nueva columna para relacionar con tienda
     NOMBREPRODUCTO      VARCHAR(32)        NULL,
     DESCRIPCIONPRODUCTO VARCHAR(64)        NULL,
     IMAGENPRODUCTO      LONG VARCHAR       NULL,
@@ -83,7 +84,9 @@ CREATE TABLE producto
     STOCKPRODUCTO       INT                NULL,
     PRIMARY KEY (IDPRODUCTO),
     CONSTRAINT FK_PRODUCTO_CATEGORIA FOREIGN KEY (IDCATEGORIA)
-        REFERENCES categoria_producto (IDCATEGORIA)
+        REFERENCES categoria_producto (IDCATEGORIA),
+    CONSTRAINT FK_PRODUCTO_TIENDA FOREIGN KEY (IDTIENDA)
+        REFERENCES tienda (IDTIENDA)  -- Relación con la tabla tienda
 );
 
 /*==============================================================*/
