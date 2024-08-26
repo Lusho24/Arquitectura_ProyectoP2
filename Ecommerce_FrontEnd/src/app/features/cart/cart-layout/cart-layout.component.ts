@@ -123,7 +123,11 @@ export class CartLayoutComponent implements OnInit {
   decrementarCantidad(product: Product): void {
     if (product.quantity > 0) {
       product.quantity--;
-      this.actualizarCantidadProducto(product);
+      if (product.quantity === 0) {
+        this.eliminarProducto(product.id);
+      } else {
+        this.actualizarCantidadProducto(product);
+      }
     }
   }
 
