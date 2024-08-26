@@ -152,19 +152,19 @@ export class RegisterComponent {
   }
 
   //solo letras
-  allowLettersOnly(event: KeyboardEvent): void {
-    const charCode = event.which ? event.which : event.keyCode;
-  
-    // Permitir teclas de control (Backspace, Tab, Enter, etc.)
-    const controlKeys = [8, 9, 13, 37, 39]; // Backspace, Tab, Enter, Flechas izquierda y derecha
-  
-    // Permitir letras y espacio
-    const isLetter = (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32;
-  
-    if (!isLetter && !controlKeys.includes(charCode)) {
-      event.preventDefault();
-    }
+allowLettersOnly(event: KeyboardEvent): void {
+  const charCode = event.which ? event.which : event.keyCode;
+
+  // Permitir teclas de control (Backspace, Tab, Enter, etc.)
+  const controlKeys = [8, 9, 13, 37, 39]; // Backspace, Tab, Enter, Flechas izquierda y derecha
+
+  // Permitir letras y espacio
+  const isLetter = (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32;
+
+  if (!isLetter && !controlKeys.includes(charCode)) {
+    event.preventDefault();
   }
+}
 
   // ** Getters del formulario y sus campos necesarios**
   public get registerForm(): FormGroup {
