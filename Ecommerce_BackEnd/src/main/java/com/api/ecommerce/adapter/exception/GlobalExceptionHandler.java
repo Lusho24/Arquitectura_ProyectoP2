@@ -7,6 +7,7 @@ import com.api.ecommerce.application.exceptions.order.OrderAlreadyExistsExceptio
 import com.api.ecommerce.application.exceptions.order.OrderNotFoundException;
 import com.api.ecommerce.application.exceptions.other.UserNotFoundException;
 import com.api.ecommerce.application.exceptions.shipment.ShipmentNotFoundException;
+import com.api.ecommerce.application.exceptions.store.StoreNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDetailsDTO> handleOrderAlreadyExistsException(OrderAlreadyExistsException ex){
         logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getExceptionDetailsDTO());
+    }
+
+    // * Excepciones de la tienda - STORE
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<ExceptionDetailsDTO> handleStoreNotFoundException(StoreNotFoundException ex){
+        logger.error("ERROR: " + ex.getExceptionDetailsDTO(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getExceptionDetailsDTO());
     }
 
 }
