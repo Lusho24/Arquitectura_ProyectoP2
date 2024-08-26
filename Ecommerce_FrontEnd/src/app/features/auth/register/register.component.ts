@@ -38,7 +38,6 @@ export class RegisterComponent {
   saveUserForm(): void {
     this.isLoading = true;
     const user: CreateUserModel = this._registerForm.value;
-    user.idTienda = 1;
     user.roles = ['USER'];
 
     this.userService.save(user).subscribe({
