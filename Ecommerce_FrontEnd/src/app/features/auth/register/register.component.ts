@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CartModel } from 'src/app/core/models/ecommerce/cartModel';
 import { CreateUserModel } from 'src/app/core/models/login/createUserModel';
+import { CartService } from 'src/app/core/services/ecommerce/cart.service';
 import { UserService } from 'src/app/core/services/login/user.service';
 
 @Component({
@@ -22,6 +24,8 @@ export class RegisterComponent {
     private _formBuilder: FormBuilder,
     private userService: UserService,
     private snackBar: MatSnackBar,
+    private cartService: CartService,
+
   ) {
     this._registerForm = this._formBuilder.group({
       id: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
@@ -45,6 +49,10 @@ export class RegisterComponent {
         this.snackBar.open("✅ Usuario registrado correctamente", "Cerrar", {
           duration: 3000
         });
+
+        // Crear un carrito para el usuario registrado
+        this.createCartForUser(user.id!);
+
         this.dialogRef.close();
         this.isLoading = false;
       },
@@ -56,9 +64,24 @@ export class RegisterComponent {
         this.isLoading = false;
       }
     });
-
   }
 
+  private createCartForUser(userId: string): void {
+    const newCart: CartModel = {
+      userId: userId,
+      creationDate: new Date(),
+      total: 0.00
+    };
+
+    this.cartService.save(newCart).subscribe({
+      next: () => {
+        console.log("Carrito creado exitosamente para el usuario con ID:", userId);
+      },
+      error: (error) => {
+        console.error("Error al crear el carrito: ", error);
+      }
+    });
+  }
 
   // ** VALIDACIONES DEL FORMULARIO **
 
@@ -131,7 +154,14 @@ export class RegisterComponent {
   //solo letras
   allowLettersOnly(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;
-    if (!((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32)) {
+  
+    // Permitir teclas de control (Backspace, Tab, Enter, etc.)
+    const controlKeys = [8, 9, 13, 37, 39]; // Backspace, Tab, Enter, Flechas izquierda y derecha
+  
+    // Permitir letras y espacio
+    const isLetter = (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32;
+  
+    if (!isLetter && !controlKeys.includes(charCode)) {
       event.preventDefault();
     }
   }

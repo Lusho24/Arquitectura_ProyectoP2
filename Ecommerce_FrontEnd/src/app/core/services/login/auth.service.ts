@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { RoleModel, UserModel } from '../../models/login/userModel';
 import { Router } from '@angular/router';
+import { CartService } from '../ecommerce/cart.service';
+import { CartModel } from '../../models/ecommerce/cartModel';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router) { }
+    private router: Router,
+    private cartService: CartService ) { }
 
   // * Método para iniciar sesion con google
   loginWithGoogle() {
@@ -28,18 +31,24 @@ export class AuthService {
   handleAuthCallback(token: string) {
     this.decodeToken(token);
 
-    const auxUser: UserModel = this.getCurrentUser()!;
-    const roles: RoleModel[] = auxUser?.roles!;
+    const auxUser: UserModel | null = this.getCurrentUser();
+    if (auxUser && auxUser.id) {
+      const roles: RoleModel[] = auxUser.roles || [];
 
-    const hasAdminRole = roles.some(role => role.name === 'ADMIN');
-    const hasUserRole = roles.some(role => role.name === 'USER')
+      const hasAdminRole = roles.some(role => role.name === 'ADMIN');
+      const hasUserRole = roles.some(role => role.name === 'USER');
 
-    if (hasAdminRole) {
-      this.router.navigate(['/admin']);
-    } else if (hasUserRole) {
-      this.router.navigate(['/']);
+      // Crear un carrito para el usuario autenticado
+      this.createCartForUser(auxUser.id);
+
+      if (hasAdminRole) {
+        this.router.navigate(['/admin']);
+      } else if (hasUserRole) {
+        this.router.navigate(['/']);
+      }
+    } else {
+      console.error('El usuario o el ID del usuario es nulo o indefinido.');
     }
-
   }
 
   getToken() {
@@ -105,4 +114,22 @@ export class AuthService {
     return null
   }
 
+  // Método para crear un carrito para el usuario
+  private createCartForUser(userId: string): void {
+    const newCart: CartModel = {
+      userId: userId,
+      creationDate: new Date(),
+      total: 0.00
+    };
+
+    this.cartService.save(newCart).subscribe({
+      next: () => {
+        console.log("Carrito creado exitosamente para el usuario con ID:", userId);
+      },
+      error: (error) => {
+        console.error("Error al crear el carrito: ", error);
+      }
+    });
+  }
 }
+
