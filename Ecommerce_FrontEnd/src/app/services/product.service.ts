@@ -80,6 +80,10 @@ export class ProductService {
         map(response => this.extractProducts(response))
       );
   }
+
+
+  
+
   getProduct(id: number): Observable<ProductModel | null> {
     const headers = new HttpHeaders({
       'Content-Type': 'text/xml'
