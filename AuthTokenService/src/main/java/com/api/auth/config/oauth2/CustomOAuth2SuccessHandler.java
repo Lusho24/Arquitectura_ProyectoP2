@@ -65,7 +65,6 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
             UserEntity newUser = UserEntity.builder()
                     .id(mappedId)
-                    .idTienda(1)
                     .name(oauth2User.getAttribute("name"))
                     .email(email)
                     .password("")
