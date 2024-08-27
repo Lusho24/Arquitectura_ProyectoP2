@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PurchaseOrderService } from 'src/app/core/services/ecommerce/purchase-order.service';
 import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
 import { CartService } from 'src/app/core/services/ecommerce/cart.service';
-import { OrderDetailService } from 'src/app/core/services/ecommerce/order-detail.service'; // Ajustado
+import { OrderDetailService } from 'src/app/core/services/ecommerce/order-detail.service'; 
 import { PurchaseOrderModel } from 'src/app/core/models/ecommerce/purchaseOrder';
 import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
 import { UserModel } from 'src/app/core/models/login/userModel';
-import { OrderDetailModel } from 'src/app/core/models/ecommerce/orderDetail'; // Ajustado
+import { OrderDetailModel } from 'src/app/core/models/ecommerce/orderDetail'; 
 import { UserService } from 'src/app/core/services/login/user.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-orders-details',
@@ -21,7 +22,7 @@ export class OrdersDetailsComponent implements OnInit {
   cliente: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
   factura: { nombre: string; correo: string; telefono: string } = { nombre: '', correo: '', telefono: '' };
   envio: { direccion: string } = { direccion: '' };
-  productos: OrderDetailModel[] = []; // Ajustado
+  productos: OrderDetailModel[] = []; 
   displayedColumns: string[] = ['nombre', 'costo', 'cantidad', 'total'];
   currentOrder: PurchaseOrderModel = {} as PurchaseOrderModel;
 
@@ -32,7 +33,8 @@ export class OrdersDetailsComponent implements OnInit {
     private paymentOrderService: PaymentOrderService,
     private cartService: CartService,
     private userService: UserService,
-    private orderDetailService: OrderDetailService, // Ajustado
+    private orderDetailService: OrderDetailService, 
+    private productService: ProductService // Inyecta ProductService
   ) {}
 
   ngOnInit(): void {
@@ -64,10 +66,22 @@ export class OrdersDetailsComponent implements OnInit {
               }
 
               this.orderDetailService.findOrderDetailsByPurchaseOrderId(orderId).subscribe(orderDetails => {
-                this.productos = orderDetails.map(detail => ({
-                  ...detail,
-                  total: detail.price! * (detail.productQuantity || 0)
-                }));
+                const productIds = orderDetails.map(detail => parseInt(detail.name || '0', 10)); // Convierte name a número
+                this.productService.getAllProducts().subscribe(products => {
+                  const productMap = new Map<number, string>(); // Crea un mapa para buscar nombres por ID
+                  products.forEach(product => {
+                    productMap.set(product.id, product.name);
+                  });
+
+                  this.productos = orderDetails.map(detail => {
+                    const productId = parseInt(detail.name || '0', 10); // Convierte name a número
+                    return {
+                      ...detail,
+                      name: productMap.get(productId) || 'Desconocido', // Usa el nombre del producto
+                      total: detail.price! * (detail.productQuantity || 0)
+                    };
+                  });
+                });
               });
             });
           }
@@ -78,7 +92,7 @@ export class OrdersDetailsComponent implements OnInit {
 
   updateOrderState(newState: string): void {
     const updatedOrder: Partial<PurchaseOrderModel> = {
-      state: newState // Solo actualiza el estado
+      state: newState 
     };
   
     if (this.currentOrder.id !== undefined) {
