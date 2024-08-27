@@ -107,7 +107,33 @@ export class OrdersDetailsComponent implements OnInit {
       }
     });
   }
+  private filterProductsByStore(orderDetails: OrderDetailModel[], products: any[]): OrderDetailModel[] {
+    const productMap = new Map<number, { name: string, storeId: number }>(); // Mapa para buscar nombres y storeId por ID
+    products.forEach(product => {
+      productMap.set(product.id, { name: product.name, storeId: product.storeId });
+    });
 
+    // Filtra los detalles de pedido por ID de tienda del usuario
+    return orderDetails
+      .map(detail => {
+        const productId = parseInt(detail.name || '0', 10); // Convierte name a número
+        const product = productMap.get(productId);
+        if (product && product.storeId === this.userStoreId) {
+          return {
+            ...detail,
+            name: product.name, // Usa el nombre del producto
+            total: detail.price! * (detail.productQuantity || 0),
+          } as OrderDetailModel; // Asegúrate de que el tipo es OrderDetailModel
+        }
+        return null;
+      })
+      .filter((producto): producto is OrderDetailModel => producto !== null); // Filtra valores null
+  }
+
+  isProductListEmpty(): boolean {
+    return this.productos.length === 0;
+  }
+  
   updateOrderState(newState: string): void {
     const updatedOrder: Partial<PurchaseOrderModel> = {
       state: newState 
