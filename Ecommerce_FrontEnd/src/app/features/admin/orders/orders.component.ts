@@ -5,7 +5,9 @@ import { PurchaseOrderService } from 'src/app/core/services/ecommerce/purchase-o
 import { PaymentOrderService } from 'src/app/core/services/ecommerce/payment-order.service';
 import { PurchaseOrderModel } from 'src/app/core/models/ecommerce/purchaseOrder';
 import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
-
+import { OrderDetailService } from 'src/app/core/services/ecommerce/order-detail.service';
+import { AuthService } from 'src/app/core/services/login/auth.service';
+import { ProductService } from 'src/app/services/product.service';
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -14,55 +16,75 @@ import { PaymentOrderModel } from 'src/app/core/models/ecommerce/paymentOrder';
 export class OrdersComponent implements OnInit {
   displayedColumns: string[] = ['id', 'fechaOrden', 'estado', 'total', 'detallePedido'];
   dataSource: any[] = [];
+  private userStoreId: number = 0; // Variable para almacenar el ID de tienda del usuario
 
   constructor(
     private router: Router,
-    public sidebarservice: SidebarService,
     private purchaseOrderService: PurchaseOrderService,
-    private paymentOrderService: PaymentOrderService
+    private paymentOrderService: PaymentOrderService,
+    private orderDetailService: OrderDetailService,
+    private productService: ProductService,
+    private authService: AuthService,
+    private sidebarservice: SidebarService
   ) {}
 
   ngOnInit(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && currentUser.idTienda !== undefined) {
+      this.userStoreId = currentUser.idTienda;
+    }
+
     this.loadOrders();
   }
 
   loadOrders(): void {
     this.purchaseOrderService.findAll().subscribe(
-      (orders: PurchaseOrderModel[]) => {
+      (orders: any[]) => {
         this.dataSource = [];
         orders.forEach(order => {
-          if (order.paymentOrderId !== undefined) {
-            this.paymentOrderService.findById(order.paymentOrderId).subscribe(
-              (payment: PaymentOrderModel) => {
+          this.orderDetailService.findOrderDetailsByPurchaseOrderId(order.id).subscribe(orderDetails => {
+            this.productService.getAllProducts().subscribe(products => {
+              const filteredProducts = this.filterProductsByStore(orderDetails, products);
+              if (filteredProducts.length > 0) {
                 this.dataSource.push({
                   id: order.id,
                   fechaOrden: order.creationDate,
                   estado: order.state,
-                  total: payment.total,
+                  total: order.total,
                   detallePedido: order.id 
                 });
                 this.dataSource = [...this.dataSource]; // Forzar actualización
-              },
-              error => {
-                console.error('Error fetching payment order', error);
               }
-            );
-          } else {
-            // Manejar el caso en que paymentOrderId no está definido
-            this.dataSource.push({
-              id: order.id,
-              fechaOrden: order.creationDate,
-              estado: order.state,
-              total: 0, // O algún valor por defecto
-              detallePedido: order.id
             });
-          }
+          });
         });
       },
       error => {
         console.error('Error fetching orders', error);
       }
     );
+  }
+
+  private filterProductsByStore(orderDetails: any[], products: any[]): any[] {
+    const productMap = new Map<number, { name: string, storeId: number }>();
+    products.forEach(product => {
+      productMap.set(product.id, { name: product.name, storeId: product.storeId });
+    });
+
+    return orderDetails
+      .map(detail => {
+        const productId = parseInt(detail.name || '0', 10); // Convierte name a número
+        const product = productMap.get(productId);
+        if (product && product.storeId === this.userStoreId) {
+          return {
+            ...detail,
+            name: product.name,
+            total: detail.price! * (detail.productQuantity || 0),
+          };
+        }
+        return null;
+      })
+      .filter((producto): producto is any => producto !== null);
   }
 
   verDetalle(pedido: any) {
