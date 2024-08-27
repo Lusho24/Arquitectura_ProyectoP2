@@ -128,6 +128,27 @@ export class ProductService {
         })
       );
   }
+  getProductsByStore(storeId: number): Observable<ProductModel[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/xml'
+    });
+  
+    const body = `
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://tempuri.org/">
+        <soapenv:Header/>
+        <soapenv:Body>
+          <ser:FindProductbyIdStore>
+            <ser:storeId>${storeId}</ser:storeId>
+          </ser:FindProductbyIdStore>
+        </soapenv:Body>
+      </soapenv:Envelope>`;
+  
+    return this.http.post<string>(this.apiUrl, body, { headers, responseType: 'text' as 'json' })
+      .pipe(
+        map(response => this.extractProducts(response))
+      );
+  }
+  
   
   // Método para extraer los productos del XML de respuesta
   private extractProducts(response: string): ProductModel[] {
