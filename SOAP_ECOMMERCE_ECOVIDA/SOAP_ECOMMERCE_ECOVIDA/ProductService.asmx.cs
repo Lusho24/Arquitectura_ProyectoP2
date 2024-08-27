@@ -124,6 +124,26 @@ namespace SOAP_ECOMMERCE_ECOVIDA
                 return result > 0 ? "Stock updated successfully" : "Error updating stock";
             }
         }
+        [WebMethod]
+public string FindProductbyIdStore(int storeId)
+{
+    using (MySqlConnection conn = new MySqlConnection(connString))
+    {
+        conn.Open();
+        string query = "SELECT * FROM producto WHERE IDTIENDA = @storeId";
+        MySqlCommand cmd = new MySqlCommand(query, conn);
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+        MySqlDataReader reader = cmd.ExecuteReader();
+
+        string result = "";
+        while (reader.Read())
+        {
+            string imageUrl = reader["IMAGENPRODUCTO"].ToString();
+            result += $"ID: {reader["IDPRODUCTO"]}, Name: {reader["NOMBREPRODUCTO"]}, Description: {reader["DESCRIPCIONPRODUCTO"]}, Image URL: {imageUrl}, Price: {reader["PRECIOPRODUCTO"]}, Stock: {reader["STOCKPRODUCTO"]}, CategoriaId: {reader["IDCATEGORIA"]}, StoreId: {reader["IDTIENDA"]}\n";
+        }
+        return string.IsNullOrEmpty(result) ? "No products found for this store" : result;
+    }
+}
     }
 }
 
