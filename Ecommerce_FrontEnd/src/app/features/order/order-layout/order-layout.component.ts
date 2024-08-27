@@ -188,7 +188,7 @@ export class OrderLayoutComponent implements OnInit {
             // Mapea los detalles del carrito a los detalles del pedido
             const detailsToSave: OrderDetailModel[] = orderDetails.map(orderDetail => ({
               purchaseOrderId: orderId,
-              name: orderDetail.name,
+              name: orderDetail.productId.toString(),
               productQuantity: orderDetail.productQuantity,
               price: orderDetail.price
             }));

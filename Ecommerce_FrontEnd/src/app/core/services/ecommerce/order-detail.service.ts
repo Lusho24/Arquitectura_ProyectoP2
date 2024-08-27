@@ -31,5 +31,8 @@ export class OrderDetailService {
   public findOrderDetailsByPurchaseOrderId(purchaseOrderId: number): Observable<OrderDetailModel[]> {
     return this.http.get<OrderDetailModel[]>(`${this.urlEndPoint}/purchase-order/${purchaseOrderId}`);
   }
+  public findOrderDetailsByStoreId(storeId: number): Observable<OrderDetailModel[]> {
+    return this.http.get<OrderDetailModel[]>(`${this.urlEndPoint}/store/${storeId}`);
+  }
 
 }
