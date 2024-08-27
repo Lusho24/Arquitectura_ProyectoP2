@@ -10,6 +10,7 @@ import { UserModel } from 'src/app/core/models/login/userModel';
 import { OrderDetailModel } from 'src/app/core/models/ecommerce/orderDetail'; 
 import { UserService } from 'src/app/core/services/login/user.service';
 import { ProductService } from 'src/app/services/product.service';
+import { AuthService } from 'src/app/core/services/login/auth.service'; // Asegúrate de importar AuthService
 
 @Component({
   selector: 'app-orders-details',
@@ -26,6 +27,8 @@ export class OrdersDetailsComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'costo', 'cantidad', 'total'];
   currentOrder: PurchaseOrderModel = {} as PurchaseOrderModel;
 
+  private userStoreId: number = 0; // Variable para almacenar el ID de tienda del usuario
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -34,10 +37,16 @@ export class OrdersDetailsComponent implements OnInit {
     private cartService: CartService,
     private userService: UserService,
     private orderDetailService: OrderDetailService, 
-    private productService: ProductService // Inyecta ProductService
+    private productService: ProductService,
+    private authService: AuthService // Inyecta AuthService
   ) {}
 
   ngOnInit(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && currentUser.idTienda !== undefined) {
+      this.userStoreId = currentUser.idTienda; // Solo asigna si getCurrentUser() no es null
+    }
+
     const orderId = +this.route.snapshot.paramMap.get('id')!;
     if (!isNaN(orderId)) {
       this.loadOrderDetails(orderId);
@@ -68,19 +77,28 @@ export class OrdersDetailsComponent implements OnInit {
               this.orderDetailService.findOrderDetailsByPurchaseOrderId(orderId).subscribe(orderDetails => {
                 const productIds = orderDetails.map(detail => parseInt(detail.name || '0', 10)); // Convierte name a número
                 this.productService.getAllProducts().subscribe(products => {
-                  const productMap = new Map<number, string>(); // Crea un mapa para buscar nombres por ID
+                  const productMap = new Map<number, { name: string, storeId: number }>(); // Crea un mapa para buscar nombres y storeId por ID
                   products.forEach(product => {
-                    productMap.set(product.id, product.name);
+                    productMap.set(product.id, { name: product.name, storeId: product.storeId });
                   });
 
-                  this.productos = orderDetails.map(detail => {
-                    const productId = parseInt(detail.name || '0', 10); // Convierte name a número
-                    return {
-                      ...detail,
-                      name: productMap.get(productId) || 'Desconocido', // Usa el nombre del producto
-                      total: detail.price! * (detail.productQuantity || 0)
-                    };
-                  });
+                  // Filtra los detalles de pedido por ID de tienda del usuario
+                  const filteredProducts: OrderDetailModel[] = orderDetails
+                    .map(detail => {
+                      const productId = parseInt(detail.name || '0', 10); // Convierte name a número
+                      const product = productMap.get(productId);
+                      if (product && product.storeId === this.userStoreId) {
+                        return {
+                          ...detail,
+                          name: product.name, // Usa el nombre del producto
+                          total: detail.price! * (detail.productQuantity || 0),
+                        } as OrderDetailModel; // Asegúrate de que el tipo es OrderDetailModel
+                      }
+                      return null;
+                    })
+                    .filter((producto): producto is OrderDetailModel => producto !== null); // Filtra valores null
+
+                  this.productos = filteredProducts; // Asigna la lista filtrada
                 });
               });
             });
