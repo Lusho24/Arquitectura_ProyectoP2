@@ -16,7 +16,8 @@ export class AuthService {
   private urlEndPoint = environment.authUrl;
   private currentUserKey = 'currentUser';
 
-  private oAuthUrl = 'https://auth-token-service-api-lg37rfueiq-rj.a.run.app/oauth2/authorization/google';
+  //private oAuthUrl = 'https://auth-token-service-api-lg37rfueiq-rj.a.run.app/oauth2/authorization/google';
+  private oAuthUrl = 'http://localhost:443/oauth2/authorization/google';
 
   constructor(
     private http: HttpClient,
