@@ -78,7 +78,9 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String jwt = jwtUtils.generateAccessToken(user);
 
         // Configura la URL de redirección
-        String redirectUrl = "https://ecommerce-lg37rfueiq-rj.a.run.app/ecovida?token=" + jwt;
+        //String redirectUrl = "https://ecommerce-lg37rfueiq-rj.a.run.app/ecovida?token=" + jwt;
+        String redirectUrl = "http://localhost:4200/ecovida?token=" + jwt;
+
         response.sendRedirect(redirectUrl);
 
        /* // ** OPCION 2 **
